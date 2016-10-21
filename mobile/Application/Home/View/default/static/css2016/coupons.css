@@ -1,0 +1,49 @@
+#dxlMOrderLayer {width: 100%; background: url(../img/header-bg.png) repeat-x #efefef; background-size: 100% 41px;min-height: 41px; border-bottom: 1px solid #bfbfbf; border-width: 0 0 1px 0;}
+#dxlMOrderLayer .dxlFrameMain {position: relative; }
+#dxlMOrderLayer .dfa_title {color: #666; text-align: center; position: relative; height: 41px; line-height: 41px; font-size: 17px; margin: 0 auto; font-weight: bold;}
+.help{position:absolute; right: 12px; top: 0px; line-height: 41px; height: 41px; font-size: 14px;}
+.show_divs{top: 48px;}
+/*header*/
+.ul_tabs{height: 50px; width: 100%; background: #fff;}
+.ul_tabs li{width: 33.3%;height: 50px; line-height: 50px; font-size: 16px; float: left; text-align: center; position: relative; border-bottom: 1px solid #cacacb}
+.ul_tabs li.on i{display: inline-block; width: 100%; position: absolute; bottom:-1px; height: 2px; background:#c8102e; left: 0;}
+.ul_tabs li.on a{color: #c8102e;}
+.div_w{width: 100%; text-align: center; margin-top: 18%;}
+.div_w img{text-align: center;width: 40%; height: auto; margin: 0 auto}
+.div_w .text3{padding-top:15px; color: #646464; font-size: 14px;}
+.con_top .con_text3{color: #fff;background: #8d8d8f; display: inline-block; width: 100%; height: 29px; line-height: 29px; text-align: center; font-size: 14px;}
+
+.fix_w100{width: 100%; position: fixed; bottom: 0px; left: 0px;}
+.btn90s{background:#c8102e; width: 98%; margin:0 auto; text-align: center; height: 44px; line-height: 44px; display: block; border-radius: 3px; font-size: 15px; color: #fff;}
+
+
+.w95,.m_1{width: 100%; margin:0 auto; padding:10px 5px;box-sizing: border-box;-webkit-box-sizing: border-box;}
+.m_you li,.m_you2 li,.m_you3 li{padding:45px 10px 10px 10px; margin-bottom: 11px; position: relative; background: url(../img/path2x.png) no-repeat left top #fff; background-size:640px 26px;}
+.fl{float: left;}
+.fr{float: right;}
+.box_d span{font-size: 14px;}
+.box_d{font-size: 45px; color: #95989a;width: 90px; font-family:Arial}
+.m_you li .ps_div{color: #95989a; width:50%;}
+.ps_div p{padding-bottom: 5px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.ps_div .biger{font-size: 14px;}
+.ps_div .used{font-size: 13px;}
+.ps_div .mdates{text-align: right; padding-top:8px;}
+.clear100{height: 70px;}
+.i_btns{display: inline-block; position: absolute; right: 15px; top: 55px; padding:10px 15px; text-align: center; color: #fff; background:#c8102e; border-radius: 2px;}
+
+.m_you2 li,.m_you3 li{background: url(../img/path1x.png) no-repeat left top #fff; background-size:640px 26px;}
+.m_you2 li .for_userd{background: url(../img/group3x.png) no-repeat right top; width: 100px; height: 83px; position: absolute; right:0px; top: 0px; background-size: 100px 83px; display: inline-block;}
+.m_you3 li .for_userd{background: url(../img/group2x.png) no-repeat right top; width: 100px; height: 83px; position: absolute; right:0px; top: 0px; background-size: 100px 83px; display: inline-block;}
+
+
+.ul_tabs2{height: 50px; width: 100%; background: #fff;}
+.ul_tabs2 li{width: 50%;height: 50px; line-height: 50px; font-size: 16px; float: left; text-align: center; position: relative; border-bottom: 1px solid #cacacb}
+.ul_tabs2 li.on{color: #c8102e;}
+.ul_tabs2 li.on i{display: inline-block; width: 100%; position: absolute; bottom:-1px; height: 2px; background:#c8102e; left: 0;}
+@media screen and (max-device-width:360px){
+.box_d span{font-size: 14px;}
+.box_d{font-size: 30px; width: 50px;}
+.i_btns{padding:5px 8px;}
+.ps_div p{font-size: 10px;}
+.m_you li{padding-left: 4px;padding-right: 4px;}
+}

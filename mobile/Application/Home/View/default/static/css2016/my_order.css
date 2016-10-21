@@ -1,0 +1,52 @@
+#dxlMOrderLayer {width: 100%; background: url(../img/header-bg.png) repeat-x #efefef; background-size: 100% 41px;min-height: 41px; border-bottom: 1px solid #bfbfbf; border-width: 0 0 1px 0;}
+#dxlMOrderLayer .dxlFrameMain {position: relative; }
+#dxlMOrderLayer .dfa_title {color: #666; text-align: center; position: relative; height: 41px; line-height: 41px; font-size: 17px; margin: 0 auto; font-weight: bold;}
+.show_divs{top: 48px;}
+/*showbox*/
+.show_divs2{top: 42px; right: -11px; border-top: 0px;}
+.show_divs ul li{padding:10px; text-align: left; border-bottom: 1px solid #e5e5e5;}
+.show_divs ul li:last-child{border-bottom: 0px;}
+.show_divs ul li a{font-size: 14px; display: block;}
+
+.fl{float: left;}
+.fr{float: right;}
+.ul_tabs{height: 50px; width: 100%; background: #fff;}
+.ul_tabs li{width: 33.3%;height: 50px; line-height: 50px; font-size: 16px; float: left; text-align: center; position: relative; border-bottom: 1px solid #cacacb}
+.ul_tabs li.on a{color: #c8102e;}
+.ul_tabs li a{width: 100%; display: block;}
+.ul_tabs li.on i{display: inline-block; width: 100%; position: absolute; bottom:-1px; height: 2px; background:#c8102e; left: 0;}
+
+.w_order{width: 100%; margin:10px auto 0; box-sizing: border-box;-webkit-box-sizing: border-box;}
+.No_orders{padding:30px 0; text-align: center; font-size: 16px; color: #737373;}
+.panel_bar{background: #fff; padding-left:10px; height: 40px;border-top: 1px solid #e5e5e5;border-bottom: 1px solid #e5e5e5;}
+.order_list{margin-bottom: 10px;}
+.m_yp{padding-top: 4px;}
+.m_yp span{display: block;}
+.m_yp .nums{color: #737373; clear: both;}
+.num_orders{font-size: 15px; padding-top: 4px; line-height: 12px;}
+.tags_times{float: left; display: inline-block; padding-right: 10px; font-size: 16px; color: #646464; line-height: 40px;}
+.tags_payment,.tags_cancle,.tags_complete{background: #ad9f78; padding:0px 20px; text-align: center; height:40px; line-height: 40px; color: #fff; font-size: 14px; display: inline-block; float: left;}
+.tags_cancle{background: #aaa;}
+.tags_complete{background: #009688;}
+.time_arrow{background: url(../img/time_icon.png) no-repeat; width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin-right: 5px; background-size: 15px 15px;}
+.packages{background: #f4f4f4; padding:15px 10px; border-bottom: 1px solid #e5e5e5; position: relative;}
+.packages li span{float: left;width: 13%;margin-right: 6px;}
+.ul_per{width: 90%; float: left;}
+.ul_rper{float: right;}
+.ul_rper .i2{position:absolute; top: 50%; right:10px; margin-top:-8px; font-size: 19px;font-family:'iconfont'}
+.ul_rper .i2:before{content: '\e652'}
+.packages li span img{width: 100%; height: auto;  border:1px solid #9c9c9c;}
+.div_counts{background: #fff; height: 40px; padding-right: 15px; border-bottom: 1px solid #e5e5e5; font-size: 14px; line-height: 40px; text-align: right;}
+.div_counts strong{color: #c8102e; font-size: 16px;}
+.div_ock{border-bottom: 1px solid #e5e5e5; height: 45px; padding-right: 15px; text-align: right; background: #fff;}
+.div_ock .btn01s{width: 20%; padding:5px 0px; font-size: 14px; text-align: center; margin-top:7px; display: inline-block; border-radius: 5px; border:1px solid #c8102e;}
+.div_ock .red{color: #c8102e;}
+.div_ock .grays01{color: #646464; border:1px solid #646464;}
+.delbtn{font-size:18px; float: left; color: #898989; margin:10px 15px; font-family:'iconfont'}
+.delbtn:before{content:'\e62d'}
+
+/*订单详情*/
+.states span{display: block;}
+/*回到顶部*/
+.fix_go_top2{background: url(../img/scroll-to-top-icon.png) no-repeat; display: inline-block;width:35px; height: 35px; background-size:35px 35px; z-index: 20;}
+

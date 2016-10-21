@@ -1,0 +1,43 @@
+#dxlMOrderLayer {width: 100%; background: url(../img/header-bg.png) repeat-x #efefef; background-size: 100% 41px;min-height: 41px; border-bottom: 1px solid #bfbfbf; border-width: 0 0 1px 0;}
+#dxlMOrderLayer .dxlFrameMain {position: relative; }
+#dxlMOrderLayer .dfa_title {color: #666; text-align: center; position: relative; height: 41px; line-height: 41px; font-size: 17px; margin: 0 auto; font-weight: bold;}
+.closeDialog{position:absolute; left:12px; height: 41px; line-height: 41px; top: 0px; color: #666; display: inline-block; font-size: 24px; font-family: 'iconfont'}
+.closeDialog:before{content: '\e655'}
+/*关于我们*/
+.container{text-align: center; margin-top: 10%;}
+.about_div img{width: 20%; height: auto; text-align: center; margin:0 auto 5%; }
+.about_div span{font-size: 12px; height: 25px; line-height: 25px; margin:0 auto; display: block; width: 35%;}
+.about_div .about_ns{border-bottom: 1px solid #e5e5e5; font-size: 20px; padding-bottom: 5px;}
+
+.in_item{margin-top: 10%;}
+.in_item_info li,.tb_in li{width: 100%; border-bottom: 1px solid #e5e5e5;height: 44px; line-height: 44px; position: relative;}
+.in_item_info li .fr{float: right; padding-right: 20px; font-size: 12px; padding-top: 1px;}
+.in_item_info li span,.tb_in li span{padding-left:10px; font-size: 15px; color: #333}
+.in_item_info li .img_pos{width: 16px; height: 16px; display: inline-block; vertical-align: sub; margin-left: 3px;}
+.in_item_info a,.tb_in a{width: 100%; height: 100%; display: block;}
+.my_items{margin-bottom: 8px; background: #fff; border-top:1px solid #e1e1e1;}
+.my_items li .i2{position: absolute;right: 0px;width: 20px; top: 2px; height: 25px; font-size:15px; font-family:'iconfont'}
+.my_items li .i2:before{content: '\e652'}
+
+.img_bottom{margin: 10% auto 0; text-align: center;}
+.img_bottom img{width: 80%; height: auto; margin:0 auto;}
+/*回到顶部*/
+.fix_go_top2{background: url(../img/scroll-to-top-icon.png) no-repeat; display: inline-block;width:35px; height: 35px; background-size:35px 35px; z-index: 20;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

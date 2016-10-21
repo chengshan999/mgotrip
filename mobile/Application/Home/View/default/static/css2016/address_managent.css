@@ -1,0 +1,26 @@
+#dxlMOrderLayer {width: 100%; background: url(../img/header-bg.png) repeat-x #efefef; background-size: 100% 41px;min-height: 41px; border-bottom: 1px solid #bfbfbf; border-width: 0 0 1px 0;}
+#dxlMOrderLayer .dxlFrameMain {position: relative; }
+#dxlMOrderLayer .dfa_title {color: #666; text-align: center; position: relative; height: 41px; line-height: 41px; font-size: 17px; margin: 0 auto; font-weight: bold;}
+.show_divs{top: 48px;}
+/*收货人地址管理*/
+.ship_bk li{background: #fff; padding:8px 16px 28px; margin-bottom: 8px; border:1px solid #e5e5e5; border-left: 0; border-right: 0; position: relative;width: 100%;
+    box-sizing: border-box; -webkit-box-sizing: border-box;}
+.ship_bk2 li{padding:8px 16px;}
+.ship_bk li .gray{color: #999; padding: 0px; width: 53px; float: left;}
+.ship_bk li{font-size: 13px;}
+.ship_bk li .icon_addr{text-align: right;color: #009688;}
+.ship_bk li .icon_addr a{color: #009688;}
+.ship_bk li .icon_addr.on .icon_ico{color:#c8102e;display: inline-block;font-size: 18px; font-family: 'iconfont'}
+.ship_bk li .icon_addr.on .icon_ico:before{content: '\e684'}
+.ship_bk li .del{color:#898989;display: inline-block; font-style: normal; z-index:999999; position: absolute; right: 9px; top: 8px; font-size: 18px; font-family: 'iconfont'}
+.ship_bk li .del:before{content: '\e6a4'}
+.news_div{padding:5px 0; }
+.news_div a{color: #009688;}
+.news_div2{position: absolute; bottom: 1px; left: 16px;}
+.div_gw{width: 100%; background: #efeff4; padding:10px 0px; position: fixed; bottom: 0px; left: 0px;}
+.add_btn{width: 94%; border-radius: 3px; background: #fff; height: 40px; margin: 0 auto;  display: block; line-height: 40px;  color: #009688;  border:1px solid #009688; text-align: center; font-size: 14px;}
+.add_btn .ads_icon{color:#009688;display: inline-block; vertical-align: middle; font-size: 20px; font-family: 'iconfont'}
+.select_addrs{position: absolute; top: 0px; left: 0px; width: 100%; display: inline-block; height: 100%;}
+.add_btn .ads_icon:before{content: '\e6a5'}
+/*回到顶部*/
+.fix_go_top2{background: url(../img/scroll-to-top-icon.png) no-repeat; display: inline-block;width:35px; height: 35px; background-size:35px 35px; z-index: 20;}

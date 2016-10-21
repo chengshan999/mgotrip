@@ -1,0 +1,18 @@
+#dxlMOrderLayer {width: 100%; background: #fff; background-size: 100% 41px;min-height: 41px; border-bottom: 1px solid #bfbfbf; border-width: 0 0 1px 0;}
+#dxlMOrderLayer .dxlFrameMain {position: relative; }
+#dxlMOrderLayer .dfa_title {color: #666; text-align: center; position: relative; height: 41px; line-height: 41px; font-size: 17px; margin: 0 auto; font-weight: bold;}
+.closeDialog{position:absolute; left:12px; top: 6px; color: #666; display: inline-block; font-size: 24px; font-family: 'iconfont'}
+.closeDialog:before{content: '\e655'}
+.help{position:absolute; right: 12px; top: 0px; line-height: 41px; height: 41px; font-size: 14px;}
+/*header*/
+.tips_bar{background: #99b1d4; color: #fff; text-align: center; padding:4px 0px;}
+.ul_bk{background: #fff; margin-bottom: 12px;}
+.ul_bk li{border-bottom: 1px solid #e5e5e5;position: relative; height: 40px; line-height: 40px; padding:0px 15px;}
+.ul_bk label,.ul_bk span{float: left; font-size: 14px;}
+.new_txt_w38{width: 28%;}
+.ul_bk span{width: 72%;}
+.ul_bk li .arrow{position: absolute; display: inline-block; right: 12px; top: 2px;font-family: 'iconfont'}
+.ul_bk li .arrow:before{content: '\e651'}
+.ul_bk li span select{border: 0; height: 30px;font-size: 14px; color: #cfcfcf; width: 100%;background: transparent;  -webkit-appearance: none}
+
+.navAllowed {background: #bf1e2e;  color: #fff; height: 40px; line-height: 40px; text-align: center; width: 95%; margin: 15px auto 5px; font-size: 16px; border-radius: 5px; -webkit-border-radius: 5px;}

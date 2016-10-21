@@ -1,0 +1,34 @@
+#dxlMOrderLayer{padding:8px 0px;}
+.input_box{position:relative;margin: 0px 50px 0 41px;}
+.text_box{-webkit-user-select: initial; user-select: initial; -webkit-appearance: none; border: 1px solid #e5e5e5;  width: 100%; box-sizing: border-box; color: #323232; border-radius: 4px; height: 30px; line-height: 22px; font-size: 14px; padding: 4px 10px 4px 30px; background:#fff;}
+.search_icon{position:absolute;color: #bbb; margin-top: 9px; width: 25px; text-align: center; font-family: 'iconfont';}
+.search_icon:before{content:'\e65d'}
+.closed{color: #666;height: 35px; position: absolute;left: 10px; top: 7px;  line-height: 35px; width: 25px; display: inline-block; font-size: 24px; font-family: 'iconfont'}
+.closed:before{content: '\e655'}
+.search_right{position: absolute; right: 12px; top: 0px; line-height: 41px; height: 41px;}
+input::-ms-input-placeholder{text-align: center;}
+input::-webkit-input-placeholder{text-align: center;}
+/*排序*/
+.shop_sorts{border-top: 1px solid #e5e5e5; background: #fff; position: relative; z-index: 2; border-bottom: 1px solid #e5e5e5; margin-top:11px;box-shadow: 0 0 3px 3px #ebebeb;}
+.sorts_ul li{float: left; width: 33.3%; position: relative; text-align: center;}
+.sorts_ul li.cur a,.sorts_ul li span{color: #ef3f5b;}
+.sorts_ul li a{padding:12px 0px;width: 100%; display: block;}
+
+
+.shop_carts{margin:1% auto 0; position: relative; z-index: 1; box-sizing: border-box;-webkit-box-sizing: border-box;  width: 100%;}
+.list_ul{margin-left: 1px;}
+.list_ul li{float: left; width: 32.6%; background: #fff; padding:1%; margin:0 1.1% 1% 0; border:1px solid #e5e5e5;  text-align: center;box-sizing: border-box; -webkit-box-sizing: border-box;box-shadow: 0 0 3px 3px #ebebeb;}
+.list_ul li:nth-child(3n){margin-right: 0px;}
+.list_ul li .img {padding:6px;}
+.list_ul li .img img{width: 100%; height: auto; margin:0 auto;}
+.list_ul li .s_names{text-align: left; padding:2px 0; font-size: 13px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.list_ul li .cur_prices{text-align: right; padding:2px 0;font-size: 14px; color: #d82f3f;}
+@media screen and (max-device-width:360px){  
+ .list_ul li .img img{width: 100%; height: auto; margin: 0 auto; min-height: 84px;max-height: 84px;}
+}  
+
+@media screen and (max-device-width:480px){
+	.list_ul li .img img{width: 100%; height: auto; margin: 0 auto; min-height: 112px;max-height: 112px;}
+}
+
+

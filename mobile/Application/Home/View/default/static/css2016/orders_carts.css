@@ -1,0 +1,136 @@
+/*收货地址*/
+.Shipp_addr{background: #fff;border: 1px solid #cacacb; border-bottom: 3px solid #009688; border-top: 0; padding:0px 8px 0 0;position: relative;}
+.fl{float: left;}
+.fr{float: right; }
+.ship_div{padding:5px 0px;}
+.ship_div .pl{padding:3px 12px;}
+.Shipp_names strong{font-size: 16px;}
+.Shipp_names .font{color: #cd2641;}
+.r_arrow{font-size:15px; position: absolute; top: 50%; right: 13px; line-height: 23px; margin-top: -8px; font-family: 'iconfont'}
+.r_arrow:before,.r_arrow2:before{content: '\e652'}
+.An_order{margin-bottom: 10px;}
+.orders_title{background: #fff; border: 1px solid #cacacb; overflow: hidden; height: 42px; line-height: 42px; margin:12px 0px 0;}
+.orders_title span,.packages span{float: left;}
+.packages span.counts{float: right;}
+.left_wh{float: left; width: 50px; background: #009688; border:1px solid #009688; height: 100%; line-height: 15px;  color: #fff; text-align: center;}
+.left_wh img{display: block; margin: 3px auto; width: 21px; height: 18px;}
+.orders_title .sec_names{font-weight: bold; color: #5a5a5a; padding-left:10px;}
+/*订单标题title*/
+.shop_yhq,.pick_way,.pick_way_date,.pick_way_time{background: #fff; height: 42px; padding-left:8px; font-size: 14px; line-height: 42px; border-bottom: 2px solid #cacacb; position: relative;}
+.shop_yhq .arrow_yhq{font-size:15px; color: #009688; display: inline-block;font-family: 'iconfont';}
+.shop_yhq .arrow_yhq:before{content: '\e6a9'}
+.shop_yhq .font{color: #009688; padding-right: 30px;}
+/*选择提货方式和自提点*/
+.div_wx{width: 100%; text-align: center; display: none;}
+.pick_text{color: #cfcfcf; font-family: Arial; font-size: 14px; width: 70%; display: inline-block;text-indent: 20px;}
+.box_shades{position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; background: #000; opacity: 0.15; z-index: 999;}
+.choose_area{width: 90%; height: 60%; overflow-y: auto; border:3px solid #999; border-radius: 3px; margin:0 auto; text-align: left; background: #fff; padding:5px 15px 10px; position:fixed; top: 50%; margin-top: -40%; z-index: 9999; left: 50%; margin-left:-45%;box-sizing: border-box;}
+.choose_area dt,.choose_area dd p{font-size: 14px; color: #666;}
+.choose_area dt {border-bottom: 1px solid #ececec; line-height: 25px; height: 25px; padding-bottom: 5px;}
+.choose_area dt h3{font-size: 14px;}
+.choose_area dd p{padding: 8px 0; border-bottom: 1px solid #ececec;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+/*店铺优惠券*/
+.pick_way,.pick_way_date,.pick_way_time{border-bottom: 1px solid #cacacb}
+.new_select,.new_select2 {border: 0; height: 33px; text-indent: 20px; line-height: 33px; font-size: 14px; color: #cfcfcf; width: 70%; background: transparent; -webkit-appearance: none; }
+.new_select2 {width: 100%; background: #fff; -webkit-appearance: none; margin-bottom: 5px;}
+/*提货方式*/
+.packages{background: #f4f4f4; padding: 20px 10px;border-bottom: 1px solid #cacacb; border-top: 0px;}
+.ns_div{margin-left: 72px;}
+.ns_names .title3{font-size: 13px;overflow: hidden; height: 36px;}
+.ns_names .nfp{color: #d13e56; font-size: 14px; padding-top: 10px;}
+.ns_names .nfp .gray_s{color: #656565; font-size: 13px; text-align: right; float: left; padding-left: 20px;}
+.ns_names .nfp i{font-size: 12px;}
+.img_list img{float: left; margin-right: 8px; display: inline-block; background: #fff; width: 50px; height:50px; border:1px solid #989898;padding:5px;}
+.total_counts,.pac{font-size: 13px;}
+.total_counts strong{font-size: 14px; color:#c8102e;}
+.gray{color: #888;}
+.over_names{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.i_prices{color: #c8102e; padding-top: 17px; font-size: 15px;}
+.i_prices em{font-size: 12px;}
+.w_text{width: 50%;}
+.panel_sl{background: #fff; margin-bottom: 5px;}
+/*订单包裹清单*/
+.bution{width: 88%; text-align:  right;float: right; border-bottom: 1px solid #dcdcdc; padding:12px; font-size:14px;}
+.bution .font{color: #009688;}
+/*配送方式*/
+.order_amount{text-align: right;padding:12px 8px; clear:both; font-size:14px; border-bottom: 1px solid #dcdcdc;}
+.order_amount .font{color: #c8102e;}
+/*订单金额*/
+.order_beizu{font-size:14px; padding:5px 8px; background: #fff;border-bottom: 1px solid #dcdcdc;}
+.label_bz{width: 70px;padding-top: 8px; float: left; font-size:12px;}
+.check_txt{margin-left: 75px;}
+.input_message{padding:8px 0; width: 100%;}
+
+.panel_coupons{padding:8px 10px;   background: #fff; border:1px solid #dcdcdc; border-left:0px; border-right: 0px;}
+.panel_coupons dt{font-size: 15px;}
+.panel_coupons dd{padding-top: 10px;}
+.panel_coupons dl .cous i{background: url(../img/group-quan.png) no-repeat; vertical-align:middle; margin-right: 10px; width: 35px; height: 35px; display: inline-block; background-size: 35px 35px;}
+.x_arrow{font-size:15px; margin-top: -8px; font-family: 'iconfont'}
+.x_arrow:before{content: '\e652'}
+.panel_coupons p{padding:5px 0px; font-size: 14px;}
+.panel_coupons .pay_method{border-bottom: 1px solid #ddd; width: 100%; padding-bottom: 7px;}
+/*固定*/
+
+
+.panel_d{height: 42px; line-height: 42px;text-align: right;background: #fff; border-top: 1px solid #cacacb; width: 100%; position: fixed; bottom: 0px; left: 0px;}
+.panel_d .pay_e{ font-size: 14px; display: inline-block; width: 100%;}
+.pay_span b{font-weight: normal; color: #333;}
+.pay_span em{font-size: 12px;}
+.pay_span{color: #bf1e2e; padding-right: 10px;}
+.btn100s{background: #bf1e2e; width: 30%; height: 42px;font-size: 17px; display: inline-block; color: #fff; text-align: center; }
+.btn90s{background: #009688;}
+input[type=submit].btn100s{border-radius: 0}
+/*订单详情*/
+.states{padding:15px 12px; background: #f4f4f4; border-bottom: 1px solid #ddd;}
+.states dt{float: left;}
+.states span{display: block;}
+.states span.order_nums{font-size: 15px;}
+.states span.order_times{font-size: 13px; color: #898989; padding-top: 3px;}
+.been_Pay{color: #c8102e; font-size: 15px;}
+.black{padding:8px 0px; color: #fff; text-align: center; font-size: 12px; background: #646464;}
+.single_order{height: 40px; line-height: 40px; background: #fff; border-bottom: 1px solid #ddd; padding:0px 0px 0 12px;}
+.single_order span{font-size: 14px;}
+.delivery{padding:0px 25px; color: #fff; text-align: center; font-size: 14px; background: #7597c7;}
+.div_ock{border-bottom: 1px solid #e5e5e5; height: 45px; padding-right: 15px; text-align: right; background: #fff;}
+.div_ock .btn01s{ padding:3px 5px; font-size: 13px; text-align: center; margin-top:7px; display: inline-block; border-radius: 5px; border:1px solid #646464;}
+.div_ock .grays1{color: #009688; border:1px solid #009688;}
+.btn30s{ float: right; padding:3px 5px; font-size: 13px; text-align: center; display: inline-block; border-radius: 5px; border:1px solid #009688; color: #009688}
+/*支付密码弹框*/
+.shade_box{background: #000; opacity: 0.5; height: 100%; position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1000001;} 
+.div_vbox{width: 350px; position: fixed; padding:20px 0px; height: auto; background: #fff; border:1px solid #ddd; border-radius: 8px; top: 15%;z-index: 1000002; left: 50%; margin-left:-175px;}
+.btn100s2{background: #c8102e; height: 44px; line-height: 44px; color: #fff; text-align: center; width: 90%; margin: 20px auto 0; border-radius: 5px; font-size: 17px; display: block;}
+.top_bar4{text-align: center; font-size: 17px; position: relative; border-bottom: 1px solid #ddd; padding-bottom: 20px;}
+.top_bar4 .i_btn3{background: url(../img/iclose_btn.png) no-repeat; width: 22px; height: 23px; background-size: 22px 23px; display: inline-block; position: absolute; right: 10px; top: -13px;}
+#loginByPWD{padding-top:20px;}
+.pwd-box{width:310px;  
+        padding-left: 1px;  
+        position: relative;  
+        border: 1px solid #9f9fa0;  
+        border-radius: 3px;  
+		overflow:hidden;
+		margin: 0 auto;  
+    }  
+    .pwd-box input[type="tel"]{  
+        width: 100%;  
+        height: 45px;  
+        color: transparent;  
+        position: absolute;  
+        top: 0;  
+        left: 0;  
+        border: none;  
+        font-size: 18px;  
+        opacity: 0;  
+        z-index: 1;  
+        letter-spacing: 35px;  
+    }  
+    .fake-box input{  
+        width: 47px;  
+        height: 48px;  
+        border: none;  
+        border-right: 1px solid #e5e5e5;  
+        text-align: center;  
+        font-size: 20px;  
+    }  
+    .fake-box input:last-child{  
+        border:none;  
+    } 

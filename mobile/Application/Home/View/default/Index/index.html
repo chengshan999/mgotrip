@@ -1,0 +1,128 @@
+<include file="Public:indexhead" />
+<script type="text/javascript" src="__ROOT__/{$Think.THEME_PATH}static/js/jquery.SuperSlide.2.1.js"></script>
+<script type="text/javascript" src="__ROOT__/{$Think.THEME_PATH}static/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="__ROOT__/{$Think.THEME_PATH}static/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+$(function(){
+if (!$.cookie('show_env_2')) {        
+        $('.div_shadebox').show(); 
+        $('body').addClass('go_to');                     
+        setcookie('show_env_2',1);
+        $('.a_close').click(function() {            
+            $('.div_shadebox').hide();
+            $('body').removeClass('go_to');  
+            //$.cookie('show_env',{expires:7});   
+            setcookie('show_env_2',1);
+        });
+    }
+    function setcookie(name,value){  
+        var Days = 1;  
+        var exp  = new Date();  
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);  
+        document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();  
+    }
+    })
+</script>
+<!--增加遮罩-->
+
+
+<!--顶部end-->
+
+
+<section id="wrap_body">
+    <section id="imgShow">
+        <div class="swiper-container" id="swiper">
+            <div class="swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    <!--轮播播放end-->
+    <section id="part1" class="items">
+        <ul class="clearfix">
+        <li class="li_9">
+                <a href="">
+                    <img class="icon m_img_0" src="__ROOT__/{$Think.THEME_PATH}static/img/icon7.png" />
+                    <!--  <i class="cion shop"></i>
+                -->
+                <div>入驻商家</div>
+            </a>
+        </li>
+        <li class="li_9">
+            <a href="">
+                <img class="icon m_img_1" src="__ROOT__/{$Think.THEME_PATH}static/img/icon3.png" />
+                <!-- <i class="cion meishi"></i>
+            -->
+            <div>休闲美食</div>
+        </a>
+		</li>
+		<li class="li_9">
+			<a href="">
+				<img class="icon m_img_2" src="__ROOT__/{$Think.THEME_PATH}static/img/icon4.png" />
+				<!--  <i class="cion sheying"></i>
+			-->
+			<div>致摄影</div>
+		</a>
+		</li>
+		<li class="li_9">
+			<a href="">
+				<img class="icon m_img_3" src="__ROOT__/{$Think.THEME_PATH}static/img/icon5.png" />
+				<!-- <i class="cion bed"></i>
+			-->
+			<div>床上用品</div>
+		</a>
+		</li>
+	</ul>
+</section>
+
+
+
+
+
+
+
+<footer>
+<nav class="clearfix">
+<a href="/help/index.html">帮助中心</a>
+<a class="appDown footAppDown" href="http://www.yufu365.com/appMall/app.html">App下载</a>
+<a href="/help/about2.html">关于我们</a>
+<a href="tel:400-1720-365">联系我们</a>
+</nav>
+<h3>Copyright © 2016 沪ICP备15051403号</h3>
+<h3>上海邑智信息科技有限公司版权所有</h3>
+<div class="yufu_footer_copyright_footer"></div>
+</footer>
+<!-- 底部 end -->
+
+<div class="fixedtop">
+<a href="javascript:void(0)" class="fix_go_top"></a>
+</div>
+</section>
+<include file="Public:footmenu" />
+<script>
+$(function(){
+    var p_length = $('.swiper-wrapper img').length;    
+        if(p_length < 2){return false;};
+        var mySwiper = new Swiper('.swiper-container',{
+        autoplay : 5000,
+        loop: true,
+        paginationClickable :true,
+        pagination: '.swiper-pagination',
+        autoplayDisableOnInteraction: false,
+        simulateTouch: true
+    });
+     })
+</script>
+<script type="text/javascript">
+jQuery(".txtScroll-top").slide({mainCell:"ul",autoPage:true,effect:"topLoop",autoPlay:true,scroll:2,vis:2,delayTime:400});
+    //检查关键字查询
+    function check_keyword(){
+        var pkeyword = $("#pkeyword").val();
+        if(pkeyword == ""){
+            layer.msg("请输入需查询的关键字");
+            return false;
+        }else{
+            return true;
+        }
+    }
+</script>
+</body>

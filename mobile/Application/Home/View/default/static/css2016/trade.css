@@ -1,0 +1,40 @@
+#dxlMOrderLayer {width: 100%; background: url(../img/header-bg.png) repeat-x #efefef; background-size: 100% 41px;min-height: 41px; border-bottom: 1px solid #bfbfbf; border-width: 0 0 1px 0;}
+#dxlMOrderLayer .dxlFrameMain {position: relative; }
+#dxlMOrderLayer .dfa_title {color: #666; text-align: center; position: relative; height: 41px; line-height: 41px; font-size: 17px; margin: 0 auto; font-weight: bold;}
+
+.help{position:absolute; right: 12px; top: 0px; line-height: 41px; height: 41px; font-size: 14px;}
+.help a{font-size: 15px; color: #666;}
+/*header*/
+.trade_con_bg{background: #009688; height: 122px;}
+.dl_fl dt,.dl_fl dd{float: left; width: 50%; text-align: center; padding-top: 29px;}
+.dl_fl dt p,.dl_fl dd p{color: #fff; font-size:18px; padding-bottom:10px;}
+.dl_fl dt .unit,.dl_fl dd .unit{font-size: 12px;}
+.dl_fl dt .money,.dl_fl dd .money{font-size: 24px; font-family: Arial;}
+
+
+.tool_bar{margin-bottom: 13px;}
+.tool_bar dt{background: #646464;height: 30px; padding:0px 14px;line-height: 30px; color: #fff; }
+.fl{float: left;}
+.Dur_month{font-size: 16px;}
+.fr{float: right;}
+.tool_bar .income .money{font-family: Arial;}
+
+.tool_bar dd{border-bottom: 1px solid #cacacb;padding:8px 14px; background: #fff;}
+.tool_bar dd .n_s p{padding:3px 0px; font-size: 14px;}
+.tool_bar dd .n_s .grays{color: #747474;}
+
+
+/*showbox*/
+.show_divs{width: 110px; display: none; background: #f2f2f2; position: absolute; top: 48px; z-index: 9999; right: -11px; border:1px solid #e5e5e5; border-top: 0;}
+.show_divs2{top: 42px; right: -11px; border-top: 0px;}
+.show_divs ul li{padding:10px; text-align: left; border-bottom: 1px solid #e5e5e5;}
+.show_divs ul li:last-child{border-bottom: 0px;}
+.show_divs ul li a{font-size: 14px; display: block;}
+
+.Tran_details{margin-top: 10px; font-size: 14px;}
+.Tran_details ul{background: #fff;width: 100%;}
+.Tran_details ul li{ height: 40px; padding:0px 10px; line-height: 40px; border-bottom: 1px solid #e5e5e5;box-sizing: border-box;
+    -webkit-box-sizing: border-box;}
+.Tran_details ul li .org{color: #009688;}
+
+.no_bills{font-size: 16px; text-align: center; padding-top:20%; color: #999;}

@@ -1,0 +1,14 @@
+RewriteEngine On
+
+RewriteBase /
+
+RewriteRule ^app/.*$ index.php [L]
+RewriteRule ^user/.*$ index.php [L]
+RewriteRule ^pay/.*$ index.php [L]
+
+#ErrorDocument 401 “你无权限访问该页面！”
+#ErrorDocument 500 “错误！”
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.html [L]

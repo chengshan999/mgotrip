@@ -1,0 +1,45 @@
+#dxlMOrderLayer {width: 100%; background: url(../img/header-bg.png) repeat-x #efefef; background-size: 100% 41px;min-height: 41px; border-bottom: 1px solid #bfbfbf; border-width: 0 0 1px 0;}
+#dxlMOrderLayer .dxlFrameMain {position: relative; }
+#dxlMOrderLayer .dfa_title {color: #666; text-align: center; position: relative; height: 41px; line-height: 41px; font-size: 17px; margin: 0 auto; font-weight: bold;}
+.show_divs{top: 48px;}
+.show_divs2{top: 42px; right: -11px; border-top: 0px;}
+.show_divs ul li{padding:10px; text-align: left; border-bottom: 1px solid #e5e5e5;}
+.show_divs ul li:last-child{border-bottom: 0px;}
+.show_divs ul li a{font-size: 14px; display: block;}
+.fl{float: left;}
+.fr{float: right;}
+/*切换开始*/
+.tab3_box{height: 45px;border-bottom: 1px solid #e5e5e5;}
+.tab3_box li{width: 50%; float: left; line-height: 45px; font-size: 16px; position: relative; text-align: center; background: #fff;}
+.tab3_box li:last-child{border-right: 0;}
+.tab3_box li.cur i{background: #bf1e2e; height: 2px; z-index: 999; position: absolute; left: 0px; bottom: -1px; width: 100%; display: inline-block;}
+.tab3_box li a{width: 100%; display: inline-block;}
+.tab_box3{width: 100%; margin:0px auto; box-sizing: border-box;-webkit-box-sizing: border-box;}
+.panel_bar,.panel_bar_shop{background: #fff; position: relative; padding:10px 5px 0; border-bottom: 1px solid #e5e5e5;}
+
+.shop_list{margin-bottom: 10px;}
+.No_fav_pu{padding:30px 0; text-align: center; font-size: 16px; color: #737373;}
+/*店铺收藏*/
+.panel_bar dl dt.p_shopimg{width: 120px; float: left;border:1px solid #ddd; height: 120px; position: relative;}
+.panel_bar dl dt.p_shopimg img{width: 120px; height: 60px;position: absolute; top: 50%; margin-top: -30px;}
+.panel_bar dl dd{margin-left: 130px;}
+.panel_bar dl dd h3 {font-size: 16px; color: #333; max-height: 42px; overflow: hidden; line-height: 30px; }
+.panel_bar dl dd .returnCash{font-size: 12px; position: relative; margin-top: 3px; line-height: 30px; color: #a0a0a0;}
+.panel_bar dl dd .row1 {color: #333; margin-bottom: 2px; }
+.btn100s{border:1px solid #0e9c8f; color: #0e9c8f; font-size: 12px; padding:4px 8px; border-radius: 3px; float: right;}
+/*商品收藏*/
+.panel_bar_shop dl{border-bottom:1px solid #ddd; padding: 9px 0; position: relative;}
+.panel_bar_shop dl:last-child{border-bottom: 0px;}
+.panel_bar_shop dl dt.p_shop{width: 60px; text-align: center; margin: 0 auto; float: left;border:1px solid #ddd; height: 60px; position: relative;}
+.panel_bar_shop dl dt.p_shop img{width: 60px; height: 60px;position: absolute; top: 50%; margin-top: -30px;}
+.panel_bar_shop dl dd.w55{float: left; width: 55%; margin-left: 10px;}
+.panel_bar_shop dl dd h3 {font-size: 14px; color: #333; max-height: 42px; overflow: hidden; line-height: 15px; }
+.panel_bar_shop dl dd .returnCash{font-size: 12px; position: relative; margin-top: 25px; color: #a0a0a0;}
+.panel_bar_shop dl dd .row1 {color: #333; margin-bottom: 2px; }
+.panel_bar_shop dl dd .row1 .big{float: left; color:#bf1e2e;font-family: Arial;}
+.panel_bar_shop dl dd .row1 .big i{font-size: 18px;}
+.panel_bar_shop dl dd .row1 .spetial{color: #999; float: right;}
+.panel_bar_shop dl dd .del{color:#898989;display: inline-block; font-style: normal; position: absolute; right: 9px; top: 8px; font-size: 18px; font-family: 'iconfont'}
+.panel_bar_shop dl dd .del:before{content: '\e6a4'}
+.panel_bar_shop dl dd .div_btns{position: absolute; bottom: 15px; right: 10px;}
+.Nearly{border-bottom: 1px solid #ddd;padding-bottom:10px; font-size: 15px; font-weight: bold; color: #666;}

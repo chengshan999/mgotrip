@@ -1,0 +1,17 @@
+.show_divs{top: 48px;}
+.popdetail{display:block;position:absolute; width:100%; background: #fff; text-align: center}
+.closepop{ display:block; width:16px; height:16px; position:absolute; top:10px; right:10px; z-index:11; cursor:pointer; background:url(../images/icon.png) -230px -123px no-repeat; }
+.popcon{ padding:28px;}
+.popL{ float:left; width: 100%}
+.popR{ float:left; width: 100%}
+.noImg{background-image:url('../images/upimg.jpg'); background-repeat:no-repeat; background-position:0 0;}
+.imgUpload{ width:180px; height:36px; float:left; position:relative; overflow:hidden;}
+.imgUpload input{ font-size:36px; opacity:0; filter: alpha(opacity=0); width:180px; height:36px; border:none; position:absolute; top:0; right:0;}
+.imgareaselect-imgdiv{border:solid 1px #f2f2f2;
+    width: 100%; text-align: center;}
+.img_edit_btn{ display:block; width:74px; height:24px; line-height:24px; text-align:center; color:#fff; background:#bf1e2e; border:solid 1px #cf7a83; margin:28px auto 0 auto;}
+.popL .p1{ line-height:33px;}
+.popR .p1{ height:24px; font-size:15px;}
+.popR .p2{ height:41px;}
+.popR .p3{ height:48px; line-height:24px;}
+.popR .img100 img,.popR .img50 img{ border:solid 1px #f2f2f2;}

@@ -1,0 +1,10 @@
+
+
+.show_divs{top: 48px;}
+.item_list{margin-top: 0px;}
+.item_list li{background: #fff; margin-bottom: 10px;}
+.item_dl{padding: 20px 10px; border: 1px solid #ddd;}
+.item_dl dd .title_h2{font-size: 16px; font-weight: bold;}
+.item_dl dd .smaller{font-size: 12px; padding-top: 8px; color: #888;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.item_dl dd{float: left; width: 60%;}
+.item_dl dt{float: right;color: #888; width: 40%; text-align: right;}

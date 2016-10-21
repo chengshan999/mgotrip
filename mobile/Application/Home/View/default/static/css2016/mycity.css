@@ -1,0 +1,23 @@
+/*head*/
+body{background: #fff;}
+
+/*城市*/
+.search_right{position: absolute; right: 12px; top: 0px; line-height: 41px; height: 41px;}
+.warp_city{padding:20px 10px;}
+.warp_city h3{font-size: 16px;}
+.warp_city h3 .cur_city{color:#c80f2e;}
+.warp_city .i_area{border-bottom: 1px solid #ddd; padding:8px 0; font-size: 15px; font-weight: 500;}
+.on_city{margin-top: 8px;}
+.on_city li{float: left;width: 20%; margin:0px 6% 10px 0; font-size: 13px; padding:8px 0px;  text-align: center; background: #ececec; border-radius: 3px;box-sizing: border-box;
+    -webkit-box-sizing: border-box;}
+.on_city .cur{
+    background: #c80f2e;
+}
+.on_city .cur a{
+    color: #fff;
+}
+.on_city li:nth-child(4n){margin-right:0px;}
+.on_city li.on{background: #c80f2e;}
+.on_city li.on a{color: #fff;}
+.on_city li a{display: block;}
+.go_select_btn{background: #c80f2e; margin-top: 10%; color: #fff; text-align: center; padding:3% 0px; border-radius: 3px; font-size: 16px;}

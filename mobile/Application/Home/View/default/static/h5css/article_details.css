@@ -1,0 +1,7 @@
+.div_article{text-align: center; background: #fff;}
+.div_article h3{padding:20px 0px; border-bottom: 1px solid #e5e5e5; font-size: 1.5em; font-weight: bold;}
+.div_article .dates{color: #999; padding:10px 0px 0; font-size: 1.2em;}
+/*标题及时间*/
+.article_contents{padding:10px 15px; text-align: left; line-height: 2em;font-size: 1.2em;}
+.article_contents img{width: 100%; height: auto;}
+/*正文内容*/
