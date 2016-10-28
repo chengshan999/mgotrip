@@ -69,6 +69,7 @@ class OrderController extends Controller {
 		$data		= $Curl->getData();
 		\Think\Log::write(json_encode($data),'input data');
 		//根据token签名参数，与用户系统信息交互，获取user_id
+		//echo C('USER_GET_ID');exit;
 		$user_info = $Curl->getReturn(C('USER_GET_ID'), array("device"=>$data->device,"token"=>$data->token));
 		if ($user_info==false || $user_info->status=="fail") {
 			$this->ajaxReturn($Curl->failArr( !empty($user_info->msg) ? $user_info->msg : "E203" ), "JSON");
@@ -77,6 +78,9 @@ class OrderController extends Controller {
 			$user_id   = $user_info->data->user_id;
 			$device_no = $user_info->data->device_no;
 		}
+
+
+
 
 		$amount		= !empty($data->amount)	   ? intval($data->amount) : "" ;
 		$coupon_id	= !empty($data->coupon_id) ? trim($data->coupon_id)   : "" ;
