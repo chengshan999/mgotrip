@@ -161,8 +161,8 @@ class UserCouponModel extends Model {
 	public function getInfo($id) {
 		if (intval($id) <= 0)
 			return false;
-		if(strpos(',',$id)){
-			$arr=explode($id);
+		if(strpos($id,',')){
+			$arr=explode(',',$id);
 			foreach($arr as $v){
 				$newarr[]=intval($v);
 			}
@@ -177,7 +177,7 @@ class UserCouponModel extends Model {
 			//return parent::where($condition)->find();
 
 		}
-		return parent::alias('uc')->join('__COUPON_TYPE__ ct on ct.id=uc.type_id', 'LEFT')->field('uc.*,ct.name,ct.amount,ct.min_order_amount,ct.use_end_date')->where($condition)->find();
+		return parent::alias('uc')->join('__COUPON_TYPE__ ct on ct.id=uc.type_id', 'LEFT')->field('uc.*,ct.name,ct.amount,ct.min_order_amount,ct.use_end_date')->where($condition)->select();
 
 	}
 

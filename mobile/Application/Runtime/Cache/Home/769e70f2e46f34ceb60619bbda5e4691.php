@@ -11,13 +11,13 @@
 <meta name="apple-touch-fullscreen" content="yes">
 <meta name="full-screen" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<link rel="stylesheet" href="/<?php echo (THEME_PATH); ?>static/css2016/public.css?v=201605011">
-<link rel="stylesheet" href="/<?php echo (THEME_PATH); ?>static/css2016/index.css?v=201605011">
-<link rel="stylesheet" href="/<?php echo (THEME_PATH); ?>static/css2016/swiper-3.3.1.min.css?v=201605011">
-<script type="text/javascript" src="/<?php echo (THEME_PATH); ?>static/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="/<?php echo (THEME_PATH); ?>static/js/swiper-3.3.1.min.js"></script>
-<script type="text/javascript" src="/<?php echo (THEME_PATH); ?>static/js/common.js?v=20160524"></script>
-<script type="text/javascript" src="/<?php echo (THEME_PATH); ?>static/js/layer/layer.js"></script>
+<link rel="stylesheet" href="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/css2016/public.css?v=201605011">
+<link rel="stylesheet" href="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/css2016/index.css?v=201605011">
+<link rel="stylesheet" href="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/css2016/swiper-3.3.1.min.css?v=201605011">
+<script type="text/javascript" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/js/swiper-3.3.1.min.js"></script>
+<script type="text/javascript" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/js/common.js?v=20160524"></script>
+<script type="text/javascript" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/js/layer/layer.js"></script>
 <style type="text/css">
     * {tap-highlight-color: rgba(0,0,0,0); -webkit-tap-highlight-color: rgba(0,0,0,0); -ms-tap-highlight-color: rgba(0,0,0,0); box-sizing: border-box; padding: 0; margin: 0;}
 </style>
@@ -31,9 +31,9 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
-<script type="text/javascript" src="/<?php echo (THEME_PATH); ?>static/js/jquery.SuperSlide.2.1.js"></script>
-<script type="text/javascript" src="/<?php echo (THEME_PATH); ?>static/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="/<?php echo (THEME_PATH); ?>static/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/js/jquery.SuperSlide.2.1.js"></script>
+<script type="text/javascript" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
 $(function(){
 if (!$.cookie('show_env_2')) {        
@@ -59,50 +59,9 @@ if (!$.cookie('show_env_2')) {
 
 
 <!--顶部end-->
-<section id="search_box" class="search_box  clearfix">
-    <form method="get" action="<?php echo U('Goods/search');?>">
-        <div class="clearfix">
-            <div class="closed"></div>
-            <div class="input_box inputDiv"> <i class="search_icon"></i>
-                <input type="text" autofocus="autofocus" id="pkeyword" name="keyword" value="" placeholder="搜索商品" value="<?php echo ($keyword); ?>" class="text_box" />
-            </div>
-            <span class="search_right">
-                <input class="search_f" onclick="return check_keyword();" type="submit" value="搜索" />
-            </span>
-        </div>
-    </form>
-    <div class="search_land_searchland">
-        <h3>历史搜索</h3>
-        <div class="search_landing_tags ">
-            <?php if(is_array($keyword_list)): foreach($keyword_list as $k=>$vo): ?><span>
-                    <a href="<?php echo U('Goods/search',array('keyword'=>$vo[work]));?>"><?php echo ($vo["work"]); ?></a>
-                </span><?php endforeach; endif; ?>
-        </div>
-    </div>
-</section>
-<!--搜索框end-->
-<section id="wrap_body">
-    <!--
-	<div class="showfixedtop-half">
-        <div class="op_search">
-            <div class="op_div">
-                <span class="mycity2">
-                    <a href="<?php echo U('City/index');?>">
-                        <?php echo ($top_name); ?> <i class="down"></i>
-                    </a>
-                </span>
-                <div class="op_form">
-                    <i class="m_search"></i>
-                    <input type="search" value="" class="in_s_input" placeholder="搜索商品" />
-                </div>
-                <a class="message" href="<?php echo U('User/messagelist');?>">
-                    <i class="circle"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-	-->
 
+
+<section id="wrap_body">
     <section id="imgShow">
         <div class="swiper-container" id="swiper">
             <div class="swiper-wrapper"></div>
@@ -114,7 +73,7 @@ if (!$.cookie('show_env_2')) {
         <ul class="clearfix">
         <li class="li_9">
                 <a href="">
-                    <img class="icon m_img_0" src="/<?php echo (THEME_PATH); ?>static/img/icon7.png" />
+                    <img class="icon m_img_0" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/img/icon7.png" />
                     <!--  <i class="cion shop"></i>
                 -->
                 <div>入驻商家</div>
@@ -122,7 +81,7 @@ if (!$.cookie('show_env_2')) {
         </li>
         <li class="li_9">
             <a href="">
-                <img class="icon m_img_1" src="/<?php echo (THEME_PATH); ?>static/img/icon3.png" />
+                <img class="icon m_img_1" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/img/icon3.png" />
                 <!-- <i class="cion meishi"></i>
             -->
             <div>休闲美食</div>
@@ -130,7 +89,7 @@ if (!$.cookie('show_env_2')) {
 		</li>
 		<li class="li_9">
 			<a href="">
-				<img class="icon m_img_2" src="/<?php echo (THEME_PATH); ?>static/img/icon4.png" />
+				<img class="icon m_img_2" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/img/icon4.png" />
 				<!--  <i class="cion sheying"></i>
 			-->
 			<div>致摄影</div>
@@ -138,7 +97,7 @@ if (!$.cookie('show_env_2')) {
 		</li>
 		<li class="li_9">
 			<a href="">
-				<img class="icon m_img_3" src="/<?php echo (THEME_PATH); ?>static/img/icon5.png" />
+				<img class="icon m_img_3" src="/mgotrip/mobile/<?php echo (THEME_PATH); ?>static/img/icon5.png" />
 				<!-- <i class="cion bed"></i>
 			-->
 			<div>床上用品</div>

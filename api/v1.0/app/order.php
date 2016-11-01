@@ -3,14 +3,13 @@ require("../common/init.php"); //初始化文件
 $Curl  = new Curl();
 $Check = new Check();
 /* 订单支付打车费 */
-if (isset($_GET['act']) && trim($_GET['act'])=="pay_fare") { 
-	
+if (isset($_GET['act']) && trim($_GET['act'])=="pay_fare") {
+
 	/* 数据验证 */
 	if (!isset($_POST['device'], $_POST['token'])
 		|| !$Check->isString($_POST['token'], 32)
 		)
 		exit($Curl->retError("E997"));
-
 
 	/* 调用后台接口 */
 	$data = array(

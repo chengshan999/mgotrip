@@ -109,77 +109,96 @@ class OrderController extends Controller {
 		//获取优惠券信息
 		if ($coupon_id) {
 			$UserCoupon = D("UserCoupon");
-			$coupon_info = $UserCoupon->getInfo($coupon_id);
-			if ($coupon_info===false || $coupon_info===null) {
-				$this->ajaxReturn($Curl->failArr("E219"), "JSON");
-			}
-			else if ($coupon_info['min_order_amount']>intval($amount)) {
-				$this->ajaxReturn($Curl->failArr("E212"), "JSON");
-			}
-			else if ($coupon_info['user_id']!=$user_id) {
-				$this->ajaxReturn($Curl->failArr("E220"), "JSON");
-			}
-			else if ($coupon_info['order_id']>0) {
-				$this->ajaxReturn($Curl->failArr("E233"), "JSON");
-			}
-			else if ($coupon_info['use_end_date']<date("Y-m-d")) {
-				$this->ajaxReturn($Curl->failArr("E234"), "JSON");
+			$coupon_info_arr = $UserCoupon->getInfo($coupon_id);
+			foreach($coupon_info_arr as $coupon_info) {
+				if ($coupon_info === false || $coupon_info === null) {
+					$this->ajaxReturn($Curl->failArr("E219"), "JSON");
+				} else if ($coupon_info['min_order_amount'] > intval($amount)) {
+					$this->ajaxReturn($Curl->failArr("E212"), "JSON");
+				} else if ($coupon_info['user_id'] != $user_id) {
+					$this->ajaxReturn($Curl->failArr("E220"), "JSON");
+				} else if ($coupon_info['order_id'] > 0) {
+					$this->ajaxReturn($Curl->failArr("E233"), "JSON");
+				} else if ($coupon_info['use_end_date'] < date("Y-m-d")) {
+					$this->ajaxReturn($Curl->failArr("E234"), "JSON");
+				}
 			}
 		}
-		
+
 		//更新订单金额、流水号及优惠券信息
 		$order_update_arr = array(
-			"amount"		=> $amount,
-			"coupon_id"		=> isset($coupon_info['id']) ? $coupon_info['id'] : 0,
-			"coupon_paid"	=> isset($coupon_info['amount']) ? $coupon_info['amount'] : 0,
+			"amount" => $amount,
+			"coupon_id" => '',//isset($coupon_info['id']) ? $coupon_info['id'] : 0,
+			"coupon_paid" => '',//isset($coupon_info['amount']) ? $coupon_info['amount'] : 0,
 		);
-		if (isset($coupon_info['amount']) && $coupon_info['amount']>=$amount) 
-		{
+		foreach($coupon_info_arr as $k=>$coupon_info) {
+			if($k==0){
+				$order_update_arr['coupon_id'].=isset($coupon_info['id']) ? $coupon_info['id'] : '';
+			}else{
+				$order_update_arr['coupon_id'].=isset($coupon_info['id']) ? ','.$coupon_info['id'] : '';
+			}
+			$order_update_arr['coupon_paid']+=isset($coupon_info['amount']) ? $coupon_info['amount'] : 0;
+		}
+		$coupon_info_amount=$order_update_arr['coupon_paid'];
+
+		if (isset($coupon_info_amount) &&  $coupon_info_amount >= $amount) {
 			$order_update_arr['pay_status'] = $Order::PS_PAID;
 		}
-		$order_update_result = $Order->update($order_info['id'],$order_update_arr);
-		if(false === $order_update_result){
+		$order_update_result = $Order->update($order_info['id'], $order_update_arr);
+		if (false === $order_update_result) {
 			$this->ajaxReturn($Curl->failArr("E979"), "JSON");//订单金额更新失败
 		}
 
 		//打车费金额小于优惠券金额 更新订单为已完成
-		if (isset($coupon_info['amount']) && $coupon_info['amount']>=$amount) 
-		{
+		if (isset($coupon_info_amount) && $coupon_info_amount >= $amount) {
 			$Order->orderComplete($order_info['order_no']);
 
 			//付款成功通知强生
-			if ($order_info['shop_id']==1) {
-				$QsOrder   = D("QsOrderDetail");
+			if ($order_info['shop_id'] == 1) {
+				$QsOrder = D("QsOrderDetail");
 				$qs_detail = $QsOrder->getInfo(0, $order_info['id']);
 				$qsnotice_data = array(
-						"Operation"		=> "NoticePaySuccess",
-						"Order_Id"  	=> $order_info['third_order_no'],
-						"Transact_Id"	=> $order_info['id'],
-						"Transact_Time"	=> date('YmdHis'),
-						"Pay_Amount"	=> sprintf("%.2f", $amount/100),
-						"Mobile"		=> $qs_detail['mobile'],
+					"Operation" => "NoticePaySuccess",
+					"Order_Id" => $order_info['third_order_no'],
+					"Transact_Id" => $order_info['id'],
+					"Transact_Time" => date('YmdHis'),
+					"Pay_Amount" => sprintf("%.2f", $amount / 100),
+					"Mobile" => $qs_detail['mobile'],
 				);
-				\Think\Log::write(json_encode($qsnotice_data),'qs pay notice post');
+				\Think\Log::write(json_encode($qsnotice_data), 'qs pay notice post');
 				$qs_return = $Curl->postData(C('QSYZC_INTERFACE'), $qsnotice_data);
-				\Think\Log::write(json_encode($qs_return),'qs pay notice res');
+				\Think\Log::write(json_encode($qs_return), 'qs pay notice res');
 			}
 		}
 
 		//修改优惠券为已使用
 		if ($coupon_id) {
-			$update = array(
-				"order_id"  => $order_info['id'],
-				"used_time" => date("Y-m-d H:i:s")
-			);
-			$coupon_update_result = $UserCoupon->update($coupon_id, $update);
-			if(false === $coupon_update_result){
-				$this->ajaxReturn($Curl->failArr("E978"), "JSON");//优惠券信息更新失败
+			if(strpos($coupon_id,',')) {
+				$arr = explode(',', $coupon_id);
+				foreach ($arr as $v) {
+					$coupon_id_arr[] = intval($v);
+				}
+			}else{
+				$coupon_id_arr[]=intval($coupon_id);
 			}
+			$UserCoupon->startTrans();
+			foreach($coupon_id_arr as $c_id){
+				$update = array(
+					"order_id"  => $order_info['id'],
+					"used_time" => date("Y-m-d H:i:s")
+				);
+				$coupon_update_result = $UserCoupon->update($c_id, $update);
+				if(false === $coupon_update_result){
+					$UserCoupon->rollback();
+					$this->ajaxReturn($Curl->failArr("E978"), "JSON");//优惠券信息更新失败
+				}
+			}
+			$UserCoupon->commit();
 		}
 		
 		//构造返回数据
 		$ret_data = array(
-			"amount"		=> isset($coupon_info['amount']) ? ($amount-$coupon_info['amount']<0 ? 0 : $amount-$coupon_info['amount'] ) : $amount,
+			"amount"		=> isset($coupon_info_amount) ? ($amount-$coupon_info_amount<0 ? 0 : $amount-$coupon_info_amount ) : $amount,
 			"order_amount"	=> $amount,
 			"order_no"		=> $order_info['order_no'],
 			"order_id"		=> $order_info['id'],
