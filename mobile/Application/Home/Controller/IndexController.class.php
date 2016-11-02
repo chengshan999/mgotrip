@@ -4,6 +4,8 @@ use Think\Controller;
 class IndexController extends Controller {
     /*默认首页*/
     public function index(){
+        $currentCity=I('get.city','上海');
+        $this->assign('currentCity',$currentCity);
         $this->display();
     }
 

@@ -21,9 +21,12 @@
 </header>
 <!--魔购头部-->
 <!--魔购出行 star-->
-<div class="mgo_map_index">
+<div class="mgo_map_index" >
+    <div id="index_baidumap" style="height:100%;"></div>
     <a href="next_step_1.html" class="on_taxi">确定</a>
+    <img id="index_mid_logo" src="__PUBLIC__/mgotrip/images/home-location.png"  style="height:10%;" />
 </div>
+
 <div class="main_sm">
     <ul class="u_panel clearfix">
         <li class="clearfix li_p org">
@@ -147,6 +150,83 @@
             window.location.href = '__CONTROLLER__/origin';
         })
     });
+
+    /*百度地图相关start*/
+    /*创建地图对象 start*/
+    var map= new BMap.Map('index_baidumap');
+    map.centerAndZoom('{$currentCity}',10);
+    map.enableScrollWheelZoom();
+    map.disableInertialDragging();
+    /*创建地图对象 end*/
+
+    /*设置Poshtip控件并启动 start*/
+    function addPoshtip(msg){
+        $('#logo').poshytip({
+            content: msg,
+            className: 'tip-yellowsimple',
+            showOn: 'none',
+            alignTo: 'target',
+            alignX: 'center',//inner-left
+            offsetX: 0,
+            offsetY: 5
+        });
+        $('#logo').poshytip('show');
+    }
+    var firstMsg='定位中...';
+    addPoshtip(firstMsg);
+    /*设置Poshtip控件并启动 end*/
+
+    function updatePoshtip(msg){
+        $('#logo').poshytip('update',msg);
+    }
+
+    /*获取当前位置-定位start*/
+    var geolocation=new BMap.Geolocation();
+
+    geolocation.getCurrentPosition(function (r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            map.panTo(r.point);
+            map.setZoom(15);
+            geoc.getLocation(r.point,function(ci){
+                var addrinfo=ci.addressComponents;
+                var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
+                updatePoshtip(firstMsg);
+            });
+        }else{
+            var firstMsg='定位失败，拖动地图以选择起点！';
+            updatePoshtip(firstMsg);
+        }
+    },{enableHighAccuracy:true});
+    /*获取当前位置-定位end*/
+
+    /*定位箭头图标到地图中心点 start*/
+    var ww=document.getElementById('index_baidumap').offsetWidth;
+    var wh=document.getElementById('index_baidumap').offsetHeight;
+    var logo=document.getElementById('index_mid_logo');
+    var logow=logo.width;
+    var logoh=logo.height;
+    logo.style.position='absolute';
+    logo.style.bottom=wh/2+'px';
+    logo.style.left=(ww-logow)/2+'px';
+    /*定位箭头图标到地图中心点 end*/
+
+    /*获取中心点的地址信息 start*/
+    var geoc=new BMap.Geocoder();
+
+    function moveGetAddr(){
+        var cc=map.getCenter();
+        geoc.getLocation(cc,function(cic){
+            var addrinfoC=cic.addressComponents;//addressComponents
+            updatePoshtip(addrinfoC.province+addrinfoC.city+addrinfoC.district+addrinfoC.street+addrinfoC.streetNumber);
+        });
+    }
+    /*获取中心点的地址信息 start*/
+
+    /*添加移动监听事件*/
+    map.addEventListener('dragend',moveGetAddr);
+    map.addEventListener('touchmove',moveGetAddr);
+    /*百度地图相关end*/
+
 </script>
 </body>
 </html>
