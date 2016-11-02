@@ -1,0 +1,36 @@
+
+/*起始地*/
+.head_search{width:100%;background: #fff; padding:15px 20px; position: relative; border-bottom:1px solid #ddd; margin-top: 44px;}
+.head_search .my_citys{width: 45px; position: absolute; left: 10px; top: 18px; font-size: 16px; color: #000; border-right:1px solid #ffb546;}
+.input_searchs{position: relative;margin: 0px 25px 0px 43px;}
+
+.input_searchs .search_s{-webkit-user-select: initial; user-select: initial; -webkit-appearance: none; width: 100%; box-sizing: border-box; border-radius: 4px; height: 22px; line-height: 22px; font-size: 16px; padding: 6px 10px 4px 30px; color: #666}
+.head_search .cancle_btn{width: 32px; font-size: 16px; position: absolute; right: 10px; top: 18px; color: #4c4c4c;}
+.icon_search{position: absolute; left: 5px; top: 3px; width: 16px; height: 16px; background: url(../images/icon-search.png) no-repeat; background-size: cover;}
+.org_bj{background: url(../images/org_bj.png) no-repeat; height: 100%;width: 100%; background-size: 100% 100%; position: absolute;}
+
+.panel_ul{background: url(../images/bj_t2.png) no-repeat; width: 100%; height: auto; background-size: 100% 100%;}
+.panel_ul li{font-size: 15px;width: 100%;padding: 11px 20px 11px 13px; color: #4c4c4c; border-bottom: 1px solid #e4e4e4; position: relative;}
+.panel_ul li.current{background: #fff;}
+.panel_ul li.current i{background: url(../images/icon_right.png) no-repeat; width: 30px; height: 19px; background-size: cover; display: inline-block; position: absolute; right: 10px; top: 50%; margin-top:-9.5px;}
+.panel_ul li .map{background: url(../images/img_location.png) no-repeat; width: 19px; height: 19px; background-size: cover; display: inline-block; vertical-align: bottom; margin-left: 8px;}
+/*针对iphone4及ipone5*/
+@media screen and (max-device-width:320px){  
+.input_searchs{position: relative;margin: 2px 25px 0px 43px;}
+.icon_search{position: absolute; left: 5px; top: 5px; width: 16px; height: 16px; background: url(../images/icon-search.png) no-repeat; background-size: cover;}
+}  
+/*针对三星系列*/
+@media screen and (min-device-width: 321px) and (max-device-width: 360px){
+.input_searchs{position: relative;margin: 2px 25px 0px 43px;}
+.icon_search{position: absolute; left: 5px; top: 5px; width: 16px; height: 16px; background: url(../images/icon-search.png) no-repeat; background-size: cover;}
+}
+/*针对iphone6*/
+@media screen and (min-device-width: 361px) and (max-device-width: 375px){
+.input_searchs{position: relative;margin: 2px 25px 0px 43px;}
+.icon_search{position: absolute; left: 5px; top: 5px; width: 16px; height: 16px; background: url(../images/icon-search.png) no-repeat; background-size: cover;}
+}
+/*针对iphone6p*/
+@media screen and (min-device-width: 376px) and (max-device-width: 414px){
+.input_searchs{position: relative;margin: 2px 25px 0px 43px;}
+.icon_search{position: absolute; left: 5px; top: 5px; width: 16px; height: 16px; background: url(../images/icon-search.png) no-repeat; background-size: cover;}
+}

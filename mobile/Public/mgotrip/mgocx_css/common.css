@@ -1,0 +1,22 @@
+body{width: 100%; font-size: 12px;margin: 0; padding:0; border: 0; height: 100%;  font-style: normal;font-family: Verdana,"SimSun","Microsoft YaHei";}
+ul,li,p{list-style: none; margin: 0; padding:0;}
+dl,dt,dd{font-size: 12px; border: 0; list-style: none; margin: 0; padding:0; font-style: normal;}
+img{display: inline-block; margin: 0px; padding:0px;}
+html,body{-webkit-text-size-adjust:none;height:100%;width:100%;}/* 设置webkit内核下文字大小不小于12px */
+a,button,input{-webkit-touch-callout:none;outline:none;}/* 禁止长按链接、按钮、输入框出现系统默认弹框菜单 */
+h1, h2, h3, h4, h5, h6, input, textarea, select, button, label, address, caption, cite, code, em, strong, var {font-weight: normal; font-style: normal; font-size: 12px;margin: 0; padding:0; font:"Helvetica Neue","Microsoft Yahei",sans-serif} 
+a {color:#000;text-decoration: none; -webkit-transition: color 0.3s ease-in-out; transition: color 0.3s ease-in-out; } i{font-style: normal;} 
+.clearfix:before, .clearfix:after {content: " "; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0; clear: both; }
+input, textarea, select {border: none; outline: none; -webkit-tap-highlight-color: rgba(255,255,255,0); background: #fff; }
+input[type=button],input[type=number], input[type=submit],input[type=submit], input[type=file], button { cursor: pointer; -webkit-appearance: none;}  
+section {max-width: 640px; margin: 0px auto;}
+* {tap-highlight-color: rgba(0,0,0,0); -webkit-tap-highlight-color: rgba(0,0,0,0); -ms-tap-highlight-color: rgba(0,0,0,0);box-sizing: border-box;-webkit-box-sizing: border-box;}
+.content {position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+
+/*标题*/
+header{background: #212121; height: 44px; line-height: 44px; text-align: center; margin:0 auto; position: absolute; top: 0; left: 0; width: 100%; z-index: 2;}
+.arrow_r{left: 20px; position: absolute; top: 12px; background: url(../images/arrow_r.png); width: 11px; height: 20px; background-size: cover; display: inline-block;}
+.arrow_canel{left: 20px; position: absolute; top: 0; font-size: 16px; color: #fff;display: inline-block;}
+.head_bar .c_txt{text-align: center; font-size: 18px; color: #fff; font-weight: bold; font-family: '黑体'}
+.head_bar .user_login{background: url(../images/login.png) no-repeat; display: inline-block; position: absolute; right: 20px; top: 12px; width: 20px; height: 20px; background-size: cover;}
+.clear_record{text-align: center; display: block; padding:10px 0px; font-size: 14px;}
