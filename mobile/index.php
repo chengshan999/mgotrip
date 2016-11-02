@@ -17,8 +17,6 @@ define('APP_DEBUG', true);
 define('APP_PATH','./Application/');
 
 // 引入ThinkPHP入口文件
-require APP_PATH.'Common/Conf/define_test.php';
-require APP_PATH.'Common/Conf/constant.php';
 require '../service/v1.0/tp/ThinkPHP.php';
 
 // 亲^_^ 后面不需要任何代码了 就是如此简单1
