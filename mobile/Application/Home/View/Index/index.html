@@ -14,154 +14,53 @@
 
 <include file="Public/cite" />
 
+<style type="text/css">
+    .move_to_left{
+        position:absolute;
+        top:0;
+        left:-100%;
+    }
+</style>
 <body>
-<header class="head_bar">
-    <span class="c_txt">M-GO</span>
-    <a href="javascript:void(0)" class="user_login"></a>
-</header>
-<!--魔购头部-->
-<!--魔购出行 star-->
-<div class="mgo_map_index" >
-    <div id="index_baidumap" style="height:100%;"></div>
-    <a href="next_step_1.html" class="on_taxi">确定</a>
-    <img id="index_mid_logo" src="__PUBLIC__/mgotrip/images/home-location.png"  style="height:10%;" />
-</div>
+<div id="page_index" style="width:100%;height:100%;">
+    <header class="head_bar">
+        <span class="c_txt">M-GO</span>
+        <a href="javascript:void(0)" class="user_login"></a>
+    </header>
+    <!--魔购头部-->
+    <!--魔购出行 star-->
+    <div class="mgo_map_index" >
+        <div id="index_baidumap" style="height:100%;"></div>
+        <a href="next_step_1.html" class="on_taxi">确定</a>
+        <img id="index_mid_logo" src="__PUBLIC__/mgotrip/images/home-location.png"  style="height:10%;" />
+    </div>
 
-<div class="main_sm">
-    <ul class="u_panel clearfix">
-        <li class="clearfix li_p org">
-            <span class="icon_s"></span>
-            <input type="text" class="s_areas" disabled placeholder="请输入初始位置" />
-        </li>
-        <li class="clearfix li_p des" style="border-bottom: 0;">
-            <span class="icon_e"></span>
-            <input type="text" class="s_areas" disabled placeholder="请输入目的地"/>
-        </li>
-    </ul>
-</div>
-<!--登录框 star-->
-<div class="shade3_box">
-    <div class="login_box" id="login_box">
-        <div class="login_bar">
-            <h3>验证手机</h3>
-            <a href="javascript:void(0)" class="btn-close-box"></a>
-            <!--表单star-->
-            <div class="form-box">
-                <div class="form-label">
-                    <input type="tel" name="" placeholder="请输入手机号" class="form-input mobile" />
-                </div>
-                <div class="form-label">
-                    <input type="number" name="" placeholder="请输入验证码" class="form-input smaller codes" />
-                    <!-- <i class="close_i"></i>
-                -->
-                    <span class="r_text">获取验证码</span>
-                </div>
-                <a href="javascript:void(0)" class="login_btns" disabled="disabled">登录</a>
-            </div>
-        </div>
+    <div class="main_sm">
+        <ul class="u_panel clearfix">
+            <li class="clearfix li_p org">
+                <span class="icon_s"></span>
+                <input type="text" class="s_areas" id="index_input_start" lng="" lat="" disabled placeholder="请输入初始位置" />
+            </li>
+            <li class="clearfix li_p des" style="border-bottom: 0;">
+                <span class="icon_e"></span>
+                <input type="text" class="s_areas" id="index_input_end"  lng="" lat="" disabled placeholder="请输入目的地"/>
+            </li>
+        </ul>
     </div>
 </div>
+
+<!--加载设置起始点页面-->
+<include file="Index/origin" />
+
+<!--加载登陆框-->
+<include file="Public/user_login" />
+
+
 <script type="text/javascript">
-    $(function(){
-        $('.user_login').click(function(){
-            $('.shade3_box').slideDown();
-            $('body').addClass('hidden');
-        });
-        $('.btn-close-box').click(function(){
-            $('.shade3_box').hide();
-            $('body,.main_sm').removeClass('hidden');
-            window.location.reload();
-        });
-        $('.form-input').each(function(){
-            if($(this).val() ==''){
-                $('.login_btns').removeClass('login_on');
-                $('.login_btns').attr("disabled","disabled")
-                return false;
-            }  else{
-                $('.login_btns').addClass('login_on');
-                $('.login_btns').removeAttr("disabled");
-            }
-        });
-        $(".form-input").keyup("input", function() {
-            var parents =  $(this).parents('.form-box');
-            parents.find('.form-input').each(function(e){
-                if($(this).val() == ''){
-                    $('.login_btns').removeClass('login_on');
-                    $('.login_btns').attr("disabled","disabled")
-                    return false;
-                }
-                $('.login_btns').addClass('login_on');
-                $('.login_btns').removeAttr("disabled");
-
-            })
-        });
-
-        $('.login_btns').on('click',function(){
-            if($(this).attr('disabled') == 'disabled'){
-                return;
-            }else{
-                var mobile = $.trim($('.mobile').val());
-                var codes = $.trim($('.codes').val());
-                var number = /^(1[3578]\d|14[57])[0-9]{8}$/;
-                if(!mobile){
-                    layer.open({
-                        content: '请填写手机号码',
-                        btn: ['确认', '取消']
-                    });
-                    return false;
-                }else if(!number.test(mobile)){
-                    // alert('请输入正确的手机号');
-                    layer.open({
-                        content: '请输入正确的手机号',
-                        btn: ['确认', '取消']
-                    });
-                }
-                if(!codes){
-                    layer.open({
-                        content: '请填写验证码',
-                        btn: ['确认', '取消']
-                    });
-
-                    return false;
-                }
-            }
-
-        })
-        $('.r_text').click(function(){
-            var mobile = $.trim($('.mobile').val());
-            var number = /^(1[3578]\d|14[57])[0-9]{8}$/;
-            if(!mobile){
-                layer.open({
-                    content: '请填写手机号码',
-                    btn: ['确认', '取消']
-                });
-                return false;
-            }else if(!number.test(mobile)){
-                layer.open({
-                    content: '请输入正确的手机号',
-                    btn: ['确认', '取消']
-                });
-            }
-        })
-        $('.u_panel li.des').click(function(){
-            window.location.href = '__CONTROLLER__/destination';
-        })
-        $('.u_panel li.org').click(function(){
-            window.location.href = '__CONTROLLER__/origin';
-        })
-    });
-
-    /*百度地图相关start*/
-    /*创建地图对象 start*/
-    var map= new BMap.Map('index_baidumap');
-    map.centerAndZoom('{$currentCity}',10);
-    map.enableScrollWheelZoom();
-    map.disableInertialDragging();
-    /*创建地图对象 end*/
-
-    /*设置Poshtip控件并启动 start*/
+    /*page_index start*******************************************/
+    /*更新气泡信息和起始位置start*/
     function addPoshtip(msg){
-        $('#logo').poshytip({
+        $('#index_mid_logo').poshytip({
             content: msg,
             className: 'tip-yellowsimple',
             showOn: 'none',
@@ -170,35 +69,22 @@
             offsetX: 0,
             offsetY: 5
         });
-        $('#logo').poshytip('show');
+        $('#index_mid_logo').poshytip('show');
     }
-    var firstMsg='定位中...';
-    addPoshtip(firstMsg);
-    /*设置Poshtip控件并启动 end*/
-
-    function updatePoshtip(msg){
-        $('#logo').poshytip('update',msg);
+    function updatePoshtip(msg,lng,lat){
+        $('#index_mid_logo').poshytip('update',msg);
+        $('#index_input_start').val(msg);
+        $('#index_input_start').attr('lng',lng);
+        $('#index_input_start').attr('lat',lat);
     }
+    /*更新气泡信息和起始位置end*/
+    /*创建地图对象 start*/
+    var map= new BMap.Map('index_baidumap');
+    map.centerAndZoom('{$currentCity}',15);
+    map.enableScrollWheelZoom(true);
+    map.disableInertialDragging();
 
-    /*获取当前位置-定位start*/
-    var geolocation=new BMap.Geolocation();
-
-    geolocation.getCurrentPosition(function (r){
-        if(this.getStatus() == BMAP_STATUS_SUCCESS){
-            map.panTo(r.point);
-            map.setZoom(15);
-            geoc.getLocation(r.point,function(ci){
-                var addrinfo=ci.addressComponents;
-                var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
-                updatePoshtip(firstMsg);
-            });
-        }else{
-            var firstMsg='定位失败，拖动地图以选择起点！';
-            updatePoshtip(firstMsg);
-        }
-    },{enableHighAccuracy:true});
-    /*获取当前位置-定位end*/
-
+//    writeObj(G('index_baidumap'));
     /*定位箭头图标到地图中心点 start*/
     var ww=document.getElementById('index_baidumap').offsetWidth;
     var wh=document.getElementById('index_baidumap').offsetHeight;
@@ -210,14 +96,45 @@
     logo.style.left=(ww-logow)/2+'px';
     /*定位箭头图标到地图中心点 end*/
 
-    /*获取中心点的地址信息 start*/
     var geoc=new BMap.Geocoder();
 
+    /*设置Poshtip控件并启动 start*/
+    addPoshtip('定位中...');
+    $('#index_input_start').val('定位中...');
+    /*设置Poshtip控件并启动 end*/
+
+    /*获取当前位置-定位start*/
+    var geolocation=new BMap.Geolocation();
+
+    geolocation.getCurrentPosition(function (r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            //map.panTo(r.point);
+            map.centerAndZoom(r.point,15);
+            //map.addOverlay(new BMap.Marker(r.point));
+            geoc.getLocation(r.point,function(ci){
+                var addrinfo=ci.addressComponents;
+                var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
+                updatePoshtip(firstMsg,r.point.lng,r.point.lat);
+            });
+        }else{
+            var firstMsg='定位失败，拖动地图以选择起点！';
+            updatePoshtip(firstMsg,0,0);
+        }
+    },{enableHighAccuracy:true});
+    /*获取当前位置-定位end*/
+
+    /*创建地图对象 end*/
+
+    /*获取中心点的地址信息 start*/
     function moveGetAddr(){
         var cc=map.getCenter();
         geoc.getLocation(cc,function(cic){
             var addrinfoC=cic.addressComponents;//addressComponents
-            updatePoshtip(addrinfoC.province+addrinfoC.city+addrinfoC.district+addrinfoC.street+addrinfoC.streetNumber);
+            updatePoshtip(
+                    addrinfoC.province+addrinfoC.city+addrinfoC.district+addrinfoC.street+addrinfoC.streetNumber,
+                    cc.lng,
+                    cc.lat
+            );
         });
     }
     /*获取中心点的地址信息 start*/
@@ -225,8 +142,118 @@
     /*添加移动监听事件*/
     map.addEventListener('dragend',moveGetAddr);
     map.addEventListener('touchmove',moveGetAddr);
-    /*百度地图相关end*/
 
+    $(function(){
+        $('#page_origin').hide();
+        $('.u_panel li.org').click(function(){
+            $('#index_mid_logo').poshytip('hide');
+            $('#origin_indexInputStart').text($('#index_input_start').val());
+            $('#page_origin').show();
+            $('#page_index').addClass('move_to_left');
+            //$('#page_origin').css({'position':'absolute','top':0,'left':0,'z-index':100});
+
+            $.ajax({
+                url:'__CONTROLLER__/getAddr',
+                success:function (e){
+                    if(e && e!=''){
+                        var list=e+'<a href="javascript:void(0)" class="clear_record">清空历史记录</a>';
+                        $('#origin_histroyList_div').html(list);
+                        $('.origin_histroyList_li').on('click',originJumpHistroy);
+                    }
+                }
+            });
+        })
+
+        $('.u_panel li.des').click(function(){
+            var indexInputEnd=$('#index_input_end').val();
+            //window.location.href = '__CONTROLLER__/destination?indexInputEnd='+indexInputEnd;
+        })
+
+    });
+    /*page_index end********************************************/
+
+    /*page_origin start****************************************/
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+            {"input" : "origin_input_start"
+                ,"location" : map
+            });
+    /*ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("origin_searchResultPanel").innerHTML = str;
+    });*/
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("origin_searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        setPlace();
+    });
+
+    function setPlace(){
+        map.clearOverlays();    //清除地图上所有覆盖物
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            updatePoshtip(myValue,pp.lng,pp.lat);
+            $('#page_origin').hide();
+            $('#index_mid_logo').poshytip('show');
+            $('#page_index').removeClass('move_to_left');
+            //writeObj(pp);
+            map.setZoom(15);
+            map.panTo(pp);
+//            map.centerAndZoom(pp, 15);
+            //map.addOverlay(new BMap.Marker(pp));
+            ajaxRequest('__CONTROLLER__/saveAddr',{addr:myValue,lng:pp.lng,lat:pp.lat});
+
+            //map.addOverlay(new BMap.Marker(pp));    //添加标注
+        }
+        var local = new BMap.LocalSearch(map, {
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+
+    function ajaxRequest(url,data){
+        $.ajax({
+            url:url,
+            type:'post',
+            data:data
+        });
+    }
+
+        function originJumpHistroy(){
+            $(this).addClass('current').siblings().removeClass('current');
+            var lng=$(this).attr('lng');
+            var lat=$(this).attr('lat');
+            $('#page_origin').hide();
+            $('#page_index').removeClass('move_to_left');
+//            map.setZoom(15);
+//            map.panTo(new BMap.Point(lng,lat));
+//            map.centerAndZoom(new BMap.Point(lng,lat), 15);
+            map.setZoom(15);
+            map.panTo(new BMap.Point(lng,lat));
+
+            //map.addOverlay(new BMap.Marker(new BMap.Point(lng,lat)));
+            updatePoshtip($(this).text(),lng,lat);
+            $('#index_mid_logo').poshytip('show');
+        }
+    /*page_origin end**********************************/
 </script>
 </body>
 </html>
