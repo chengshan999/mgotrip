@@ -19,6 +19,7 @@ require(ROOT_PATH.'common/check.class.php');
 //define('APP_SITE',       'http://192.168.1.101:8088/v1.0/mgotrip/');//PHP主功能后端入口
 define('APP_SITE',         'http://localhost/mgotrip/service/v1.0/app/');
 define('USER_SITE',        'http://192.168.1.30:8080/');
+//define('USER_SITE',        'http://qs.test.yufu365.com/');
 //define('USER_SITE',      'http://192.168.1.101:8080/');//用户系统后端入口
 define('MSG_SITE',         'http://112.124.103.15:8080/');//短信发送入口
 

@@ -24,6 +24,7 @@
 <body>
 <div id="page_index" style="width:100%;height:100%;">
     <header class="head_bar">
+        <a href="javascript:void(0)" class="arrow_r index_jumpout_need_show" back_to="" style="display:none;"></a>
         <span class="c_txt">M-GO</span>
         <a href="javascript:void(0)" class="user_login"></a>
     </header>
@@ -31,11 +32,11 @@
     <!--魔购出行 star-->
     <div class="mgo_map_index" >
         <div id="index_baidumap" style="height:100%;"></div>
-        <a href="next_step_1.html" class="on_taxi">确定</a>
+        <a href="javascript:void(0);" class="on_taxi index_jumpout_need_hide" style="color:#fff;">现在叫车</a>
         <img id="index_mid_logo" src="__PUBLIC__/mgotrip/images/home-location.png"  style="height:10%;" />
     </div>
 
-    <div class="main_sm">
+    <div class="main_sm index_jumpout_need_hide">
         <ul class="u_panel clearfix">
             <li class="clearfix li_p org">
                 <span class="icon_s"></span>
@@ -47,14 +48,40 @@
             </li>
         </ul>
     </div>
+    <!--加载next_step_1.html的内容-->
+    <include file="Index/next_step_1"/>
+    <!--加载add_passenger.html的内容-->
+    <include file="Index/add_passenger"/>
+    <!--加载passenger.html的内容-->
+    <include file="Index/passenger"/>
+    <!--加载payment.html的内容-->
+    <include file="Index/payment"/>
 </div>
 
 <!--加载设置起始点页面-->
 <include file="Index/origin" />
 
+<!--加载设置目的地页面-->
+<include file="Index/destination" />
+
 <!--加载登陆框-->
 <include file="Public/user_login" />
-
+<form method="post" id="index_form_qsOrderCreate">
+<input type="hidden" name="car_type" id="order_create_car_type" value=""/>
+<input type="hidden" name="aboard_near" id="order_create_aboard_near" value=""/>
+<input type="hidden" name="desti_latitude" id="order_create_desti_latitude" value=""/>
+<input type="hidden" name="desti_longitude" id="order_create_desti_longitude" value=""/>
+<input type="hidden" name="destination" id="order_create_destination" value=""/>
+<input type="hidden" name="fare_fee" id="order_create_fare_fee" value=""/>
+<input type="hidden" name="gender" id="order_create_gender" value=""/>
+<input type="hidden" name="latitude" id="order_create_latitude" value=""/>
+<input type="hidden" name="longitude" id="order_create_longitude" value=""/>
+<input type="hidden" name="location" id="order_create_location" value=""/>
+<input type="hidden" name="mobile" id="order_create_mobile" value=""/>
+<input type="hidden" name="name" id="order_create_name" value=""/>
+<input type="hidden" name="order_no" id="order_create_order_no" value=""/>
+<input type="hidden" name="passenger_id" id="order_create_passenger_id" value=""/>
+</form>
 
 <script type="text/javascript">
     /*page_index start*******************************************/
@@ -92,7 +119,7 @@
     var logow=logo.width;
     var logoh=logo.height;
     logo.style.position='absolute';
-    logo.style.bottom=wh/2+'px';
+    logo.style.bottom=((wh/2)-(logoh*1/10))+'px';
     logo.style.left=(ww-logow)/2+'px';
     /*定位箭头图标到地图中心点 end*/
 
@@ -109,8 +136,7 @@
     geolocation.getCurrentPosition(function (r){
         if(this.getStatus() == BMAP_STATUS_SUCCESS){
             //map.panTo(r.point);
-            map.centerAndZoom(r.point,15);
-            //map.addOverlay(new BMap.Marker(r.point));
+            map.centerAndZoom(r.point,18);
             geoc.getLocation(r.point,function(ci){
                 var addrinfo=ci.addressComponents;
                 var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
@@ -144,116 +170,233 @@
     map.addEventListener('touchmove',moveGetAddr);
 
     $(function(){
+        $('#page_des').hide();
         $('#page_origin').hide();
+        /*点击起始位置事件*/
         $('.u_panel li.org').click(function(){
             $('#index_mid_logo').poshytip('hide');
             $('#origin_indexInputStart').text($('#index_input_start').val());
             $('#page_origin').show();
             $('#page_index').addClass('move_to_left');
-            //$('#page_origin').css({'position':'absolute','top':0,'left':0,'z-index':100});
-
             $.ajax({
                 url:'__CONTROLLER__/getAddr',
+                type:'get',
+                data:{act:'org'},
                 success:function (e){
                     if(e && e!=''){
-                        var list=e+'<a href="javascript:void(0)" class="clear_record">清空历史记录</a>';
+                        var list=e+'<a href="javascript:void(0)" class="clear_record" id="origin_clear_record">清空历史记录</a>';
                         $('#origin_histroyList_div').html(list);
-                        $('.origin_histroyList_li').on('click',originJumpHistroy);
+                        $('.origin_histroyList_li').on('click',{page:'org'},jumpToHistroy);
+                        $('#origin_clear_record').on('click',{page:'org'},clearRecord);
                     }
                 }
             });
+            jumpSearchIndex('origin_input_start','origin_searchResultPanel','page_origin','org');
         })
-
+        /*点击终点位置事件*/
         $('.u_panel li.des').click(function(){
-            var indexInputEnd=$('#index_input_end').val();
-            //window.location.href = '__CONTROLLER__/destination?indexInputEnd='+indexInputEnd;
-        })
-
+            $('#index_mid_logo').poshytip('hide');
+            //$('#des_indexInputStart').text($('#index_input_end').val());
+            $('#page_des').show();
+            $('#page_index').addClass('move_to_left');
+            $.ajax({
+                url:'__CONTROLLER__/getAddr',
+                type:'get',
+                data:{act:'des'},
+                success:function (e){
+                    if(e && e!=''){
+                        var list=e+'<a href="javascript:void(0)" class="clear_record" id="des_clear_record">清空历史记录</a>';
+                        $('#des_histroyList_ul').html(list);
+                        $('.des_histroyList_li').on('click',{page:'des'},jumpToHistroy);
+                        $('#des_clear_record').on('click',{page:'des'},clearRecord);
+                    }
+                }
+            });
+            jumpSearchIndex('des_input_end','des_searchResultPanel','page_des','des');
+        });
+        $('.on_taxi.index_jumpout_need_hide').click(function(){
+            $('#index_mid_logo').poshytip('hide');
+            $('.arrow_r.index_jumpout_need_show').attr('back_to','index');
+            $('.index_jumpout_need_hide').hide();
+            $('.index_jumpout_need_show').show();
+            $('#nextStep_input_start').val($('#index_input_start').val());
+            $('#nextStep_input_end').val($('#index_input_end').val());
+        });
+        $('.arrow_r.index_jumpout_need_show').click(function(){
+            var backTo=$(this).attr('back_to');
+            switch(backTo){
+                case 'index':
+                    $('.arrow_r.index_jumpout_need_show').attr('back_to','');
+                    $('.index_jumpout_need_hide').show();
+                    $('.index_jumpout_need_show').hide();
+                    $('#index_mid_logo').poshytip('show');
+                    break;
+                case 'nextStep':
+                    $('#page_nextStep').show();
+                    $('#page_addPassenger').hide();
+                    $('.arrow_r.index_jumpout_need_show').attr('back_to','index');
+                    break;
+                case 'addPassenger':
+                    $('#page_addPassenger').show();
+                    $('#page_passenger').hide();
+                    $('#page_payment').hide();
+                    $('.arrow_r.index_jumpout_need_show').attr('back_to','nextStep');
+                    break;
+                case 'passenger':
+                    $('#page_passenger').show();
+                    $('#page_payment').hide();
+                    $('.arrow_r.index_jumpout_need_show').attr('back_to','addPassenger');
+                    break;
+                case '':
+                    break;
+                case '':
+                    break;
+                case '':
+                    break;
+                case '':
+                    break;
+                default:
+                    break;
+            }
+        });
     });
     /*page_index end********************************************/
 
     /*page_origin start****************************************/
-    function G(id) {
-        return document.getElementById(id);
-    }
-
-    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
-            {"input" : "origin_input_start"
-                ,"location" : map
-            });
-    /*ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
-        var str = "";
-        var _value = e.fromitem.value;
-        var value = "";
-        if (e.fromitem.index > -1) {
-            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-        }
-        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
-
-        value = "";
-        if (e.toitem.index > -1) {
-            _value = e.toitem.value;
-            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-        }
-        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
-        G("origin_searchResultPanel").innerHTML = str;
-    });*/
-    var myValue;
-    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
-        var _value = e.item.value;
-        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-        G("origin_searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-        setPlace();
+    /*点击当前定位位置事件*/
+    $('#origin_indexInputStart').click(function (){
+        $('#index_input_start').val($(this).text());
+        $('#page_index').removeClass('move_to_left');
+        $('#page_origin').hide();
+        $('#index_mid_logo').poshytip('show');
     });
+    /*绑定取消键点击事件*/
+    $('.org_cancel_page').on('click',{page:'org'},cancelPage);
+    /*page_origin end**********************************/
 
-    function setPlace(){
-        map.clearOverlays();    //清除地图上所有覆盖物
-        function myFun(){
-            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-            updatePoshtip(myValue,pp.lng,pp.lat);
-            $('#page_origin').hide();
-            $('#index_mid_logo').poshytip('show');
-            $('#page_index').removeClass('move_to_left');
-            //writeObj(pp);
-            map.setZoom(15);
-            map.panTo(pp);
-//            map.centerAndZoom(pp, 15);
-            //map.addOverlay(new BMap.Marker(pp));
-            ajaxRequest('__CONTROLLER__/saveAddr',{addr:myValue,lng:pp.lng,lat:pp.lat});
+    /*page_des start********************************/
+    /*绑定取消键点击事件*/
+    $('.des_cancel_page').on('click',{page:'des'},cancelPage);
+    /*page_des end********************************/
 
-            //map.addOverlay(new BMap.Marker(pp));    //添加标注
+    /**************************************公共函数start*********************/
+    /*弹出百度地图关键字搜索索引*/
+    function jumpSearchIndex(input,searchResultPanel,pageId,act){
+        /*alert(input+','+searchResultPanel+','+pageId+','+act);*/
+        if(act=='org'){
+            var orgAc = new BMap.Autocomplete(    //建立一个自动完成的对象
+                    {"input" : input
+                        ,"location" : map
+                    });
+            orgAc.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+                var _valueOrg = e.item.value;
+                var orgValue = _valueOrg.province +  _valueOrg.city +  _valueOrg.district +  _valueOrg.street +  _valueOrg.business;
+                G(searchResultPanel).innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + orgValue;
+                map.clearOverlays();
+                function orgFun(){
+                    var orgPp = orgLocal.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+                    $('#page_index').removeClass('move_to_left');
+                    $('#'+pageId).hide();
+                    map.centerAndZoom(orgPp, 18);
+                    $('#index_mid_logo').poshytip('show');
+                    updatePoshtip(orgValue,orgPp.lng,orgPp.lat);
+                    ajaxRequest('__CONTROLLER__/saveAddr',{addr:orgValue,lng:orgPp.lng,lat:orgPp.lat,act:act});
+                }
+                var orgLocal = new BMap.LocalSearch(map, {
+                    onSearchComplete: orgFun
+                });
+                orgLocal.search(orgValue);
+            });
+        }else if(act=='des'){
+            var desAc = new BMap.Autocomplete(    //建立一个自动完成的对象
+                    {"input" : input
+                        ,"location" : map
+                    });
+            desAc.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+                var _valueDes = e.item.value;
+                var desValue = _valueDes.province +  _valueDes.city +  _valueDes.district +  _valueDes.street +  _valueDes.business;
+                G(searchResultPanel).innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + desValue;
+                map.clearOverlays();
+                function desFun(){
+                    var desPp = desLocal.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+                    $('#page_index').removeClass('move_to_left');
+                    $('#'+pageId).hide();
+                    $('#index_mid_logo').poshytip('show');
+                    $('#index_input_end').val(desValue);
+                    $('#index_input_end').attr('lng',desPp.lng);
+                    $('#index_input_end').attr('lat',desPp.lat);
+                    ajaxRequest('__CONTROLLER__/saveAddr',{addr:desValue,lng:desPp.lng,lat:desPp.lat,act:act});
+                }
+                var desLocal = new BMap.LocalSearch(map, {
+                    onSearchComplete: desFun
+                });
+                desLocal.search(desValue);
+            });
         }
-        var local = new BMap.LocalSearch(map, {
-            onSearchComplete: myFun
-        });
-        local.search(myValue);
+        function ajaxRequest(url,data){
+            $.ajax({
+                url:url,
+                type:'post',
+                data:data
+            });
+        }
     }
-
-    function ajaxRequest(url,data){
-        $.ajax({
-            url:url,
-            type:'post',
-            data:data
-        });
-    }
-
-        function originJumpHistroy(){
+    /*点击历史纪录事件*/
+    function jumpToHistroy(event){
+        if(event.data.page=='org'){
             $(this).addClass('current').siblings().removeClass('current');
             var lng=$(this).attr('lng');
             var lat=$(this).attr('lat');
-            $('#page_origin').hide();
             $('#page_index').removeClass('move_to_left');
-//            map.setZoom(15);
-//            map.panTo(new BMap.Point(lng,lat));
-//            map.centerAndZoom(new BMap.Point(lng,lat), 15);
-            map.setZoom(15);
-            map.panTo(new BMap.Point(lng,lat));
-
-            //map.addOverlay(new BMap.Marker(new BMap.Point(lng,lat)));
+            $('#page_origin').hide();
+            map.centerAndZoom(new BMap.Point(lng,lat), 18);
+            $('#index_mid_logo').poshytip('show');
             updatePoshtip($(this).text(),lng,lat);
+        }else if(event.data.page='des'){
+            $(this).addClass('current').siblings().removeClass('current');
+            var lng=$(this).attr('lng');
+            var lat=$(this).attr('lat');
+            $('#page_index').removeClass('move_to_left');
+            $('#page_des').hide();
+            $('#index_mid_logo').poshytip('show');
+            $('#index_input_end').val($(this).text());
+            $('#index_input_end').attr('lng',lng);
+            $('#index_input_end').attr('lat',lat);
+        }
+    }
+    /*取消当前页*/
+    function cancelPage(event){
+        if(event.data.page=='org'){
+            $('#page_index').removeClass('move_to_left');
+            $('#page_origin').hide();
+            $('#index_mid_logo').poshytip('show');
+        }else if(event.data.page='des'){
+            $('#page_index').removeClass('move_to_left');
+            $('#page_des').hide();
             $('#index_mid_logo').poshytip('show');
         }
-    /*page_origin end**********************************/
+    }
+    /*清空历史纪录*/
+    function clearRecord(event){
+        $.ajax({
+            url: '__CONTROLLER__/unsetHistroyListCookie',
+            type: 'get',
+            data: {act: event.data.page},
+            success:function(){
+                if(event.data.page=='org'){
+                    $('#origin_histroyList_div').empty();
+                }else if(event.data.page='des'){
+                    $('#des_histroyList_ul').empty();
+                }
+            }
+        });
+    }
+    /*获取标签对象*/
+    function G(id) {
+        return document.getElementById(id);
+    }
+    /*****************************公共函数end*****************************************/
+
 </script>
 </body>
 </html>

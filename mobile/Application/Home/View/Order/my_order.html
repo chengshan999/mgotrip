@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>我的订单</title>
+    <meta name="viewport" content="width=device-width ,initial-scale=1, maximum-scale=1, user-scalable=yes, minimal-ui">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="full-screen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <include file="Public/cite" />
+</head>
+<body>
+    <!-- top -->
+    <header class="head_bar">
+        <a href="javascript:void(0)" class="arrow_r myOrder_cancel_page"></a>
+        <span class="c_txt">我的订单</span>
+    </header>
+    <!-- section -->
+    <section class="content">
+        <div class="viewport">
+            <!-- 订单的tab栏 -->
+            <div class="my_order">
+                <ul class="my_order_list" status="{$status}">
+                    <li class="current order_tabs" status="0">
+                        <a href="javascript:;">全部订单</a> <i></i>
+                    </li>
+                    <li class="order_tabs" status="1">
+                        <a href="javascript:;">未完成</a> <i></i>
+                    </li>
+                    <li class="order_tabs" status="-1">
+                        <a href="javascript:;">已取消</a>
+                        <i></i>
+                    </li>
+                    <li class="order_tabs" status="2">
+                        <a href="javascript:;">已完成</a>
+                        <i></i>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 几种状态 -->
+            <div class="my_order_items tab3_box">
+                <present name="rows">
+                <foreach name="rows" item="row">
+                    <switch name="row:status">
+                        <case value="1"><!--未完成-->
+                            <div class="dn">
+                                <ul class="in_items">
+                                    <li class="items_t">
+                                        <span class="oder_date">{$row->date|substr=###,0,9}</span>
+                                        <span class="oder_time">{$row->date|substr=###,11}</span>
+                                        <span class="oder_status fr">未完成</span>
+                                    </li>
+
+                                    <a href="__CONTROLLER__/orderDetail?orderNo={$row->order_no}&status={$status}">
+                                        <li class="items_m">
+                                            <p> <strong class='c4d'>{$row->shop}</strong>
+                                                <strong class='c333'>订单号：{$row->order_no}</strong>
+                                            </p>
+
+                                            <i><img class="fr" src="__PUBLIC__/mgotrip/images/arrow_r.png" alt=""/></i>
+                                        </li>
+                                    </a>
+
+                                    <li class="order_pay_btn" order_no="{$row->order_no}">
+                                        <a href="javascript:;">支付</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </case>
+                        <case value="-1"><!--已取消-->
+                            <div class="dn">
+                                <ul class="in_items">
+                                    <li class="items_t">
+                                        <span class="oder_date">{$row->date|substr=###,0,9}</span>
+                                        <span class="oder_time">{$row->date|substr=###,11}</span>
+                                        <span class="oder_status fr">已取消</span>
+                                    </li>
+
+                                    <a href="__CONTROLLER__/orderDetail?orderNo={$row->order_no}&status={$status}">
+                                        <li class="items_m">
+                                            <p>
+                                                <strong class='c4d'>{$row->shop}</strong>
+                                                <strong class='c333'>订单号：{$row->order_no}</strong>
+                                            </p>
+
+                                            <i><img class="fr" src="__PUBLIC__/mgotrip/images/arrow_r.png" alt=""/></i>
+                                        </li>
+                                    </a>
+
+                                    <li class="dingdan_icon_delete">
+                            <span class="delbtn" order_no="{$row->order_no}">
+                                <img src="__PUBLIC__/mgotrip/images/dingdan_icon_delete.png" alt=""/>
+                            </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </case>
+                        <case value="2"><!--已完成-->
+                            <div class="dn">
+                                <ul class="in_items">
+                                    <li class="items_t">
+                                        <span class="oder_date">{$row->date|substr=###,0,9}</span>
+                                        <span class="oder_time">{$row->date|substr=###,11}</span>
+                                        <span class="oder_status fr">已完成</span>
+                                    </li>
+
+                                    <a href="__CONTROLLER__/orderDetail?orderNo={$row->order_no}&status={$status}">
+                                        <li class="items_m"><!--order_details.html-->
+                                            <p>
+                                                <strong class='c4d'>{$row->shop}</strong>
+                                                <strong class='c333'>订单号：{$row->order_no}</strong>
+                                            </p>
+
+                                            <i>
+                                                <img class="fr" src="__PUBLIC__/mgotrip/images/arrow_r.png" alt=""/>
+                                            </i>
+                                        </li>
+                                    </a>
+
+                                    <li class="dingdan_icon_delete">
+                            <span class="delbtn" order_no="{$row->order_no}">
+                                <img src="__PUBLIC__/mgotrip/images/dingdan_icon_delete.png" alt=""/>
+                            </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </case>
+                    </switch>
+                </foreach>
+                </present>
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>
+
+<script>
+    $(function () {
+        //订单选项卡切换
+        $('.my_order_list li').click(function(){
+            /*$(this).addClass('current ').siblings().removeClass('current ');
+            var index = $('.my_order_list li').index(this);
+            $('.tab3_box > div').eq(index).show().siblings().hide();*/
+            window.location.href='__CONTROLLER__/myOrder?status='+$(this).attr('status');
+        })
+        $('.my_order_list li').each(function(){
+            if($(this).attr('status')==$('.my_order_list').attr('status')){
+                $(this).addClass('current ').siblings().removeClass('current ');
+            }
+        });
+        //删除订单
+        $('.delbtn').each(function (){
+            $(this).click(function() {
+                var orderNo=$(this).attr('order_no');
+                layer.open({
+                    content: '您确认删除订单吗?',
+                    btn: ['确认', '取消'],
+                    yes: function(index, layero){
+                        $.ajax({
+                            url:'__CONTROLLER__/orderDelete',
+                            type:'post',
+                            data:{orderNo:orderNo},
+                            success:function (e){
+                                if(e && e!=''){
+                                    if(e=='succ'){
+                                        window.location.reload();
+                                    }else{
+                                        layer.open({
+                                            content: e,
+                                            btn: ['确认'],
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        $('.myOrder_cancel_page').click(function (){
+            window.location.href='__MODULE__/My/my';
+        });
+        <present name="orderError">
+            layer.open({
+            content: '{$orderError}',
+            btn: ['确认']
+            });
+        </present>
+    });
+</script>

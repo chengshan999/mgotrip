@@ -16,6 +16,8 @@ if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
 define('APP_DEBUG', true);
 define('APP_PATH','./Application/');
 
+//define('API_SITE','http://api.mgolocal.com/');
+define('API_SITE','http://qs.test.yufu365.com/');
 // 引入ThinkPHP入口文件
 require '../service/v1.0/tp/ThinkPHP.php';
 

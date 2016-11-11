@@ -35,7 +35,7 @@ if (isset($_POST['qr_info'])) {
 $url = preg_replace('/^\/|\/$/', '', $_SERVER['REQUEST_URI']);
 $param = explode('/', $url);
 if (count($param) < 2)
-	exit($Lib->retError("对不起，您访问的页面不存在！"));
+	exit($Lib->retError("对不起，您访问的页面不存在！11"));
 
 /* v1.0版本地址 */
 if (count($param)==4) {
@@ -47,7 +47,6 @@ else {
 		$v10_url .= "?act=".$param[2];
 	}
 }
-
 /* 以下根据访问做地址整理 */
 $url = "";
 
@@ -76,7 +75,6 @@ if (isset($_FILES['img']) && !empty($_FILES['img'])) {
 if (isset($_FILES) && !empty($_FILES)) {
 	$Lib->log("FILE data is: ".json_encode($_FILES));
 }
-
 if (!empty($url))
 	exit($Lib->postData($url, $_POST));
 else

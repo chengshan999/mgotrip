@@ -1,4 +1,7 @@
-/* 
+
+
+
+/*
 * @Author: Marte
 * @Date:   2016-10-26 22:18:14
 * @Last Modified by:   Marte
@@ -37,14 +40,14 @@ body {
     top:30%;
 }
 /*关于content*/
-.content {   
+.content {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     overflow: auto;
-}  
+}
 .content .viewport {
     overflow: auto;
 }
@@ -256,7 +259,7 @@ body {
     font-size: 17px;
     float: left;
     position:relative;
-    vertical-align:middle;   
+    vertical-align:middle;
 }
 .my_order .my_order_list a {
     width: 100%;
@@ -275,7 +278,7 @@ body {
     background: #ffc300;
     left: 0;
 }
-   
+
 /*几种状态01  */
 .my_order_items {
     margin-bottom: 20px;
@@ -305,7 +308,7 @@ body {
      color:#cc2340;
 }
 .my_order_items .in_items .items_m {
-     width: 100%;     
+     width: 100%;
      position:relative;
 }
 .my_order_items .in_items .items_m p {
@@ -362,7 +365,7 @@ body {
     color:#333;
 }
 .c4d{
-   color:#4d4d4d; 
+   color:#4d4d4d;
 }
 /*订单详情*/
 .order_details {
@@ -375,7 +378,7 @@ body {
 #order_details{
     overflow:hidden;
 }
-#order_details .f700{  
+#order_details .f700{
    color:#333;
 }
 .get_order_time .fl18 {
@@ -463,19 +466,19 @@ body {
 .order_details_about02 .list_order li {
     width: 25%;
     height: 80px;
-    float: left;    
+    float: left;
     text-align: center;
 }
 
 .order_details_about02 .list_order em{
-    display: block;    
+    display: block;
     padding:10px 3px;
     letter-spacing: 1px;
 }
 .order_details_about02 .list_order strong{
-    display: block;    
+    display: block;
     font-family: -webkit-body;
-    padding:4px 5px    
+    padding:4px 5px
 }
 /*优惠券页面*/
 #duihuan {

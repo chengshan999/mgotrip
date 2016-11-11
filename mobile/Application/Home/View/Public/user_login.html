@@ -22,8 +22,12 @@
     <script type="text/javascript">
         $(function(){
             $('.user_login').click(function(){
-                $('.shade3_box').slideDown();
-                $('body').addClass('hidden');
+                <present name="user_data">
+                    window.location.href='__MODULE__/My/my';
+                <else/>
+                    $('.shade3_box').slideDown();
+                    $('body').addClass('hidden');
+                </present>
             });
             $('.btn-close-box').click(function(){
                 $('.shade3_box').hide();
@@ -51,7 +55,7 @@
                     $('.login_btns').addClass('login_on');
                     $('.login_btns').removeAttr("disabled");
 
-                })
+                });
             });
 
             $('.login_btns').on('click',function(){
@@ -73,18 +77,38 @@
                             content: '请输入正确的手机号',
                             btn: ['确认', '取消']
                         });
-                    }
-                    if(!codes){
+                    }else if(!codes){
                         layer.open({
                             content: '请填写验证码',
                             btn: ['确认', '取消']
                         });
 
                         return false;
+                    }else{
+                        $.ajax({
+                            url:'__MODULE__/Login/login',
+                            type:'post',
+                            data:{mobile:mobile,vcode:codes},
+                            success:function (e){
+                                if(e && e!=''){
+                                    if(e=='succ'){
+                                        /*登陆成功*/
+                                        $('.shade3_box').hide();
+                                        $('body,.main_sm').removeClass('hidden');
+                                        window.location.reload();
+                                    }else{
+                                        layer.open({
+                                            content: e,
+                                            btn: ['确认']
+                                        });
+                                    }
+                                }
+                            }
+                        });
                     }
                 }
 
-            })
+            });
             $('.r_text').click(function(){
                 var mobile = $.trim($('.mobile').val());
                 var number = /^(1[3578]\d|14[57])[0-9]{8}$/;
@@ -99,8 +123,20 @@
                         content: '请输入正确的手机号',
                         btn: ['确认', '取消']
                     });
+                }else{
+                    $.ajax({
+                        url:'__MODULE__/Login/sendValidateCode',
+                        type:'post',
+                        data:{mobile:mobile},
+                        success:function (e){
+                            if(e && e!=''){
+                                layer.msg(e);
+                            }
+                        }
+                    });
                 }
-            })
+            });
 
-        })
+        });
     </script>
+</div>

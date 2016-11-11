@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>优惠券</title>
+    <meta name="viewport" content="width=device-width ,initial-scale=1, maximum-scale=1, user-scalable=yes, minimal-ui">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="full-screen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <include file="Public/cite" />
+</head>
+<body>
+    <!-- top -->
+    <header class="head_bar">
+        <a href="javascript:void(0)" class="arrow_r coupon_cancel_page"></a>
+        <span class="c_txt">优惠券</span>
+        <a id='duihuan' href="javascript:;">兑换</a>
+    </header>
+    <!-- section -->
+    <section class="content">
+        <div class="viewport">
+            <!-- 优惠券的tab栏 -->
+            <div class="my_coupon">
+                <ul class="my_coupon_list" status="0">
+                    <li class="current" status="0">
+                        <a  href="javascript:;">
+                            未使用
+                            <span>(
+                                <present name="rows0:total">
+                                    {$rows0:total}
+                                </present>
+                                )</span>
+                        </a>
+                    </li>
+                    <li status="1">
+                        <a href="javascript:;">
+                            已使用
+                            <span>(<present name="rows1:total">
+                                    {$rows1:total}
+                                </present>)</span>
+                        </a>
+                    </li>
+                    <li status="-1">
+                        <a href="javascript:;">
+                            已过期
+                            <span>(<present name="rows2:total">
+                                    {$rows2:total}
+                                </present>)</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="coupon_style">
+                <!-- 未使用优惠券样式 -->
+                <ul class="coupon_style01">
+                    <present name="rows0:coupon_list">
+                    <foreach name="rows0:coupon_list" item="row0">
+                        <li class="coupon_style">
+                        <span class='coupon_money'> <strong>{$row0->amount?$row0->amount:0}</strong>
+                            元
+                        </span>
+                            <present name="row0:name">
+                                <p class="coupon_style_qs">{$row0->shop_name?$row0->shop_name:''}{$row0->name}</p>
+                            </present>
+                            <present name="row0:pic">
+                                <img class="coupon_hot" src="{$row0->pic}" alt="" />
+                            </present>
+                            <div class="coupon_limint_time">
+                                <span>
+                                    <present name="row0:min_order_amount">
+                                        满{$row0->min_order_amount}元可用
+                                    </present>
+                                </span>
+                                <br />
+                                <span>
+                                    <present name="row0:use_end_date">
+                                        有效期至{$row0->use_end_date}
+                                    </present>
+                                </span>
+                            </div>
+                        </li>
+                    </foreach>
+                    </present>
+                </ul>
+                <!-- 已使用优惠券样式 -->
+                <ul class="coupon_style01" style="display:none;">
+                    <present name="rows1:coupon_list">
+                        <foreach name="rows1:coupon_list" item="row1">
+                            <li class="coupon_style">
+                        <span class='coupon_money'> <strong>{$row1->amount?$row1->amount:0}</strong>
+                            元
+                        </span>
+                                <present name="row1:name">
+                                    <p class="coupon_style_qs">{$row1->shop_name?$row1->shop_name:''}{$row1->name}</p>
+                                </present>
+                                <present name="row1:pic">
+                                    <img class="coupon_hot" src="{$row1->pic}" alt="" />
+                                </present>
+                                <div class="coupon_limint_time">
+                                    <span>
+                                        <present name="row1:min_order_amount">
+                                        满{$row1->min_order_amount}元可用
+                                        </present>
+                                    </span>
+                                    <br />
+                                    <span>
+                                        <present name="row1:use_end_date">
+                                        有效期至{$row1->use_end_date}
+                                        </present>
+                                    </span>
+                                </div>
+                            </li>
+                        </foreach>
+                    </present>
+                </ul>
+                <!-- 已过期优惠券样式 -->
+                <ul class="coupon_style01" style="display:none;">
+                    <present name="rows2:coupon_list">
+                        <foreach name="rows2:coupon_list" item="row2">
+                            <li class="coupon_style">
+                        <span class='coupon_money'> <strong>{$row2->amount?$row2->amount:0}</strong>
+                            元
+                        </span>
+                                <present name="row2:name">
+                                    <p class="coupon_style_qs">{$row2->shop_name?$row2->shop_name:''}{$row2->name}</p>
+                                </present>
+                                <present name="row2:pic">
+                                    <img class="coupon_hot" src="{$row2->pic}" alt="" />
+                                </present>
+                                <div class="coupon_limint_time">
+                                    <span>
+                                        <present name="row2:min_order_amount">
+                                        满{$row2->min_order_amount}元可用
+                                        </present>
+                                    </span>
+                                    <br />
+                                    <span>
+                                        <present name="row2:use_end_date">
+                                        有效期至{$row2->use_end_date}
+                                        </present>
+                                    </span>
+                                </div>
+                            </li>
+                        </foreach>
+                    </present>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        $(function(){
+            $('.my_coupon_list li').click(function() {
+                var i = $(this).index();
+                $(this).addClass('current').siblings().removeClass('current');
+                $('.coupon_style01').eq(i).css('display', 'block').siblings().css('display', 'none');
+                $(".my_coupon_list").attr('status',$(this).attr('status'));
+            });
+            $('.coupon_cancel_page').click(function (){
+                window.location.href='__MODULE__/My/my';
+            });
+            $('#duihuan').click(function (){
+                layer.prompt({
+                    title: '请输入优惠券兑换码',
+                    formType: 1 //prompt风格，支持0-2
+                }, function(pass){
+                    $.ajax({
+                        url:'__CONTROLLER__/activateCoupon',
+                        type:'post',
+                        data:{aCode:pass},
+                        success:function (e){
+                            if(e && e!=''){
+                                if(e=='succ'){
+                                    layer.open({
+                                        content:'激活成功，点击刷新',
+                                        btn:['确认'],
+                                        yes:function(){
+                                            window.location.reload();
+                                        }
+                                    });
+                                }else{
+                                    layer.msg(e);
+                                }
+                            }
+                        }
+                    });
+                    /*layer.prompt({title: '随便写点啥，并确认', formType: 2}, function(text){
+                        layer.msg('演示完毕！您的口令：'+ pass +' 您最后写下了：'+ text);
+                    });*/
+                });
+            });
+            <present name="couponError">
+                layer.open({
+                    content: '{$couponError}',
+                    btn: ['确认']
+                });
+            </present>
+        });
+    </script>
+</body>
+</html>

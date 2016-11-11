@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-	<title>魔购出行（M-GO）</title>
-	<meta name="keywords" />
-	<meta name="description"/>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width ,initial-scale=1, maximum-scale=1, user-scalable=yes, minimal-ui">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="format-detection" content="telephone=no">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-touch-fullscreen" content="yes">
-	<meta name="full-screen" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-	<include file="Public/cite" />
-
-<body>
+<div id="page_des"  style="width:100%;height:100%;">
 	<header class="head_bar">
-		<a href="javascript:void(0)" class="arrow_r"></a>
+		<a href="javascript:void(0)" class="arrow_r des_cancel_page"></a>
 		<span class="c_txt">M-GO</span>
 		<a href="javascript:void(0)" class="user_login"></a>
 	</header>
@@ -26,58 +10,17 @@
 		<div class="head_search">
 			<span class="my_citys">上海</span>
 			<div class="input_searchs"> <i class="icon_search"></i>
-				<input type="search" class="search_s" autocomplete="off" placeholder="您现在要去哪儿？" />
+				<input type="search" class="search_s" id="des_input_end" autocomplete="off" placeholder="您现在要去哪儿？" />
+				<div id="des_searchResultPanel" style="border:1px solid #C0C0C0;width:80%;height:auto;display:none;">
+				</div>
 			</div>
-			<a href="javascript:void(0)" class="cancle_btn">取消</a>
+			<a href="javascript:void(0)" class="cancle_btn des_cancel_page">取消</a>
 		</div>
 
 		<div class="org_bj">
-			<ul class="clearfix panel_ul">
-				<li class="current">
-					徐汇区漕溪北路2000号 <i></i>
-				</li>
-				<li>
-					龙漕北路199号
-					<i></i>
-				</li>
-				<li>
-					番禺路1028号-东门
-					<i></i>
-				</li>
-				<li>
-					太平洋百货
-					<i></i>
-				</li>
-				<li>
-					汇金百货
-					<i></i>
-				</li>
-				<li>
-					瑞金南苑-西门
-					<i></i>
-				</li>
-				<li>
-					复兴佳苑
-					<i></i>
-				</li>
-				<li>
-					锦秋国际停车场
-					<i></i>
-				</li>
-				<a href="javascript:void(0)" class="clear_record">清空历史记录</a>
+			<ul class="clearfix panel_ul" id="des_histroyList_ul">
+
 			</ul>
 		</div>
-		<!--加载登陆框-->
-		<include file="Public/user_login" />
-</div>
 	</section>
-	<script type="text/javascript">
-		$(function() {
-			$('.panel_ul li').click(function () {
-				$(this).addClass('current').siblings().removeClass('current');
-			});
-		}
-
-	</script>
-</body>
-</html>
+</div>
