@@ -1,0 +1,98 @@
+<div class="main_sm" id="page_payment" style="display:none;">
+	<!--乘客列表-->
+	<div class="panr_list">
+		<ul class="u_panel clearfix">
+			<li class="clearfix li_p">
+				<span class="icon_s"></span>
+				<input type="text" class="s_areas" disabled="disabled" placeholder="徐安汇地铁站" />
+			</li>
+			<li class="clearfix li_p">
+				<span class="icon_e"></span>
+				<input type="text" class="s_areas" disabled="disabled" placeholder="上海数娱大厦"/>
+			</li>
+			<li class="clearfix li_p li_t">
+				<label class="icon_label">备注信息：</label>
+				<div class="ins_now">现在不去了</div>
+			</li>
+			<li class="clearfix li_p li_t">
+				<label class="icon_label">乘客信息：</label>
+				<div class="ins_now">XX（女士）1358557XXXX</div>
+			</li>
+			<li class="clearfix li_p li_t">
+				<label class="icon_label w136">叫车服务费（元）：</label>
+				<div class="ins_now ins_selects clearfix md_list">
+					<dl class="money_sel clearfix">
+						<dd></dd>
+						<dd></dd>
+						<dd>
+							<div class="circle_round">0.0</div>
+							<p class="info_text">要的就是免费</p>
+						</dd>
+						<dd>
+							<div>0.01</div>
+							<p class="info_text" style="display:none;">1分也是爱</p>
+						</dd>
+						<dd>
+							<div>0.1</div>
+							<p class="info_text" style="display:none;">1毛别嫌少</p>
+						</dd>
+						<dd>
+							<div>1.0</div>
+							<p class="info_text" style="display:none;">爷，大方如你</p>
+						</dd>
+						<dd>
+							<div>10.0</div>
+							<p class="info_text" style="display:none;">这么豪爽，车马上到</p>
+						</dd>
+						<dd>
+							<div>20.0</div>
+							<p class="info_text" style="display:none;">土豪，我们做朋友吧！</p>
+						</dd>
+						<dd></dd>
+						<dd></dd>
+					</dl>
+				</div>
+			</li>
+
+			<li class="clearfix li_p li_t">
+				<label class="icon_label">需付款</label>
+				<div class="ins_now fr"> <strong>1.00元</strong>
+				</div>
+			</li>
+			<li class="clearfix li_p li_t">
+				<label class="icon_label w176">请选择付款方式：</label>
+			</li>
+			<!-- <li class="clearfix li_p li_t pay_method">
+				<img src="images/img_unipay.png" /> <strong>银联支付</strong>
+				<input type="radio" name="" class="radio" /> <em class="checkbox_em"></em>
+			</li> -->
+			<li class="clearfix li_p li_t pay_method on">
+				<img src="__PUBLIC__/mgotrip/images/img_weipay.png" /> <strong>微信支付</strong>
+				<input type="radio" name="" class="radio" /> <em class="checkbox_no"></em>
+			</li>
+			<li class="clearfix li_p li_t pay_method">
+				<img src="__PUBLIC__/mgotrip/images/img_alipay.png" /> <strong>支付宝支付</strong>
+				<input type="radio" name="" class="radio" /> <em class="checkbox_no"></em>
+			</li>
+		</ul>
+	</div>
+
+	<div class="m_next_step">
+		<a href="javascript:void(0);" class="pay_btn30s">确定付款</a>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			//支付方式
+			$('.u_panel li.pay_method').click(function(){
+				$(this).addClass('on').siblings().removeClass('on');
+			});
+			$('dl.money_sel dd').click(function(){
+				$(this).children('div').addClass('circle_round');
+				$(this).children('p').show();
+				$(this).siblings().children('div').removeClass('circle_round');
+				$(this).siblings().children('p').hide();
+			});
+		});
+	</script>
+</div>
+

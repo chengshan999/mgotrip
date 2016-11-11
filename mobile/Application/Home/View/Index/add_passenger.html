@@ -1,0 +1,47 @@
+<div class="main_sm" id="page_addPassenger" style="display:none;">
+	<!--乘客列表-->
+	<div class="panr_list">
+		<ul class="list_ul" id="addPassenger_ul_passengerList">
+			<!--<li class="select">
+				<span class="grays">乘客：</span>
+				<span class="n_names">xx（女士）</span>
+				<span class="tel">13585574705</span> <i class="arrow_right"></i>
+			</li>
+			<li>
+				<span class="grays">乘客：</span>
+				<span class="n_names">xx（女士）</span>
+				<span class="tel">13585574705</span> <i class="arrow_right"></i>
+			</li>-->
+		</ul>
+	</div>
+	<!--添加乘客-->
+	<div class="add_passenger">
+		<a href="javascript:void(0)" id="addPassenger_add_passenger" class="add_pers">
+			<i class="icon_addx"></i>
+			添加乘客信息
+		</a>
+	</div>
+	<div class="m_next_step">
+		<a href="javascript:void(0)" id="addPassenger_payment" class="pay_btn30s">支付叫车费用</a>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			//选择乘客
+			$('.list_ul li').click(function(){
+				$(this).addClass('select').siblings().removeClass('select');
+			});
+			$('#addPassenger_add_passenger').click(function(){
+				$('#page_addPassenger').hide();
+				$('#page_passenger').show();
+				$('.arrow_r.index_jumpout_need_show').attr('back_to','addPassenger');
+			});
+			$('#addPassenger_payment').click(function(){
+				$('#page_addPassenger').hide();
+				$('#page_payment').show();
+				$('.arrow_r.index_jumpout_need_show').attr('back_to','addPassenger');
+			});
+		});
+	</script>
+</div>
+
+

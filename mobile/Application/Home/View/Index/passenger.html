@@ -1,0 +1,37 @@
+<div class="main_sm" id="page_passenger" style="display:none;">
+	<ul class="u_panel clearfix">
+		<li class="clearfix li_p li_t">
+			<label class="icon_label w80">*乘客姓名：</label>
+			<input type="text" class="bz_inp" placeholder="XX"/>
+		</li>
+		<li class="clearfix li_p li_t">
+			<label class="icon_label w80">*手机号码：</label>
+			<input type="tel" class="bz_inp" placeholder="1358557XXXX"/>
+		</li>
+		<li class="clearfix li_p li_t">
+			<label class="icon_label w80">&nbsp;&nbsp;您的性别：</label>
+			<div class="select_models">
+				<a href="javascript:void(0);">先生</a>
+				<a href="javascript:void(0);" class="select">女士</a>
+			</div>
+		</li>
+	</ul>
+	<div class="m_xtips"> <i class="tip30s"></i>
+		如您预约后成功搭乘，车费中还将包含4元强生电调费用
+	</div>
+	<div class="m_next_step">
+		<a href="javascript:void(0);" id="passenger_payment" class="pay_btn30s">支付叫车费用</a>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			$('#passenger_payment').click(function(){
+				$('#page_passenger').hide();
+				$('#page_payment').show();
+				$('.arrow_r.index_jumpout_need_show').attr('back_to','passenger');
+			});
+		});
+	</script>
+</div>
+
+
+

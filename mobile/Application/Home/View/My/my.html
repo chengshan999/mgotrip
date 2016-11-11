@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>我的</title>
+    <meta name="viewport" content="width=device-width ,initial-scale=1, maximum-scale=1, user-scalable=yes, minimal-ui">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="full-screen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <include file="Public/cite" />
+</head>
+<body>
+<!-- top -->
+    <header class="head_bar">
+        <a href="javascript:void(0)" class="arrow_r my_cancel_page"></a>
+        <span class="c_txt">我的</span>
+    </header>
+<!-- section -->
+    <section class="content">
+        <!-- zhanghu_name  -->
+        <div class="viewport">
+            <div class="common-wrap">
+                <a href="javascript:;">
+                    <img class="person_pic" src="__PUBLIC__/mgotrip/images/person_picture.png" alt="" />
+                </a>
+
+                <div class="accout_info">
+                   <p class="accout_info_name">
+                       账户名：
+                       <strong>{$mobile}</strong>
+                   </p>
+                    <p class="accout_info_place">
+                       地区：
+                       <strong>上海</strong> 
+                   </p>
+                </div>
+            </div>
+             <!-- dingdan youhuiquan  -->
+            <div class="in_item">
+                <ul class="my_items">
+                    <a href="__MODULE__/Order/myOrder">
+                        <li>
+                            <em class="icon_gt">
+                                <img src="__PUBLIC__/mgotrip/images/me_icon_dingdan.png" alt="" />
+                            </em>
+                            <strong>我的订单</strong>
+                            <span class='look_all'>
+                                查看全部订单
+                                <i class="i_go">
+                                    <img src="__PUBLIC__/mgotrip/images/arrow_r1.png" alt="" />
+                                </i>
+                            </span>
+                        </li>
+                    </a>
+
+                    <a href="__MODULE__/Coupon/coupon.html">
+                        <li>
+                            <em class="icon_gt">
+                                <img src="__PUBLIC__/mgotrip/images/me_icon_youhui.png" alt="" />
+                            </em>
+                            <strong>我的优惠券</strong>
+                            <span class='look_all'>
+                                {$totalCoupon}张
+                                <i class="i_go">
+                                    <img src="__PUBLIC__/mgotrip/images/arrow_r1.png" alt="" />
+                                </i>
+                            </span>
+                        </li>
+                    </a>
+                </ul>
+
+                <ul class="my_items02">
+                    <a href="__CONTROLLER__/aboutUs">
+                        <li>
+                            <strong>关于M-GO</strong>
+                            <i class="i_go02">
+                                <img src="__PUBLIC__/mgotrip/images/arrow_r1.png" alt="" />
+                            </i>
+                        </li>
+                    </a>
+                    <a href="javascript:;" id="clear_cache_btn">
+                        <li>
+                            <strong>清理缓存</strong>
+                            <i class="i_go02">
+                                0.00M
+                            </i>
+                        </li>
+                    </a>
+                </ul>
+            </div>
+            <!-- 退出按钮 -->
+            <div class="exit_btn_box">
+                <a class="exit_btn_foot" id="my_out_login" href="javascript:;">
+                退&nbsp;出
+                </a>
+            </div>
+            
+
+            <div id="clear_wrap_box">
+                <!-- 点击清除缓存显示 -->
+                <div id="clear_cache_box" class="clear_cache_box">
+                    <h2>确定清除本地缓存？</h2>
+                    <a id='btn_cancle' class="fl" href="javascript:;">取消</a>
+                    <a id='btn_sure' class='fr line_l_c' href="javascript:;">确定</a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="loadmore" style="display: none">
+            <span class="loading"></span>
+            加载中..
+        </div>
+        <div class="loadover" style="display: none">
+            <!-- <span>Duang～到底了</span> -->
+        </div>
+    </section>
+</body>
+</html>
+<script type="text/javascript">
+  $(function(){
+    $('#clear_cache_btn').click(function(){
+        $('#clear_wrap_box').show();
+    });
+    $('#btn_cancle').click(function(){
+        $('#clear_wrap_box').hide();
+    });
+    $('#btn_sure').click(function(){
+        alert('用php后端清理');
+    });
+    $('#my_out_login').click(function (){
+        $.ajax({
+            url:'__MODULE__/Login/outLogin',
+            success:function (){
+                window.location.href='__MODULE__/Index/index';
+            }
+        });
+    });
+    $('.my_cancel_page').click(function (){
+        window.location.href='__MODULE__/Index/index';
+    });
+});
+</script>
