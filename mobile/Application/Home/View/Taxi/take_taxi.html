@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<title>魔购出行（M-GO）</title>
+	<meta name="keywords" />
+	<meta name="description"/>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width ,initial-scale=1, maximum-scale=1, user-scalable=yes, minimal-ui">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="full-screen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<include file="Public/cite"/>
+<body>
+<header class="head_bar">
+	<a href="javascript:void(0)" class="arrow_canel" id="takeTaxi_cancel_call_taxi">取消叫车</a>
+	<span class="c_txt">等待回应</span>
+	<!--<a href="javascript:void(0)" class="user_login"></a>-->
+</header>
+<!--魔购头部-->
+<!--魔购出行 star-->
+<div class="mgo_map_index" >
+	<div id="takeTaxi_baidumap" style="height:100%;"></div>
+	<div class="shade30s_box" id="takeTaxi_div_count_down" style="display:none;">
+		<div class="tips_texts">
+			正在为您搜索
+			<br />
+			附近1公里内出租车
+			<br />
+			请耐心等待
+			<br />
+			<p class="timeout"></p>
+		</div>
+	</div>
+	<!--加载take_taxi2.html页面-->
+	<include file="Taxi/take_taxi2"/>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		getCountDownInfo();//开启倒计时
+		createMap();
+	});
+	var  btn_countDown='';
+	var  btn_sendTaxi='';
+	var orderNo='';
+	//请求派车准备阶段，倒计时接口
+	function getCountDownInfo(){
+		$.ajax({
+			url:'__MODULE__/Taxi/getInfoForWaitTaxi',
+			success:function (e){
+				/*console.log(orderNo);
+				console.log(e);*/
+				if(e && e!=''){
+					var data=JSON.parse(e);
+					orderNo=data.order_no;
+					isSendTaxi(orderNo);
+					var countDown=data.time_remaining;
+					beginCountDown(countDown);
+				}else{
+					$('#takeTaxi_div_count_down').hide();
+					layer.open({
+						content:'到车时间获取失败，重新获取',
+						btn:['确定','返回'],
+						yes:function (){
+							getCountDownInfo();
+						},
+						no:function (){
+							window.location.href='__MODULE__/Index/index';
+						}
+					});
+				}
+			}
+		});
+	}
+	//每10秒请求一次派车信息查询接口，判断是否已经派车
+	function isSendTaxi(no){
+		btn_sendTaxi=setInterval(function(){
+			$.ajax({
+				url:'__MODULE__/Taxi/queryTaxiIsCome',
+				type:'post',
+				data:{orderNo:no},
+				success:function (e){
+					if(e && e!=''){
+						//有车来了
+						var data=JSON.parse(e);
+						$('#takeTaxi2_driver_name').text(data.driver_name);
+						$('#takeTaxi2_car_no').text(data.car_no);
+						$('#takeTaxi2_driver_phone').text(data.mdt_phone);
+						$('#takeTaxi2_call_button').text('tel:'+data.mdt_phone);
+						$('#page_takeTaxi2').show();
+						$('#takeTaxi_div_count_down').hide();
+						clearInterval(btn_countDown);
+						clearInterval(btn_sendTaxi);
+					}
+				}
+			});
+		},10000);
+	}
+	//开启倒计时提示
+	function beginCountDown(cd){
+		//倒计时
+		$('#takeTaxi_div_count_down').show();
+		var num=cd;
+		btn_countDown=setInterval(function(){
+			--num;
+			if(num > 1){
+				return $('.timeout').html(num+'秒');
+			}
+			getCountDownInfo();
+		},1000);
+	}
+	//取消叫车
+	$('#takeTaxi_cancel_call_taxi').click(function(){
+		layer.open({
+			content: '现在取消，<span style="color:#cf0000">预约费用</span>不再返回哦！',
+			btn: ['继续等待', '忍痛放弃'],
+			no: function(index, layero){
+				layer.open({
+					content:'确定取消订单？',
+					btn:['确定取消','不取消了'],
+					yes:function (index){
+						requestCancelCall();
+					}
+				});
+			  }
+		});
+	});
+	//请求取消叫车接口
+	function requestCancelCall(){
+		$.ajax({
+			url:'__MODULE__/Taxi/taxiOrderCancel',
+			type:'post',
+			data:{orderNo:orderNo},
+			success:function (e){
+				if(e && e!=''){
+					//取消成功
+					var isRefund=JSON.parse(e);
+					if(isRefund==1){
+						//已退服务费
+						layer.open({
+							content:'服务费已经退还到您的账户',
+							btn:['确定'],
+							yes:function (index){
+								window.location.href='__MODULE__/Order/myOrder';
+							}
+						});
+					}else{
+						//不退服务费
+						window.location.href='__MODULE__/Order/myOrder';
+					}
+				}else{
+					//取消失败
+					layer.open({
+						content:'请求失败，点击再试一次',
+						btn:['再试一次','不取消了'],
+						yes:function (index){
+							requestCancelCall();
+						}
+					});
+				}
+			}
+		});
+	}
+
+	function createMap(){
+		var map= new BMap.Map('takeTaxi_baidumap');
+		map.centerAndZoom('{$currentCity}',15);
+		map.enableScrollWheelZoom(true);
+		map.disableInertialDragging();
+
+		//获取起始和目的地位置
+		var startToEndPosition=JSON.parse('{$Think.cookie.startToEndPosition}');
+		var sPoint=new BMap.Point(startToEndPosition.sLng,startToEndPosition.sLat);
+		var ePoint=new BMap.Point(startToEndPosition.eLng,startToEndPosition.eLat);
+
+		var sIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/start.png',new BMap.Size(40,40),{imageOffset: new BMap.Size(0, 0)});
+		var eIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/end.png',new BMap.Size(40,40),{imageOffset: new BMap.Size(0, 0)});
+
+		var sMarker=new BMap.Marker(sPoint,{icon:sIcon});
+		map.addOverlay(sMarker);
+		var eMarker=new BMap.Marker(ePoint,{icon:eIcon});
+		map.addOverlay(eMarker);
+
+		//var geoc=new BMap.Geocoder();
+		var geolocation=new BMap.Geolocation();
+
+		geolocation.getCurrentPosition(function (r){
+			if(this.getStatus() == BMAP_STATUS_SUCCESS){
+				map.centerAndZoom(r.point,16);
+				//map.panTo(r.point);
+				/*geoc.getLocation(r.point,function(ci){
+					var addrinfo=ci.addressComponents;
+					var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
+				});*/
+			}else{
+				layer.open({
+					content:'当前位置获取失败，点击刷新',
+					btn:['确定'],
+					yes:function (){
+						window.location.reload();
+					}
+				});
+			}
+		},{enableHighAccuracy:true});
+
+	}
+	</script>
+</body>
+</html>

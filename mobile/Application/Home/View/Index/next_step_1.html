@@ -14,7 +14,7 @@
 		</li>
 		<li class="clearfix li_p li_t">
 			<label class="icon_label">选择车型：</label>
-			<div class="select_models">
+			<div class="select_models" id="nextStep_div_car_type_list">
 				<a href="javascript:void(0)" car_type="{$carTypeUnlimited}" class="select">全部车型</a>
 				<a href="javascript:void(0)" car_type="{$carTypeSangtana}">普通型</a>
 				<a href="javascript:void(0)" car_type="{$carTypeTuan}">途安型</a>
@@ -22,7 +22,7 @@
 		</li>
 		<li class="clearfix li_p li_t">
 			<label class="icon_label">备注信息：</label>
-			<input type="text" class="bz_inp" id="nextStep_input_remark" placeholder="有什么要告诉司机的信息?"/>
+			<input type="text" class="bz_inp" id="nextStep_input_remark" autocomplete="off" placeholder="有什么要告诉司机的信息?"/>
 		</li>
 	</ul>
 	<div class="m_next_step">
@@ -31,22 +31,26 @@
 	<script type="text/javascript">
 		$(function(){
 			//选择车型
+			$('#nextStep_input_remark').blur(function (){
+				$('#order_create_aboard_near').val($(this).val());
+			});
 			$('.select_models a').click(function(){
 				$(this).addClass('select').siblings().removeClass('select');
-				$('#order_create_car_type').val($(this).attr('car_type'));
-				$('#nextStep_input_remark').blur(function (){
-					$('#order_create_aboard_near').val($(this).val());
-				});
 			});
 			$('#nextStep_next_step').click(function(){
+				$('#index_mid_logo').poshytip('hide');
 				$('#page_nextStep').hide();
 				$('#page_addPassenger').show();
 				$('.arrow_r.index_jumpout_need_show').attr('back_to','nextStep');
+				$('#order_create_car_type').val($('#nextStep_div_car_type_list a.select').attr('car_type'));
 				$.ajax({
 					url:'__MODULE__/Index/getPassengerList',
 					success:function (e){
 						if(e && e!=''){
 							$('#addPassenger_ul_passengerList').html(e);
+							$('#addPassenger_ul_passengerList li').on('click',function (){
+								$(this).addClass('select').siblings().removeClass('select');
+							});
 						}
 					}
 				});

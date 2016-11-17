@@ -41,6 +41,45 @@ class CouponController extends BaseController{
         $this->assign($params);
         $this->display();
     }
+    /*获取新的分页*/
+    public function getNewPage(){
+        if(IS_AJAX){
+            $page=I('post.page',1);
+            $status=I('post.status',0);
+            $pagesize=C('PAGESIZE');
+            $data=array(
+                'page'=>$page,
+                'page_size'=>$pagesize,
+                'status'=>$status
+            );
+            $result=$this->curlQuickPost(C('COUPON_LIST'),$data);
+            if($result->status=='succ'){
+                $rows=$result->data;
+                if(!empty($rows)){
+                    $str='';
+                    foreach($rows->coupon_list as $row){
+                            $str.='<li class="coupon_style">
+                                <span class=\'coupon_money\'> <strong>'.$row->amount?$row->amount:'0'.'</strong>
+                                    元
+                                </span>
+                                        <p class="coupon_style_qs">'.$row->name?$row->name:''.'</p>
+                                        <img class="coupon_hot" src="'.$row->pic?$row->pic:''.'" alt="" />
+                                    <div class="coupon_limint_time">
+                                        <span>
+                                                满'.$row->min_order_amount?$row->min_order_amount:'0'.'元可用
+                                        </span>
+                                        <br />
+                                        <span>
+                                                有效期至'.$row->use_end_date?$row->use_end_date:''.'
+                                        </span>
+                                    </div>
+                                </li>';
+                    }
+                    echo $str;;
+                }
+            }
+        }
+    }
     /*激活优惠券*/
     public function activateCoupon(){
         if(IS_AJAX){

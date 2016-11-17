@@ -42,7 +42,7 @@
             </div>
 
             <!-- 几种状态 -->
-            <div class="my_order_items tab3_box">
+            <div class="my_order_items tab3_box" id="myOrder_div_order_list">
                 <present name="rows">
                 <foreach name="rows" item="row">
                     <switch name="row:status">
@@ -131,16 +131,47 @@
                         </case>
                     </switch>
                 </foreach>
+                    <if condition="$currentSize egt 10">
+                        <div align="center" id="myOrder_div_add_new_page"><div id="addNewPage" style="color:#696969;border:1px solid #696969;margin:20px;height:30px;width:30%;border-radius:5px;text-align:center;font:16px/30px Microsoft YaHei;">
+                            加载更多</div></div>
+                    </if>
                 </present>
             </div>
-
         </div>
     </section>
+
 </body>
 </html>
 
 <script>
     $(function () {
+        var currentPage=2;
+        $('#addNewPage').click(addNP);
+        function addNP(){
+            var status=$(".my_order_list").attr('status');
+            $.ajax({
+                url:'__MODULE__/Order/getNewPage',
+                type:'post',
+                data:{page:currentPage,status:status},
+                success:function (e){
+                    if(e && e!=''){
+                        currentPage ++;
+                        var div_add_new_page=$('#myOrder_div_add_new_page');
+                        $('#myOrder_div_add_new_page').remove();
+                        $('.my_order_items.tab3_box').append(e);
+                        $('.my_order_items.tab3_box').append(div_add_new_page);
+                        $('#addNewPage').on('click',addNP);
+                    }else{
+                        layer.open({
+                            content:'没有更多了',
+                            skin:'msg',
+                            time:2
+                        });
+                        $('#myOrder_div_add_new_page').html('<div style="color:#696969;margin:20px;height:30px;width:30%;border-radius:5px;text-align:center;font:16px/30px Microsoft YaHei;">没有更多了</div>');
+                    }
+                }
+            });
+        }
         //订单选项卡切换
         $('.my_order_list li').click(function(){
             /*$(this).addClass('current ').siblings().removeClass('current ');

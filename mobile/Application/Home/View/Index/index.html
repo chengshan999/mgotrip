@@ -72,7 +72,7 @@
 <input type="hidden" name="desti_latitude" id="order_create_desti_latitude" value=""/>
 <input type="hidden" name="desti_longitude" id="order_create_desti_longitude" value=""/>
 <input type="hidden" name="destination" id="order_create_destination" value=""/>
-<input type="hidden" name="fare_fee" id="order_create_fare_fee" value=""/>
+<input type="hidden" name="fare_fee" id="order_create_fare_fee" value="0"/>
 <input type="hidden" name="gender" id="order_create_gender" value=""/>
 <input type="hidden" name="latitude" id="order_create_latitude" value=""/>
 <input type="hidden" name="longitude" id="order_create_longitude" value=""/>
@@ -81,6 +81,7 @@
 <input type="hidden" name="name" id="order_create_name" value=""/>
 <input type="hidden" name="order_no" id="order_create_order_no" value=""/>
 <input type="hidden" name="passenger_id" id="order_create_passenger_id" value=""/>
+<input type="hidden" name="pay_type" id="order_create_pay_type" value=""/>
 </form>
 
 <script type="text/javascript">
@@ -108,7 +109,8 @@
     /*创建地图对象 start*/
     var map= new BMap.Map('index_baidumap');
     map.centerAndZoom('{$currentCity}',15);
-    map.enableScrollWheelZoom(true);
+    map.enableScrollWheelZoom();
+    map.enablePinchToZoom();
     map.disableInertialDragging();
 
 //    writeObj(G('index_baidumap'));
@@ -215,17 +217,34 @@
             jumpSearchIndex('des_input_end','des_searchResultPanel','page_des','des');
         });
         $('.on_taxi.index_jumpout_need_hide').click(function(){
-            $('#index_mid_logo').poshytip('hide');
-            $('.arrow_r.index_jumpout_need_show').attr('back_to','index');
-            $('.index_jumpout_need_hide').hide();
-            $('.index_jumpout_need_show').show();
-            $('#nextStep_input_start').val($('#index_input_start').val());
-            $('#nextStep_input_end').val($('#index_input_end').val());
+            var sPosition=$('#index_input_start').val();
+            var ePosition=$('#index_input_end').val();
+            if(sPosition=='' || sPosition=='定位中...' || ePosition==''){
+                layer.open({
+                    content:'起始位置和目的地都不能为空',
+                    btn:'确定'
+                });
+            }else{
+                map.disableScrollWheelZoom();
+                map.disableDoubleClickZoom();
+                map.disableDragging();
+                map.disablePinchToZoom();
+                $('#index_mid_logo').poshytip('hide');
+                $('.arrow_r.index_jumpout_need_show').attr('back_to','index');
+                $('.index_jumpout_need_hide').hide();
+                $('.index_jumpout_need_show').show();
+                $('#nextStep_input_start').val($('#index_input_start').val());
+                $('#nextStep_input_end').val($('#index_input_end').val());
+            }
         });
         $('.arrow_r.index_jumpout_need_show').click(function(){
             var backTo=$(this).attr('back_to');
             switch(backTo){
                 case 'index':
+                    map.enableScrollWheelZoom();
+                    map.enableDoubleClickZoom();
+                    map.enableDragging();
+                    map.enablePinchToZoom();
                     $('.arrow_r.index_jumpout_need_show').attr('back_to','');
                     $('.index_jumpout_need_hide').show();
                     $('.index_jumpout_need_show').hide();
@@ -247,14 +266,7 @@
                     $('#page_payment').hide();
                     $('.arrow_r.index_jumpout_need_show').attr('back_to','addPassenger');
                     break;
-                case '':
-                    break;
-                case '':
-                    break;
-                case '':
-                    break;
-                case '':
-                    break;
+
                 default:
                     break;
             }

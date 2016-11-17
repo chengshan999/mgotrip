@@ -130,7 +130,11 @@
                         data:{mobile:mobile},
                         success:function (e){
                             if(e && e!=''){
-                                layer.msg(e);
+                                layer.open({
+                                    content:e,
+                                    skin:'msg',
+                                    time:2
+                                });
                             }
                         }
                     });

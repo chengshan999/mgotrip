@@ -28,33 +28,33 @@
                     <li class="current" status="0">
                         <a  href="javascript:;">
                             未使用
-                            <span>(
+                            (<span>
                                 <present name="rows0:total">
                                     {$rows0:total}
                                 </present>
-                                )</span>
+                                </span>)
                         </a>
                     </li>
                     <li status="1">
                         <a href="javascript:;">
                             已使用
-                            <span>(<present name="rows1:total">
+                            (<span><present name="rows1:total">
                                     {$rows1:total}
-                                </present>)</span>
+                                </present></span>)
                         </a>
                     </li>
                     <li status="-1">
                         <a href="javascript:;">
                             已过期
-                            <span>(<present name="rows2:total">
+                            (<span><present name="rows2:total">
                                     {$rows2:total}
-                                </present>)</span>
+                                </present></span>)
                         </a>
                     </li>
                 </ul>
             </div>
 
-            <div class="coupon_style">
+            <div class="coupon_style" id="coupon_div_coupon_list">
                 <!-- 未使用优惠券样式 -->
                 <ul class="coupon_style01">
                     <present name="rows0:coupon_list">
@@ -64,11 +64,11 @@
                             元
                         </span>
                             <present name="row0:name">
-                                <p class="coupon_style_qs">{$row0->shop_name?$row0->shop_name:''}{$row0->name}</p>
+                                <p class="coupon_style_qs"><!--{$row0->shop_name?$row0->shop_name:''}-->{$row0->name}</p>
                             </present>
-                            <present name="row0:pic">
+                            <!--<present name="row0:pic">
                                 <img class="coupon_hot" src="{$row0->pic}" alt="" />
-                            </present>
+                            </present>-->
                             <div class="coupon_limint_time">
                                 <span>
                                     <present name="row0:min_order_amount">
@@ -95,11 +95,11 @@
                             元
                         </span>
                                 <present name="row1:name">
-                                    <p class="coupon_style_qs">{$row1->shop_name?$row1->shop_name:''}{$row1->name}</p>
+                                    <p class="coupon_style_qs"><!--{$row1->shop_name?$row1->shop_name:''}-->{$row1->name}</p>
                                 </present>
-                                <present name="row1:pic">
+                                <!--<present name="row1:pic">
                                     <img class="coupon_hot" src="{$row1->pic}" alt="" />
-                                </present>
+                                </present>-->
                                 <div class="coupon_limint_time">
                                     <span>
                                         <present name="row1:min_order_amount">
@@ -126,11 +126,11 @@
                             元
                         </span>
                                 <present name="row2:name">
-                                    <p class="coupon_style_qs">{$row2->shop_name?$row2->shop_name:''}{$row2->name}</p>
+                                    <p class="coupon_style_qs"><!--{$row2->shop_name?$row2->shop_name:''}-->{$row2->name}</p>
                                 </present>
-                                <present name="row2:pic">
+                                <!--<present name="row2:pic">
                                     <img class="coupon_hot" src="{$row2->pic}" alt="" />
-                                </present>
+                                </present>-->
                                 <div class="coupon_limint_time">
                                     <span>
                                         <present name="row2:min_order_amount">
@@ -148,49 +148,108 @@
                         </foreach>
                     </present>
                 </ul>
+                <present name="rows0:total">
+                    <if condition="$rows0:total egt 10">
+                        <div align="center" id="coupon_div_add_new_page"><div id="addNewPage" style="color:#696969;border:1px solid #696969;margin:20px;height:30px;width:30%;border-radius:5px;text-align:center;font:16px/30px Microsoft YaHei;">
+                            加载更多</div></div>
+                    </if>
+                </present>
             </div>
         </div>
     </section>
 
     <script type="text/javascript">
         $(function(){
+            var currentPage=2;
+            $('#addNewPage').click(addNP);
+            function addNP(){
+                var status=$(".my_coupon_list").attr('status');
+                $.ajax({
+                    url:'__MODULE__/Coupon/getNewPage',
+                    type:'post',
+                    data:{page:currentPage,status:status},
+                    success:function (e){
+                        if(e && e!=''){
+                            currentPage ++;
+                            if(status == 0){
+                                var div_add_new_page=$('#coupon_div_add_new_page');
+                                $('#coupon_div_add_new_page').remove();
+                                $('.coupon_style01').eq(0).append(e);
+                                $('.coupon_style01').eq(0).append(div_add_new_page);
+                                $('#addNewPage').on('click',addNP);
+                            }else if(status ==1){
+                                var div_add_new_page=$('#coupon_div_add_new_page');
+                                $('#coupon_div_add_new_page').remove();
+                                $('.coupon_style01').eq(1).append(e);
+                                $('.coupon_style01').eq(1).append(div_add_new_page);
+                                $('#addNewPage').on('click',addNP);
+                            }else if(status == -1 ){
+                                var div_add_new_page=$('#coupon_div_add_new_page');
+                                $('#coupon_div_add_new_page').remove();
+                                $('.coupon_style01').eq(2).append(e);
+                                $('.coupon_style01').eq(2).append(div_add_new_page);
+                                $('#addNewPage').on('click',addNP);
+                            }
+                        }else{
+                            layer.open({
+                                content:'到底了',
+                                skin:'msg',
+                                time:2
+                            });
+                            $('#coupon_div_add_new_page').html('<div style="color:#696969;margin:20px;height:30px;width:30%;border-radius:5px;text-align:center;font:16px/30px Microsoft YaHei;">没有更多了</div>');
+                        }
+                    }
+                });
+            }
             $('.my_coupon_list li').click(function() {
                 var i = $(this).index();
                 $(this).addClass('current').siblings().removeClass('current');
                 $('.coupon_style01').eq(i).css('display', 'block').siblings().css('display', 'none');
                 $(".my_coupon_list").attr('status',$(this).attr('status'));
+                var currentlines=parseInt($(this).children().children('span').text());
+                console.log(currentlines);
+                if(currentlines >=10){
+                    var currentPage=2;
+                    $('#coupon_div_add_new_page').remove();
+                    $('#coupon_div_coupon_list').append('<div align="center" id="coupon_div_add_new_page"><div id="addNewPage" style="color:#696969;border:1px solid #696969;margin:20px;height:30px;width:30%;border-radius:5px;text-align:center;font:16px/30px Microsoft YaHei;">加载更多</div></div>');
+                }
             });
             $('.coupon_cancel_page').click(function (){
                 window.location.href='__MODULE__/My/my';
             });
             $('#duihuan').click(function (){
-                layer.prompt({
+                layer.open({
                     title: '请输入优惠券兑换码',
-                    formType: 1 //prompt风格，支持0-2
-                }, function(pass){
-                    $.ajax({
-                        url:'__CONTROLLER__/activateCoupon',
-                        type:'post',
-                        data:{aCode:pass},
-                        success:function (e){
-                            if(e && e!=''){
-                                if(e=='succ'){
-                                    layer.open({
-                                        content:'激活成功，点击刷新',
-                                        btn:['确认'],
-                                        yes:function(){
-                                            window.location.reload();
-                                        }
-                                    });
-                                }else{
-                                    layer.msg(e);
+                    content:'<input type="text" id="coupon_code_excharge" style="background-color:#d3d3d3;border-radius:5px;height:50px;font:18px/50px Microsoft YaHei;width:80%"  />',
+                    btn:['兑换','取消'],
+                    yes:function (index){
+                        var code=$('#coupon_code_excharge').val();
+                        layer.close(index);
+                        $.ajax({
+                            url:'__CONTROLLER__/activateCoupon',
+                            type:'post',
+                            data:{aCode:code},
+                            success:function (e){
+                                if(e && e!=''){
+                                    if(e=='succ'){
+                                        layer.open({
+                                            content:'激活成功，点击刷新',
+                                            btn:['确认'],
+                                            yes:function(){
+                                                window.location.reload();
+                                            }
+                                        });
+                                    }else{
+                                        layer.open({
+                                            content:e,
+                                            skin:'msg',
+                                            time:2
+                                        });
+                                    }
                                 }
                             }
-                        }
-                    });
-                    /*layer.prompt({title: '随便写点啥，并确认', formType: 2}, function(text){
-                        layer.msg('演示完毕！您的口令：'+ pass +' 您最后写下了：'+ text);
-                    });*/
+                        });
+                    }
                 });
             });
             <present name="couponError">

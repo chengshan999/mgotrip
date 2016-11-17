@@ -39,6 +39,8 @@ class OrderController extends BaseController{
             $rows=$result->data;
             if(!empty($rows)){
                 $params['rows']=$rows;
+                $params['currentSize']=count($rows);
+
             }
         }else{
             $params['orderError']=$result->msg;
@@ -46,6 +48,112 @@ class OrderController extends BaseController{
         $params['status']=$status;
         $this->assign($params);
         $this->display('my_order');
+    }
+    /*获取新的分页*/
+    public function getNewPage(){
+        if(IS_AJAX){
+            $page=I('post.page',2);
+            $status=I('post.status',0);
+            $pagesize=C('PAGESIZE');
+            $data=array(
+                'page'=>$page,
+                'page_size'=>$pagesize,
+                'status'=>$status
+            );
+            $result=$this->curlQuickPost(C('ORDER_LIST'),$data);
+            if($result->status=='succ'){
+                $rows=$result->data;
+                if(!empty($rows)){
+                    $str='';
+                    foreach($rows as $row){
+                        if($status==0 || $row->status==$status){
+                            if($row->status==1){
+                                $str.='<div class="dn">
+                                <ul class="in_items">
+                                    <li class="items_t">
+                                        <span class="oder_date">'.substr($row->date,0,9).'</span>
+                                        <span class="oder_time">'.substr($row->date,11).'</span>
+                                        <span class="oder_status fr">未完成</span>
+                                    </li>
+
+                                    <a href="'.U('Order/orderDetail',array('orderNo'=>$row->order_no,'status'=>$status)).'">
+                                        <li class="items_m">
+                                            <p> <strong class="c4d">'.$row->shop.'</strong>
+                                                <strong class="c333">订单号：'.$row->order_no.'</strong>
+                                            </p>
+
+                                            <i><img class="fr" src="/mgotrip/mobile/Public/mgotrip/images/arrow_r.png" alt=""/></i>
+                                        </li>
+                                    </a>
+
+                                    <li class="order_pay_btn" order_no="'.$row->order_no.'">
+                                        <a href="javascript:void(0);">支付</a>
+                                    </li>
+                                </ul>
+                            </div>';
+                            }else if($row->status==-1){
+                                $str.='<div class="dn">
+                                <ul class="in_items">
+                                    <li class="items_t">
+                                        <span class="oder_date">'.substr($row->date,0,9).'</span>
+                                        <span class="oder_time">'.substr($row->date,11).'</span>
+                                        <span class="oder_status fr">已取消</span>
+                                    </li>
+
+                                    <a href="'.U('Order/orderDetail',array('orderNo'=>$row->order_no,'status'=>$status)).'">
+                                        <li class="items_m">
+                                            <p>
+                                                <strong class="c4d">'.$row->shop.'</strong>
+                                                <strong class="c333">订单号：'.$row->order_no.'</strong>
+                                            </p>
+
+                                            <i><img class="fr" src="/mgotrip/mobile/Public/mgotrip/images/arrow_r.png" alt=""/></i>
+                                        </li>
+                                    </a>
+
+                                    <li class="dingdan_icon_delete">
+                            <span class="delbtn" order_no="'.$row->order_no.'">
+                                <img src="/mgotrip/mobile/Public/mgotrip/images/dingdan_icon_delete.png" alt=""/>
+                            </span>
+                                    </li>
+                                </ul>
+                            </div>';
+                            }else if($row->status==2){
+                                $str.='<div class="dn">
+                                <ul class="in_items">
+                                    <li class="items_t">
+                                        <span class="oder_date">'.substr($row->date,0,9).'</span>
+                                        <span class="oder_time">'.substr($row->date,11).'</span>
+                                        <span class="oder_status fr">已完成</span>
+                                    </li>
+
+                                    <a href="'.U('Order/orderDetail',array('orderNo'=>$row->order_no,'status'=>$status)).'">
+                                        <li class="items_m"><!--order_details.html-->
+                                            <p>
+                                                <strong class="c4d">'.$row->shop.'</strong>
+                                                <strong class="c333">订单号：'.$row->order_no.'</strong>
+                                            </p>
+
+                                            <i>
+                                                <img class="fr" src="/mgotrip/mobile/Public/mgotrip/images/arrow_r.png" alt=""/>
+                                            </i>
+                                        </li>
+                                    </a>
+
+                                    <li class="dingdan_icon_delete">
+                            <span class="delbtn" order_no="'.$row->order_no.'">
+                                <img src="/mgotrip/mobile/Public/mgotrip/images/dingdan_icon_delete.png" alt=""/>
+                            </span>
+                                    </li>
+                                </ul>
+                            </div>';
+                            }
+                        }
+                    }
+                    echo $str;
+                }
+            }
+        }
     }
     /*订单删除*/
     public function orderDelete(){
