@@ -13,11 +13,10 @@ class TaxiController extends BaseController{
     public function getInfoForWaitTaxi(){//WAIT_TAXI
         if(IS_AJAX){
             $result=$this->curlQuickPost(C('WAIT_TAXI'));
-            //echo json_encode($result);exit;
             if($result->status='succ'){
-                if($result->data->order_no && $result->data->time_remaining){
-                    $data=$result->data;
-                    echo json_encode($data);
+                $data=$result->data;
+                if($data[0]->order_no && $data[0]->time_remaining){
+                    echo json_encode($data[0]);
                 }
             }
         }
@@ -28,7 +27,7 @@ class TaxiController extends BaseController{
             $orderNo=I('post.orderNo','');
             if($orderNo){
                 $result=$this->curlQuickPost(C('QUERY_TAXI'),array('order_no'=>$orderNo));
-                if($result->status=='succ' && in_array('',$result->data)){
+                if($result->status=='succ' && !in_array('',$result->data)){
                     echo json_encode($result->data);
                 }
             }

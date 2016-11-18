@@ -60,6 +60,7 @@
 				$(this).addClass('on').siblings().removeClass('on');
 			});
 			$('#payment_confirm_pay').click(function (){
+				createLoadingLayer();
 				$('#order_create_desti_latitude').val($('#index_input_end').attr('lat'));
 				$('#order_create_desti_longitude').val($('#index_input_end').attr('lng'));
 				$('#order_create_destination').val($('#index_input_end').val());
@@ -73,10 +74,9 @@
 					data:$('#index_form_qsOrderCreate').serialize(),
 					success:function (e){
 						if(e && e!=''){
-							//console.log(JSON.parse(e));
-							console.log(e);
 							window.location.href=e;
 						}else{
+							layer.closeAll();
 							layer.open({
 								content:'请求失败，点击刷新',
 								btn:['确定'],

@@ -33,25 +33,84 @@
 			<p class="timeout"></p>
 		</div>
 	</div>
-	<!--加载take_taxi2.html页面-->
-	<include file="Taxi/take_taxi2"/>
+
 </div>
+<!--加载take_taxi2.html页面-->
+<include file="Taxi/take_taxi2" />
 
 <script type="text/javascript">
-	$(function(){
-		getCountDownInfo();//开启倒计时
-		createMap();
-	});
+	//优先处理
 	var  btn_countDown='';
 	var  btn_sendTaxi='';
 	var orderNo='';
+
+	createLoadingLayer();
+	getCountDownInfo();//开启倒计时
+	//createMap();
+
+	//生成定位地图
+	//function createMap(){
+		var map= new BMap.Map('takeTaxi_baidumap');
+		map.centerAndZoom('{$currentCity}',15);
+		map.enableScrollWheelZoom(true);
+		map.disableInertialDragging();
+
+		//获取起始和目的地位置
+		var startToEndPosition=JSON.parse('{$Think.cookie.startToEndPosition}');
+		var sPoint=new BMap.Point(startToEndPosition.sLng,startToEndPosition.sLat);
+		var ePoint=new BMap.Point(startToEndPosition.eLng,startToEndPosition.eLat);
+
+		var sIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/start.png',new BMap.Size(30,30),{imageOffset: new BMap.Size(0,0)});
+		var eIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/end.png',new BMap.Size(30,30),{imageOffset: new BMap.Size(0,0)});
+
+		var sMarker=new BMap.Marker(sPoint,{icon:sIcon});
+		map.addOverlay(sMarker);
+		var eMarker=new BMap.Marker(ePoint,{icon:eIcon});
+		map.addOverlay(eMarker);
+
+		//var geoc=new BMap.Geocoder();
+		var geolocation=new BMap.Geolocation();
+
+		var meIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/me.png',new BMap.Size(32,32),{imageOffset: new BMap.Size(0, 0)});
+		var carIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/car.png',new BMap.Size(13.5,34.5),{imageOffset: new BMap.Size(0, 0)});
+
+		var meMarker='';
+		geolocation.getCurrentPosition(function (r){
+			if(this.getStatus() == BMAP_STATUS_SUCCESS){
+				map.centerAndZoom(r.point,16);
+				meMarker=new BMap.Marker(r.point,{icon:meIcon});
+				map.addOverlay(meMarker);
+				//map.panTo(r.point);
+				/*geoc.getLocation(r.point,function(ci){
+				 var addrinfo=ci.addressComponents;
+				 var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
+				 });*/
+			}else{
+				layer.open({
+					content:'当前位置获取失败，点击刷新',
+					btn:['确定'],
+					yes:function (){
+						window.location.reload();
+					}
+				});
+			}
+		},{enableHighAccuracy:true});
+
+		setInterval(function (){
+			geolocation.getCurrentPosition(function (r){
+				if(this.getStatus() == BMAP_STATUS_SUCCESS){
+					meMarker.setPosition(r.point);
+				}
+			},{enableHighAccuracy:true});
+		},50000);
+
+	//}
+
 	//请求派车准备阶段，倒计时接口
 	function getCountDownInfo(){
 		$.ajax({
 			url:'__MODULE__/Taxi/getInfoForWaitTaxi',
 			success:function (e){
-				/*console.log(orderNo);
-				console.log(e);*/
 				if(e && e!=''){
 					var data=JSON.parse(e);
 					orderNo=data.order_no;
@@ -59,6 +118,7 @@
 					var countDown=data.time_remaining;
 					beginCountDown(countDown);
 				}else{
+					layer.closeAll();
 					$('#takeTaxi_div_count_down').hide();
 					layer.open({
 						content:'到车时间获取失败，重新获取',
@@ -88,11 +148,40 @@
 						$('#takeTaxi2_driver_name').text(data.driver_name);
 						$('#takeTaxi2_car_no').text(data.car_no);
 						$('#takeTaxi2_driver_phone').text(data.mdt_phone);
-						$('#takeTaxi2_call_button').text('tel:'+data.mdt_phone);
-						$('#page_takeTaxi2').show();
-						$('#takeTaxi_div_count_down').hide();
-						clearInterval(btn_countDown);
-						clearInterval(btn_sendTaxi);
+						$('#takeTaxi2_call_button').attr('href','tel:'+data.mdt_phone);
+
+						//计算出租车与起点的信息
+						var carLng=data.current_lo;
+						var carLat=data.current_la;
+						var carPoint=new BMap.Point(carLng,carLat);
+						var carMarker=new BMap.Marker(carPoint,{icon:carIcon});
+						map.addOverlay(carMarker);
+						var outputtime='';
+						var outputdistance='';
+						var searchComplete = function (results){
+							if (transit.getStatus() != BMAP_STATUS_SUCCESS){
+								return ;
+							}
+							var plan = results.getPlan(0);
+							outputtime= plan.getDuration(true);                //获取时间
+							outputdistance= plan.getDistance(true);             //获取距离
+						}
+						var transit = new BMap.DrivingRoute(map, {renderOptions: {map: map},
+							onSearchComplete: searchComplete,
+							onPolylinesSet: function(){
+								setTimeout(function(){
+									$('#takeTaxi_div_count_down').hide();
+									$('#page_takeTaxi2').show();
+									clearInterval(btn_countDown);
+									clearInterval(btn_sendTaxi);
+									layer.open({
+										content:'您喊的车将在'+outputtime+'内到达,总路程为：'+outputdistance,
+										skin:'msg',
+										time:5
+									});
+								},1000);
+							}});
+						transit.search(carPoint,sPoint);
 					}
 				}
 			});
@@ -101,14 +190,26 @@
 	//开启倒计时提示
 	function beginCountDown(cd){
 		//倒计时
+		layer.closeAll();
 		$('#takeTaxi_div_count_down').show();
 		var num=cd;
 		btn_countDown=setInterval(function(){
 			--num;
-			if(num > 1){
+			if(num >= 0){
 				return $('.timeout').html(num+'秒');
+			}else{
+				//倒计时已经结束，此次没有喊到车，再喊一次吧
+				clearInterval(btn_countDown);
+				clearInterval(btn_sendTaxi);
+				$('#takeTaxi_div_count_down').hide();
+				layer.open({
+					content:'目前无人接单，清稍后再试',
+					btn:'确定',
+					yes:function (){
+						window.location.href='__MODULE__/Index/index';
+					}
+				})
 			}
-			getCountDownInfo();
 		},1000);
 	}
 	//取消叫车
@@ -121,6 +222,7 @@
 					content:'确定取消订单？',
 					btn:['确定取消','不取消了'],
 					yes:function (index){
+						createLoadingLayer();
 						requestCancelCall();
 					}
 				});
@@ -139,6 +241,7 @@
 					var isRefund=JSON.parse(e);
 					if(isRefund==1){
 						//已退服务费
+						layer.closeAll();
 						layer.open({
 							content:'服务费已经退还到您的账户',
 							btn:['确定'],
@@ -152,6 +255,7 @@
 					}
 				}else{
 					//取消失败
+					layer.closeAll();
 					layer.open({
 						content:'请求失败，点击再试一次',
 						btn:['再试一次','不取消了'],
@@ -164,48 +268,6 @@
 		});
 	}
 
-	function createMap(){
-		var map= new BMap.Map('takeTaxi_baidumap');
-		map.centerAndZoom('{$currentCity}',15);
-		map.enableScrollWheelZoom(true);
-		map.disableInertialDragging();
-
-		//获取起始和目的地位置
-		var startToEndPosition=JSON.parse('{$Think.cookie.startToEndPosition}');
-		var sPoint=new BMap.Point(startToEndPosition.sLng,startToEndPosition.sLat);
-		var ePoint=new BMap.Point(startToEndPosition.eLng,startToEndPosition.eLat);
-
-		var sIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/start.png',new BMap.Size(40,40),{imageOffset: new BMap.Size(0, 0)});
-		var eIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/end.png',new BMap.Size(40,40),{imageOffset: new BMap.Size(0, 0)});
-
-		var sMarker=new BMap.Marker(sPoint,{icon:sIcon});
-		map.addOverlay(sMarker);
-		var eMarker=new BMap.Marker(ePoint,{icon:eIcon});
-		map.addOverlay(eMarker);
-
-		//var geoc=new BMap.Geocoder();
-		var geolocation=new BMap.Geolocation();
-
-		geolocation.getCurrentPosition(function (r){
-			if(this.getStatus() == BMAP_STATUS_SUCCESS){
-				map.centerAndZoom(r.point,16);
-				//map.panTo(r.point);
-				/*geoc.getLocation(r.point,function(ci){
-					var addrinfo=ci.addressComponents;
-					var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
-				});*/
-			}else{
-				layer.open({
-					content:'当前位置获取失败，点击刷新',
-					btn:['确定'],
-					yes:function (){
-						window.location.reload();
-					}
-				});
-			}
-		},{enableHighAccuracy:true});
-
-	}
 	</script>
 </body>
 </html>

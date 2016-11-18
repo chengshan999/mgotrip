@@ -6,4 +6,13 @@ $(function() {
 		window.history.back();
 	})*/
 
-  })
+
+  });
+//生成加载层
+  function createLoadingLayer(){
+    layer.open({
+      type: 2,
+      content: '请稍候',
+      shadeClose:false
+    });
+  }
