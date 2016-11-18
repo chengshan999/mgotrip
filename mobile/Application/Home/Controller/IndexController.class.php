@@ -3,7 +3,9 @@ namespace Home\Controller;
 use Think\Controller;
 class IndexController extends Controller {
     public function _initialize(){
-        if(!empty(session('user_data.token')) && !empty(session('user_data.mobile'))){
+        $session_token=session('user_data.token');
+        $session_mobile=session('user_data.mobile');
+        if(!empty($session_token) && !empty($session_mobile)){
             $this->assign('user_data',session('user_data'));
         }else{
             session('user_data',null);

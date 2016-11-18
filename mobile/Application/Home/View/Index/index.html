@@ -113,7 +113,7 @@
     map.enablePinchToZoom();
     map.disableInertialDragging();
 
-//    writeObj(G('index_baidumap'));
+    //    writeObj(G('index_baidumap'));
     /*定位箭头图标到地图中心点 start*/
     var ww=document.getElementById('index_baidumap').offsetWidth;
     var wh=document.getElementById('index_baidumap').offsetHeight;
@@ -171,59 +171,75 @@
     map.addEventListener('dragend',moveGetAddr);
     map.addEventListener('touchmove',moveGetAddr);
 
-    $(function(){
-        $('#page_des').hide();
-        $('#page_origin').hide();
-        /*点击起始位置事件*/
-        $('.u_panel li.org').click(function(){
-            $('#index_mid_logo').poshytip('hide');
-            $('#origin_indexInputStart').text($('#index_input_start').val());
-            $('#page_origin').show();
-            $('#page_index').addClass('move_to_left');
-            $.ajax({
-                url:'__CONTROLLER__/getAddr',
-                type:'get',
-                data:{act:'org'},
-                success:function (e){
-                    if(e && e!=''){
-                        var list=e+'<a href="javascript:void(0)" class="clear_record" id="origin_clear_record">清空历史记录</a>';
-                        $('#origin_histroyList_div').html(list);
-                        $('.origin_histroyList_li').on('click',{page:'org'},jumpToHistroy);
-                        $('#origin_clear_record').on('click',{page:'org'},clearRecord);
-                    }
+    //$(function(){
+    $('#page_des').hide();
+    $('#page_origin').hide();
+    jumpSearchIndex('origin_input_start','origin_searchResultPanel','page_origin','org');
+    jumpSearchIndex('des_input_end','des_searchResultPanel','page_des','des');
+    /*点击起始位置事件*/
+    $('.u_panel li.org').click(function(){
+        $('#index_mid_logo').poshytip('hide');
+        $('#origin_indexInputStart').text($('#index_input_start').val());
+        $('#page_origin').show();
+        $('#page_index').addClass('move_to_left');
+        $.ajax({
+            url:'__CONTROLLER__/getAddr',
+            type:'get',
+            data:{act:'org'},
+            success:function (e){
+                if(e && e!=''){
+                    var list=e+'<a href="javascript:void(0)" class="clear_record" id="origin_clear_record">清空历史记录</a>';
+                    $('#origin_histroyList_div').html(list);
+                    $('.origin_histroyList_li').on('click',{page:'org'},jumpToHistroy);
+                    $('#origin_clear_record').on('click',{page:'org'},clearRecord);
                 }
-            });
-            jumpSearchIndex('origin_input_start','origin_searchResultPanel','page_origin','org');
-        })
-        /*点击终点位置事件*/
-        $('.u_panel li.des').click(function(){
-            $('#index_mid_logo').poshytip('hide');
-            //$('#des_indexInputStart').text($('#index_input_end').val());
-            $('#page_des').show();
-            $('#page_index').addClass('move_to_left');
-            $.ajax({
-                url:'__CONTROLLER__/getAddr',
-                type:'get',
-                data:{act:'des'},
-                success:function (e){
-                    if(e && e!=''){
-                        var list=e+'<a href="javascript:void(0)" class="clear_record" id="des_clear_record">清空历史记录</a>';
-                        $('#des_histroyList_ul').html(list);
-                        $('.des_histroyList_li').on('click',{page:'des'},jumpToHistroy);
-                        $('#des_clear_record').on('click',{page:'des'},clearRecord);
-                    }
-                }
-            });
-            jumpSearchIndex('des_input_end','des_searchResultPanel','page_des','des');
+            }
         });
-        $('.on_taxi.index_jumpout_need_hide').click(function(){
-            var sPosition=$('#index_input_start').val();
-            var ePosition=$('#index_input_end').val();
-            if(sPosition=='' || sPosition=='定位中...' || ePosition==''){
+        /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@222222*/
+    })
+    /*点击终点位置事件*/
+    $('.u_panel li.des').click(function(){
+        $('#index_mid_logo').poshytip('hide');
+        $('#page_des').show();
+        $('#page_index').addClass('move_to_left');
+        $.ajax({
+            url:'__CONTROLLER__/getAddr',
+            type:'get',
+            data:{act:'des'},
+            success:function (e){
+                if(e && e!=''){
+                    var list=e+'<a href="javascript:void(0)" class="clear_record" id="des_clear_record">清空历史记录</a>';
+                    $('#des_histroyList_ul').html(list);
+                    $('.des_histroyList_li').on('click',{page:'des'},jumpToHistroy);
+                    $('#des_clear_record').on('click',{page:'des'},clearRecord);
+                }
+            }
+        });
+        /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+    });
+    $('.on_taxi.index_jumpout_need_hide').click(function(){
+        var isLogin='';
+        <present name="user_data">
+        isLogin='yes';
+        </present>
+        var sPosition=$('#index_input_start').val();
+        var ePosition=$('#index_input_end').val();
+        if(sPosition=='' || sPosition=='定位中...' || ePosition==''){
+            layer.open({
+                content:'起始位置和目的地都不能为空',
+                btn:'确定'
+            });
+        }else{
+            if(isLogin==''){
+                //未登录
                 layer.open({
-                    content:'起始位置和目的地都不能为空',
-                    btn:'确定'
+                    content:'请先登录',
+                    skin:'msg',
+                    time:2
                 });
+                $('.shade3_box').slideDown();
+                $('body').addClass('hidden');
+
             }else{
                 map.disableScrollWheelZoom();
                 map.disableDoubleClickZoom();
@@ -236,42 +252,43 @@
                 $('#nextStep_input_start').val($('#index_input_start').val());
                 $('#nextStep_input_end').val($('#index_input_end').val());
             }
-        });
-        $('.arrow_r.index_jumpout_need_show').click(function(){
-            var backTo=$(this).attr('back_to');
-            switch(backTo){
-                case 'index':
-                    map.enableScrollWheelZoom();
-                    map.enableDoubleClickZoom();
-                    map.enableDragging();
-                    map.enablePinchToZoom();
-                    $('.arrow_r.index_jumpout_need_show').attr('back_to','');
-                    $('.index_jumpout_need_hide').show();
-                    $('.index_jumpout_need_show').hide();
-                    $('#index_mid_logo').poshytip('show');
-                    break;
-                case 'nextStep':
-                    $('#page_nextStep').show();
-                    $('#page_addPassenger').hide();
-                    $('.arrow_r.index_jumpout_need_show').attr('back_to','index');
-                    break;
-                case 'addPassenger':
-                    $('#page_addPassenger').show();
-                    $('#page_passenger').hide();
-                    $('#page_payment').hide();
-                    $('.arrow_r.index_jumpout_need_show').attr('back_to','nextStep');
-                    break;
-                case 'passenger':
-                    $('#page_passenger').show();
-                    $('#page_payment').hide();
-                    $('.arrow_r.index_jumpout_need_show').attr('back_to','addPassenger');
-                    break;
-
-                default:
-                    break;
-            }
-        });
+        }
     });
+    $('.arrow_r.index_jumpout_need_show').click(function(){
+        var backTo=$(this).attr('back_to');
+        switch(backTo){
+            case 'index':
+                map.enableScrollWheelZoom();
+                map.enableDoubleClickZoom();
+                map.enableDragging();
+                map.enablePinchToZoom();
+                $('.arrow_r.index_jumpout_need_show').attr('back_to','');
+                $('.index_jumpout_need_hide').show();
+                $('.index_jumpout_need_show').hide();
+                $('#index_mid_logo').poshytip('show');
+                break;
+            case 'nextStep':
+                $('#page_nextStep').show();
+                $('#page_addPassenger').hide();
+                $('.arrow_r.index_jumpout_need_show').attr('back_to','index');
+                break;
+            case 'addPassenger':
+                $('#page_addPassenger').show();
+                $('#page_passenger').hide();
+                $('#page_payment').hide();
+                $('.arrow_r.index_jumpout_need_show').attr('back_to','nextStep');
+                break;
+            case 'passenger':
+                $('#page_passenger').show();
+                $('#page_payment').hide();
+                $('.arrow_r.index_jumpout_need_show').attr('back_to','addPassenger');
+                break;
+
+            default:
+                break;
+        }
+    });
+    //});
     /*page_index end********************************************/
 
     /*page_origin start****************************************/

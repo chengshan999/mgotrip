@@ -3,6 +3,7 @@ return array(
     'DEVICE'=>'H5',//请求接口device传值
     'VERSION'=>'1.0',//请求接口version传值
     'PAGESIZE'=>10,//分页每页条数
+    'BAIDUMAP_AK'=>'UQRkijgp4GWEFa1g2cRQpytGox5nf5dy',
     'CAR_TYPE_UNLIMITED'=>0,//车型 不限
     'CAR_TYPE_SANGTANA'=>2,//车型 桑塔纳
     'CAR_TYPE_TUAN'=>5,//车型 途观
