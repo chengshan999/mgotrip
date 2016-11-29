@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Public/cite"/>
+</head>
+<body>
+<script type="text/javascript">
+    <present name='url'>
+        alertMsg('{$url}');
+    </present>
+    function alertMsg(url){
+        layer.open({
+            content:'支付成功，订单完成！',
+            btn:'确定',
+            yes:function(){
+                createLoadingLayer();
+                window.location.href=url;
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -80,12 +80,13 @@ class IndexController extends Controller {
                         if($amount){
                             if($pay_type && $orderId){
                                 //PAYMENT_REDIRECT
-                                $re_pay_service=$this->curlQuickPost(C('PAYMENT_REDIRECT'),array(
+                                $payParams=array(
                                     'is_other_fee'=>1,
                                     'order_id'=>$orderId,
                                     'pay_amount'=>$amount,
                                     'pay_corporation_id'=>$pay_type
-                                ));
+                                );
+                                $re_pay_service=$this->curlQuickPost(C('PAYMENT_REDIRECT'),$payParams);
                                 if($re_pay_service->status=='succ'){
                                     $code=json_decode($re_pay_service->data);
                                     $url=$code->url;
@@ -97,8 +98,8 @@ class IndexController extends Controller {
                                         unset($code->url);
                                         unset($code->method);
                                         $params=http_build_query($code);
-                                        session('orderNoId',null);
-                                        session('orderNoId',$orderNo);
+                                        cookie('orderNoParams',null);
+                                        cookie('orderNoParams',serialize($payParams));
                                         echo $url.$params;
                                     }
                                 }

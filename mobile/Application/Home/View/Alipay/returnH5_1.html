@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Public/cite"/>
+</head>
+<body>
+<script type="text/javascript">
+    alertMsg();
+    countDown();
+    function alertMsg(){
+        layer.open({
+            content:'支付处理中，<span id="count">5</span>秒后再试！'
+        });
+    }
+    function countDown(){
+        var intervalNum=setInterval(function (){
+            var count=parseInt($('#count').text());
+            if(count>0){
+                count--;
+                $('#count').text(count);
+            }else{
+                layer.closeAll();
+                layer.open({
+                    content:'点击查看支付状态',
+                    btn:['确定','取消'],
+                    yes:function(){
+                        window.location.reload();
+                    },
+                    no:function(){
+                        window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder';
+                    }
+                });
+                clearInterval(intervalNum);
+            }
+        },1000);
+    }
+</script>
+</body>
+</html>

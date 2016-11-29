@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Public/cite"/>
+</head>
+<body>
+<script type="text/javascript">
+    <present name='url'>
+        alertMsg('{$url}');
+    </present>
+    function alertMsg(url){
+        layer.open({
+            content:'打车费支付失败，再付一次？',
+            btn:['确定','取消'],
+            yes:function(){
+                createLoadingLayer();
+                window.location.href=url;
+            },
+            no:function(){
+                window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder';
+            }
+        });
+    }
+</script>
+</body>
+</html>

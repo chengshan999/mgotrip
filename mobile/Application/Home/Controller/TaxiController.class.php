@@ -98,12 +98,13 @@ class TaxiController extends BaseController{
                     if(!empty($data->order_id)){
                         if($data->amount){
                             //跳转到支付
-                            $payRe=$this->curlQuickPost(C('PAYMENT_REDIRECT'),array(
+                            $payParams=array(
                                 'is_other_fee'=>0,
                                 'order_id'=>$data->order_id,
                                 'pay_amount'=>$data->amount,
                                 'pay_corporation_id'=>$payType
-                            ));
+                            );
+                            $payRe=$this->curlQuickPost(C('PAYMENT_REDIRECT'),$payParams);
                             if($payRe->status=='succ'){
                                 $code=json_decode($payRe->data);
                                 $url=$code->url;
@@ -113,8 +114,8 @@ class TaxiController extends BaseController{
                                     unset($code->url);
                                     unset($code->method);
                                     $params=http_build_query($code);
-                                    session('orderNoId',null);
-                                    session('orderNoId',$orderNo);
+                                    cookie('orderNoParams',null);
+                                    cookie('orderNoParams',serialize($payParams));
                                     echo $url.$params;
                                 }
                             }
