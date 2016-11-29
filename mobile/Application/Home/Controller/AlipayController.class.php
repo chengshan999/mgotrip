@@ -88,7 +88,7 @@ class AlipayController extends BaseController{
                             //打车费支付中，重载界面
                             $this->display('returnH5_1');
                         }else{
-                            //打车费未支付成功，重新支付
+                            //打车费支付失败，重新支付
                             $payRe=$this->curlQuickPost(C('PAYMENT_REDIRECT'),$orderNoArr);
                             if($payRe->status=='succ'){
                                 $code=json_decode($payRe->data);
@@ -104,6 +104,8 @@ class AlipayController extends BaseController{
                                     ));
                                 }
                             }
+                            //退还优惠券
+                            $this->curlQuickPost(C('COUPON_RETURN'),array('order_id'=>$order_id));
                             $this->display('returnH5_4');
                         }
                     }

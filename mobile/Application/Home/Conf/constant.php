@@ -30,6 +30,7 @@ return array(
     'COUPON_ALLLIST'=>API_SITE.'app/coupon/all_list',//（未使用的）优惠券列表
     'COUPON_LIST'=>API_SITE.'app/coupon/list',//（所有类型的）优惠券列表
     'COUPON_ACTIVATE'=>API_SITE.'app/coupon/active',//优惠券激活
+    'COUPON_RETURN'=>API_SITE.'app/order/unpay_deal',//退还优惠券（支付失败）
 
     'PASSENGER_LIST'=>API_SITE.'app/passenger/list',//客户信息列表
     'SERVICE_CHARGE'=>API_SITE.'app/service/qs_info',//服务费信息
