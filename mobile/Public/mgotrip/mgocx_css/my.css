@@ -346,19 +346,20 @@ body {
 /*未完成支付*/
 .my_order_items .in_items .order_pay_btn {
     width: 100%;
-    height: 36px;
+    height: 45px;
     position:relative;
+    overflow: hidden;
+    padding:5px 0;
 }
 .my_order_items .in_items .order_pay_btn a {
     display: block;
-    width: 53px;
-    height: 22px;
-    line-height: 22px;
+    width: 80px;
+    height: 35px;
+    font:16px/35px Microsoft YaHei;
+    color:#fff;
     border-radius: 3px;
     background-color: #dddfe0;
-    position:absolute;
-    right: 18px;
-    top: 22%;
+    float:right;
     text-align: center;
 }
 .c333 {

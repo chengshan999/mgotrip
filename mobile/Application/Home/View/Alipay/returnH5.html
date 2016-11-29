@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Public/cite"/>
+</head>
+<body>
+<script type="text/javascript">
+    $(function(){
+        alertMsg();
+        function alertMsg(){
+            layer.open({
+                content:'{$msg}',
+                btn:'确定',
+                yes:function(){
+                    createLoadingLayer();
+                    window.location.href='{$url}';
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

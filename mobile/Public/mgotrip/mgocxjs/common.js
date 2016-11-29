@@ -12,7 +12,6 @@ $(function() {
   function createLoadingLayer(){
     layer.open({
       type: 2,
-      content: '请稍候',
-      shadeClose:false
+      content: '加载中'
     });
   }

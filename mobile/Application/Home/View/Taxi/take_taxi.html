@@ -12,6 +12,42 @@
 	<meta name="full-screen" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<include file="Public/cite"/>
+	<style type="text/css">
+		.both_float{
+			float:left;
+		}
+		.pay_style{
+			background: none;
+			position: absolute;
+			bottom: 54px;
+			left: 0;
+			width: 100%;
+			overflow: auto;
+			padding:8px 15px 0;
+			box-shadow: 0 0 2px 1px #ebebeb;
+			z-index: 3;
+			position: relative;
+			box-sizing: border-box;
+		}
+		.pay_style a{
+			background: #ffc300;
+			font-weight: bold;
+			border-radius: 3px;
+			border:1px solid #edb80a;
+			color: #212121;
+			font: 18px Microsoft YaHei;
+			text-align: center;
+			padding:5px 0;
+			display: block;
+			width:45%;
+			color:#fff;
+		}
+		#payment2_ul_coupon_list li{
+			height:35px;
+			font:18px/35px Microsoft YaHei;
+			text-align:center;
+		}
+	</style>
 <body>
 <header class="head_bar">
 	<a href="javascript:void(0)" class="arrow_canel" id="takeTaxi_cancel_call_taxi">取消叫车</a>
@@ -19,6 +55,9 @@
 	<!--<a href="javascript:void(0)" class="user_login"></a>-->
 </header>
 <!--魔购头部-->
+<div class="main_sm" id="takeTaxi_show_driver_info" style="background:none;display:none;">
+	<a href="javascript:void(0);" class="pay_btn30s" style="color:#fff;">车辆信息</a>
+</div>
 <!--魔购出行 star-->
 <div class="mgo_map_index" >
 	<div id="takeTaxi_baidumap" style="height:100%;"></div>
@@ -34,84 +73,92 @@
 		</div>
 	</div>
 
+	<div class="pay_style" id="takeTaxi_div_pay_method" style="overflow:hidden;display:none;">
+		<a href="javascript:void(0);" id="takeTaxi_cash_pay" class="both_float"  style="margin-right:5%;border:1px solid #4c4c4c;background-color:#4c4c4c;">现金支付</a>
+		<a href="javascript:void(0);" id="takeTaxi_online_pay" class="both_float"  style="margin-left:5%;">在线支付</a>
+	</div>
 </div>
 <!--加载take_taxi2.html页面-->
 <include file="Taxi/take_taxi2" />
 
+<!--加载payment2.html页面-->
+<include file="Taxi/payment2" />
+<input type="hidden" id="takeTaxi_input_order_no" value="0"/>
 <script type="text/javascript">
 	//优先处理
 	var  btn_countDown='';
 	var  btn_sendTaxi='';
-	var orderNo='';
+	var  btn_firstSetCurrent='';
+	var  btn_secondSetCurrent='';
+	var  orderNo='';
 
 	createLoadingLayer();
 	getCountDownInfo();//开启倒计时
-	//createMap();
+
 
 	//生成定位地图
-	//function createMap(){
-		var map= new BMap.Map('takeTaxi_baidumap');
-		map.centerAndZoom('{$currentCity}',15);
-		map.enableScrollWheelZoom(true);
-		map.disableInertialDragging();
+	var map= new BMap.Map('takeTaxi_baidumap');
+	map.centerAndZoom('{$currentCity}',15);
+	map.enableScrollWheelZoom(true);
+	map.disableInertialDragging();
 
-		//获取起始和目的地位置
-		var startToEndPosition=JSON.parse('{$Think.cookie.startToEndPosition}');
-		var sPoint=new BMap.Point(startToEndPosition.sLng,startToEndPosition.sLat);
-		var ePoint=new BMap.Point(startToEndPosition.eLng,startToEndPosition.eLat);
+	//获取起始和目的地位置
+	var startToEndPosition=JSON.parse('{$Think.cookie.startToEndPosition}');
+	var sPoint=new BMap.Point(startToEndPosition.sLng,startToEndPosition.sLat);
+	var ePoint=new BMap.Point(startToEndPosition.eLng,startToEndPosition.eLat);
 
-		var sIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/start.png',new BMap.Size(30,30),{imageOffset: new BMap.Size(0,0)});
-		var eIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/end.png',new BMap.Size(30,30),{imageOffset: new BMap.Size(0,0)});
+	var sIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/start.png',new BMap.Size(20,20),{imageOffset: new BMap.Size(0,0)});
+	var eIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/end.png',new BMap.Size(20,20),{imageOffset: new BMap.Size(0,0)});
 
-		var sMarker=new BMap.Marker(sPoint,{icon:sIcon});
-		//map.addOverlay(sMarker);
-		var eMarker=new BMap.Marker(ePoint,{icon:eIcon});
-		//map.addOverlay(eMarker);
+	var sMarker=new BMap.Marker(sPoint,{icon:sIcon});
+	//map.addOverlay(sMarker);
+	var eMarker=new BMap.Marker(ePoint,{icon:eIcon});
+	//map.addOverlay(eMarker);
 
-		//var geoc=new BMap.Geocoder();
-		var geolocation=new BMap.Geolocation();
+	//var geoc=new BMap.Geocoder();
+	var geolocation=new BMap.Geolocation();
 
-		var meIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/me.png',new BMap.Size(32,32),{imageOffset: new BMap.Size(0, 0)});
-		var carIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/car.png',new BMap.Size(13.5,34.5),{imageOffset: new BMap.Size(0, 0)});
+	var meIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/me.png',new BMap.Size(32,32),{imageOffset: new BMap.Size(0, 0)});
+	var carIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/car.png',new BMap.Size(13.5,34.5),{imageOffset: new BMap.Size(0, 0)});
 
-		var meMarker='';
-		var carMarker='';
+	var meMarker='';
+	var carMarker='';
+	geolocation.getCurrentPosition(function (r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			map.centerAndZoom(r.point,15);
+			meMarker=new BMap.Marker(r.point,{icon:meIcon});
+			//map.addOverlay(meMarker);
+
+			//map.panTo(r.point);
+			/*geoc.getLocation(r.point,function(ci){
+			 var addrinfo=ci.addressComponents;
+			 var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
+			 });*/
+		}else{
+			layer.open({
+				content:'当前位置获取失败，点击刷新',
+				btn:['确定'],
+				yes:function (){
+					window.location.reload();
+				}
+			});
+		}
+	},{enableHighAccuracy:true});
+
+	btn_firstSetCurrent=setInterval(function (){
 		geolocation.getCurrentPosition(function (r){
 			if(this.getStatus() == BMAP_STATUS_SUCCESS){
-				map.centerAndZoom(r.point,16);
-				meMarker=new BMap.Marker(r.point,{icon:meIcon});
-				//map.addOverlay(meMarker);
-
-				//map.panTo(r.point);
-				/*geoc.getLocation(r.point,function(ci){
-				 var addrinfo=ci.addressComponents;
-				 var firstMsg=addrinfo.province+addrinfo.city+addrinfo.district+addrinfo.street+addrinfo.streetNumber;
-				 });*/
-			}else{
-				layer.open({
-					content:'当前位置获取失败，点击刷新',
-					btn:['确定'],
-					yes:function (){
-						window.location.reload();
-					}
-				});
+				meMarker.setPosition(r.point);
+				map.panTo(r.point);
 			}
 		},{enableHighAccuracy:true});
+	},10000);
 
-		setInterval(function (){
-			geolocation.getCurrentPosition(function (r){
-				if(this.getStatus() == BMAP_STATUS_SUCCESS){
-					meMarker.setPosition(r.point);
-				}
-			},{enableHighAccuracy:true});
-		},50000);
-
-	//}
 
 	//请求派车准备阶段，倒计时接口
 	function getCountDownInfo(){
 		$.ajax({
-			url:'__MODULE__/Taxi/getInfoForWaitTaxi',
+			url:'__ROOT__/index.php?m=Home&c=Taxi&a=getInfoForWaitTaxi',
 			success:function (e){
 				if(e && e!=''){
 					var data=JSON.parse(e);
@@ -119,6 +166,8 @@
 					isSendTaxi(orderNo);
 					var countDown=data.time_remaining;
 					beginCountDown(countDown);
+					//保存订单号到页面上
+					$('#takeTaxi_input_order_no').val(orderNo);
 				}else{
 					layer.closeAll();
 					$('#takeTaxi_div_count_down').hide();
@@ -129,7 +178,7 @@
 							getCountDownInfo();
 						},
 						no:function (){
-							window.location.href='__MODULE__/Index/index';
+							window.location.href='__ROOT__/index.php?m=Home&c=Index&a=index';
 						}
 					});
 				}
@@ -140,7 +189,7 @@
 	function isSendTaxi(no){
 		btn_sendTaxi=setInterval(function(){
 			$.ajax({
-				url:'__MODULE__/Taxi/queryTaxiIsCome',
+				url:'__ROOT__/index.php?m=Home&c=Taxi&a=queryTaxiIsCome',
 				type:'post',
 				data:{orderNo:no},
 				success:function (e){
@@ -177,6 +226,7 @@
 									$('#page_takeTaxi2').show();
 									clearInterval(btn_countDown);
 									clearInterval(btn_sendTaxi);
+									clearInterval(btn_firstSetCurrent);
 									layer.open({
 										content:'您喊的车将在'+outputtime+'内到达,总路程为：'+outputdistance,
 										btn:'确定'
@@ -186,10 +236,43 @@
 									map.addOverlay(carMarker);
 									map.addOverlay(sMarker);
 									map.addOverlay(eMarker);
+
+									$('#takeTaxi_div_pay_method').show();
+									//以客人当前位置为中心点，司机位置每10秒移动一次，
+									//客人位置也是每10秒panTo一次，
+									getDriverPosition(no);
 								},1000);
 							}
 						});
 						transit.search(carPoint,sPoint);
+					}
+				}
+			});
+		},10000);
+	}
+	//获取司机位置，并移动
+	function getDriverPosition(no){
+		btn_secondSetCurrent=setInterval(function(){
+			$.ajax({
+				url: '__ROOT__/index.php?m=Home&c=Taxi&a=queryTaxiIsCome',
+				type: 'post',
+				data: {orderNo: no},
+				success: function (e) {
+					if (e && e != '') {
+						var datas=JSON.parse(e);
+						var carLngs=datas.current_lo;
+						var carLats=datas.current_la;
+						var carPoints=new BMap.Point(carLngs,carLats);
+
+						carMarker.setPosition(carPoints);
+						geolocation.getCurrentPosition(function (r){
+							if(this.getStatus() == BMAP_STATUS_SUCCESS){
+								meMarker.setPosition(r.point);
+								map.panTo(r.point);
+							}
+						},{enableHighAccuracy:true});
+
+						//var distance=map.getDistance(carPoints,ePoint);
 					}
 				}
 			});
@@ -214,7 +297,7 @@
 					content:'目前无人接单，清稍后再试',
 					btn:'确定',
 					yes:function (){
-						window.location.href='__MODULE__/Index/index';
+						window.location.href='__ROOT__/index.php?m=Home&c=Index&a=index';
 					}
 				})
 			}
@@ -240,7 +323,7 @@
 	//请求取消叫车接口
 	function requestCancelCall(){
 		$.ajax({
-			url:'__MODULE__/Taxi/taxiOrderCancel',
+			url:'__ROOT__/index.php?m=Home&c=Taxi&a=taxiOrderCancel',
 			type:'post',
 			data:{orderNo:orderNo},
 			success:function (e){
@@ -254,12 +337,12 @@
 							content:'服务费已经退还到您的账户',
 							btn:['确定'],
 							yes:function (index){
-								window.location.href='__MODULE__/Order/myOrder';
+								window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder';
 							}
 						});
 					}else{
 						//不退服务费
-						window.location.href='__MODULE__/Order/myOrder';
+						window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder';
 					}
 				}else{
 					//取消失败
@@ -275,7 +358,63 @@
 			}
 		});
 	}
-
+	//点击现金支付
+	$('#takeTaxi_cash_pay').click(function (){
+		layer.open({
+			content:'是否现金支付',
+			btn:['确定','取消'],
+			yes:function(){
+				comfirmPayCash();
+			}
+		});
+	});
+	function comfirmPayCash(){
+		var post_order_no=$('#takeTaxi_input_order_no').val();
+		if(post_order_no!=0){
+			//呈现加载中动画
+			layer.closeAll();
+			createLoadingLayer();
+			$.ajax({
+				url:'__ROOT__/index.php?m=Home&c=Taxi&a=payWithCash',
+				type:'post',
+				data:{
+					orderNo:post_order_no
+				},
+				success:function(e){
+					if(e && e!=''){
+						layer.closeAll();
+						window.location.href=e;
+					}else{
+						layer.closeAll();
+						layer.open({
+							content:'操作失败，再试一次',
+							btn:['再试一次','前往订单中心'],
+							yes:function(){
+								comfirmPayCash();
+							},
+							no:function(){
+								window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder';
+							}
+						});
+					}
+				}
+			});
+		}else{
+			layer.open({
+				content:'错误！前往订单中心操作',
+				btn:'确定',
+				yes:function(){
+					window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder';
+				}
+			});
+		}
+	}
+	//点击在线支付
+	$('#takeTaxi_online_pay').click(function (){
+		$('#page_takeTaxi2').hide();
+		$('#takeTaxi_show_driver_info').hide();
+		$('#page_payment2').show();
+	});
 	</script>
 </body>
 </html>

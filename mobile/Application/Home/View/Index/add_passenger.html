@@ -50,7 +50,7 @@
 				$('#payment_passenger_info').text($('.list_ul li.select span.n_names').text()+$('.list_ul li.select').attr('mobile'));
 				//获取payment页面的服务费信息
 				$.ajax({
-					url:'__MODULE__/Index/getServiceCharge',
+					url:'__ROOT__/index.php?m=Home&c=Index&a=getServiceCharge',
 					type:'post',
 					success:function (e){
 						if(e && e!=''){
@@ -61,7 +61,7 @@
 								$(this).siblings().children('div').removeClass('circle_round');
 								$(this).siblings().children('p').hide();
 								$('#payment_strong_need_pay').text($(this).children('div').text());
-								$('#order_create_fare_fee').val($(this).children('div').text()*100);
+								$('#order_create_fare_fee').val($(this).attr('fare_fee'));
 							});
 						}
 					}

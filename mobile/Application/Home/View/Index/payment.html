@@ -69,7 +69,7 @@
 				$('#order_create_location').val($('#index_input_start').val());
 				$('#order_create_pay_type').val($('.payment_li_pay_type.on').attr('pay_type'));
 				$.ajax({
-					url:'__MODULE__/Index/createOrder',
+					url:'__ROOT__/index.php?m=Home&c=Index&a=createOrder',
 					type:'post',
 					data:$('#index_form_qsOrderCreate').serialize(),
 					success:function (e){

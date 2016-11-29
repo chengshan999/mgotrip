@@ -172,18 +172,18 @@
     map.addEventListener('touchmove',moveGetAddr);
 
     //$(function(){
-    $('#page_des').hide();
-    $('#page_origin').hide();
+    $('#page_des').addClass('move_to_left');
+    $('#page_origin').addClass('move_to_left');
     jumpSearchIndex('origin_input_start','origin_searchResultPanel','page_origin','org');
     jumpSearchIndex('des_input_end','des_searchResultPanel','page_des','des');
     /*点击起始位置事件*/
     $('.u_panel li.org').click(function(){
         $('#index_mid_logo').poshytip('hide');
         $('#origin_indexInputStart').text($('#index_input_start').val());
-        $('#page_origin').show();
+        $('#page_origin').removeClass('move_to_left');
         $('#page_index').addClass('move_to_left');
         $.ajax({
-            url:'__CONTROLLER__/getAddr',
+            url:'__ROOT__/index.php?m=Home&c=Index&a=getAddr',
             type:'get',
             data:{act:'org'},
             success:function (e){
@@ -195,15 +195,14 @@
                 }
             }
         });
-        /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@222222*/
     })
     /*点击终点位置事件*/
     $('.u_panel li.des').click(function(){
         $('#index_mid_logo').poshytip('hide');
-        $('#page_des').show();
+        $('#page_des').removeClass('move_to_left');
         $('#page_index').addClass('move_to_left');
         $.ajax({
-            url:'__CONTROLLER__/getAddr',
+            url:'__ROOT__/index.php?m=Home&c=Index&a=getAddr',
             type:'get',
             data:{act:'des'},
             success:function (e){
@@ -215,7 +214,6 @@
                 }
             }
         });
-        /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
     });
     $('.on_taxi.index_jumpout_need_hide').click(function(){
         var isLogin='';
@@ -296,7 +294,7 @@
     $('#origin_indexInputStart').click(function (){
         $('#index_input_start').val($(this).text());
         $('#page_index').removeClass('move_to_left');
-        $('#page_origin').hide();
+        $('#page_origin').addClass('move_to_left');
         $('#index_mid_logo').poshytip('show');
     });
     /*绑定取消键点击事件*/
@@ -314,8 +312,8 @@
         /*alert(input+','+searchResultPanel+','+pageId+','+act);*/
         if(act=='org'){
             var orgAc = new BMap.Autocomplete(    //建立一个自动完成的对象
-                    {"input" : input
-                        ,"location" : map
+                    {"input" : input,
+                        "location" : map
                     });
             orgAc.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
                 var _valueOrg = e.item.value;
@@ -325,11 +323,11 @@
                 function orgFun(){
                     var orgPp = orgLocal.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
                     $('#page_index').removeClass('move_to_left');
-                    $('#'+pageId).hide();
+                    $('#'+pageId).addClass('move_to_left');
                     map.centerAndZoom(orgPp, 18);
                     $('#index_mid_logo').poshytip('show');
                     updatePoshtip(orgValue,orgPp.lng,orgPp.lat);
-                    ajaxRequest('__CONTROLLER__/saveAddr',{addr:orgValue,lng:orgPp.lng,lat:orgPp.lat,act:act});
+                    ajaxRequest('__ROOT__/index.php?m=Home&c=Index&a=saveAddr',{addr:orgValue,lng:orgPp.lng,lat:orgPp.lat,act:act});
                 }
                 var orgLocal = new BMap.LocalSearch(map, {
                     onSearchComplete: orgFun
@@ -349,12 +347,12 @@
                 function desFun(){
                     var desPp = desLocal.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
                     $('#page_index').removeClass('move_to_left');
-                    $('#'+pageId).hide();
+                    $('#'+pageId).addClass('move_to_left');
                     $('#index_mid_logo').poshytip('show');
                     $('#index_input_end').val(desValue);
                     $('#index_input_end').attr('lng',desPp.lng);
                     $('#index_input_end').attr('lat',desPp.lat);
-                    ajaxRequest('__CONTROLLER__/saveAddr',{addr:desValue,lng:desPp.lng,lat:desPp.lat,act:act});
+                    ajaxRequest('__ROOT__/index.php?m=Home&c=Index&a=saveAddr',{addr:desValue,lng:desPp.lng,lat:desPp.lat,act:act});
                 }
                 var desLocal = new BMap.LocalSearch(map, {
                     onSearchComplete: desFun
@@ -377,7 +375,7 @@
             var lng=$(this).attr('lng');
             var lat=$(this).attr('lat');
             $('#page_index').removeClass('move_to_left');
-            $('#page_origin').hide();
+            $('#page_origin').addClass('move_to_left');
             map.centerAndZoom(new BMap.Point(lng,lat), 18);
             $('#index_mid_logo').poshytip('show');
             updatePoshtip($(this).text(),lng,lat);
@@ -386,7 +384,7 @@
             var lng=$(this).attr('lng');
             var lat=$(this).attr('lat');
             $('#page_index').removeClass('move_to_left');
-            $('#page_des').hide();
+            $('#page_des').addClass('move_to_left');
             $('#index_mid_logo').poshytip('show');
             $('#index_input_end').val($(this).text());
             $('#index_input_end').attr('lng',lng);
@@ -397,18 +395,18 @@
     function cancelPage(event){
         if(event.data.page=='org'){
             $('#page_index').removeClass('move_to_left');
-            $('#page_origin').hide();
+            $('#page_origin').addClass('move_to_left');
             $('#index_mid_logo').poshytip('show');
         }else if(event.data.page='des'){
             $('#page_index').removeClass('move_to_left');
-            $('#page_des').hide();
+            $('#page_des').addClass('move_to_left');
             $('#index_mid_logo').poshytip('show');
         }
     }
     /*清空历史纪录*/
     function clearRecord(event){
         $.ajax({
-            url: '__CONTROLLER__/unsetHistroyListCookie',
+            url: '__ROOT__/index.php?m=Home&c=Index&a=unsetHistroyListCookie',
             type: 'get',
             data: {act: event.data.page},
             success:function(){

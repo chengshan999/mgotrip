@@ -60,7 +60,7 @@
                     <present name="rows0:coupon_list">
                     <foreach name="rows0:coupon_list" item="row0">
                         <li class="coupon_style">
-                        <span class='coupon_money'> <strong>{$row0->amount?$row0->amount:0}</strong>
+                        <span class='coupon_money'> <strong>{$row0->amount?$row0->amount/100:0}</strong>
                             元
                         </span>
                             <present name="row0:name">
@@ -91,7 +91,7 @@
                     <present name="rows1:coupon_list">
                         <foreach name="rows1:coupon_list" item="row1">
                             <li class="coupon_style">
-                        <span class='coupon_money'> <strong>{$row1->amount?$row1->amount:0}</strong>
+                        <span class='coupon_money'> <strong>{$row1->amount?$row1->amount/100:0}</strong>
                             元
                         </span>
                                 <present name="row1:name">
@@ -122,7 +122,7 @@
                     <present name="rows2:coupon_list">
                         <foreach name="rows2:coupon_list" item="row2">
                             <li class="coupon_style">
-                        <span class='coupon_money'> <strong>{$row2->amount?$row2->amount:0}</strong>
+                        <span class='coupon_money'> <strong>{$row2->amount?$row2->amount/100:0}</strong>
                             元
                         </span>
                                 <present name="row2:name">
@@ -165,7 +165,7 @@
             function addNP(){
                 var status=$(".my_coupon_list").attr('status');
                 $.ajax({
-                    url:'__MODULE__/Coupon/getNewPage',
+                    url:'__ROOT__/index.php?m=Home&c=Coupon&a=getNewPage',
                     type:'post',
                     data:{page:currentPage,status:status},
                     success:function (e){
@@ -207,7 +207,6 @@
                 $('.coupon_style01').eq(i).css('display', 'block').siblings().css('display', 'none');
                 $(".my_coupon_list").attr('status',$(this).attr('status'));
                 var currentlines=parseInt($(this).children().children('span').text());
-                console.log(currentlines);
                 if(currentlines >=10){
                     var currentPage=2;
                     $('#coupon_div_add_new_page').remove();
@@ -215,7 +214,7 @@
                 }
             });
             $('.coupon_cancel_page').click(function (){
-                window.location.href='__MODULE__/My/my';
+                window.location.href='__ROOT__/index.php?m=Home&c=My&a=my';
             });
             $('#duihuan').click(function (){
                 layer.open({
@@ -226,7 +225,7 @@
                         var code=$('#coupon_code_excharge').val();
                         layer.close(index);
                         $.ajax({
-                            url:'__CONTROLLER__/activateCoupon',
+                            url:'__ROOT__/index.php?m=Home&c=Coupon&a=activateCoupon',
                             type:'post',
                             data:{aCode:code},
                             success:function (e){

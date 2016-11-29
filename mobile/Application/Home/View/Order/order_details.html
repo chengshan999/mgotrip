@@ -33,7 +33,7 @@
             <div class="order_details" id="order_details">
                 <p class="get_order_time">
                     <span class="f700 fl18">下单时间：</span>
-                    <span>{$orderDetail->date|substr=###,0,9}</span>
+                    <span>{$orderDetail->date|substr=###,0,10}</span>
                     <span>{$orderDetail->date|substr=###,11}</span>
                 </p>
                 <p class="get_order_name">
@@ -76,6 +76,6 @@
 </html>
 <script type="text/javascript">
     $('.completeOrderDetail_cancel_page').click(function (){
-        window.location.href='__CONTROLLER__/myOrder?status={$status}';
+        window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder&status={$status}';
     });
 </script>

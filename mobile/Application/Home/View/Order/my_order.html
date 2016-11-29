@@ -11,6 +11,11 @@
     <meta name="full-screen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <include file="Public/cite" />
+    <style type="text/css">
+        .both_float{
+            float:left;
+        }
+    </style>
 </head>
 <body>
     <!-- top -->
@@ -19,7 +24,7 @@
         <span class="c_txt">我的订单</span>
     </header>
     <!-- section -->
-    <section class="content">
+    <section class="content" id="myOrder_content">
         <div class="viewport">
             <!-- 订单的tab栏 -->
             <div class="my_order">
@@ -50,12 +55,12 @@
                             <div class="dn">
                                 <ul class="in_items">
                                     <li class="items_t">
-                                        <span class="oder_date">{$row->date|substr=###,0,9}</span>
+                                        <span class="oder_date">{$row->date|substr=###,0,10}</span>
                                         <span class="oder_time">{$row->date|substr=###,11}</span>
-                                        <span class="oder_status fr">未完成</span>
+                                        <span class="oder_status fr" >未完成</span>
                                     </li>
 
-                                    <a href="__CONTROLLER__/orderDetail?orderNo={$row->order_no}&status={$status}">
+                                    <a href="__ROOT__/index.php?m=Home&c=Order&a=orderDetail&orderNo={$row->order_no}&status={$status}">
                                         <li class="items_m">
                                             <p> <strong class='c4d'>{$row->shop}</strong>
                                                 <strong class='c333'>订单号：{$row->order_no}</strong>
@@ -66,7 +71,8 @@
                                     </a>
 
                                     <li class="order_pay_btn" order_no="{$row->order_no}">
-                                        <a href="javascript:;">支付</a>
+                                        <a href="javascript:void(0);" onclick="payOnline('{$row->order_no}');" style="margin:0 20px;background-color:#ffc300;">在线支付</a>
+                                        <a href="javascript:void(0);" onclick="payCash('{$row->order_no}');" style="background-color:#4c4c4c;">现金支付</a>
                                     </li>
                                 </ul>
                             </div>
@@ -75,12 +81,12 @@
                             <div class="dn">
                                 <ul class="in_items">
                                     <li class="items_t">
-                                        <span class="oder_date">{$row->date|substr=###,0,9}</span>
+                                        <span class="oder_date">{$row->date|substr=###,0,10}</span>
                                         <span class="oder_time">{$row->date|substr=###,11}</span>
-                                        <span class="oder_status fr">已取消</span>
+                                        <span class="oder_status fr" style="color:#808080;">已取消</span>
                                     </li>
 
-                                    <a href="__CONTROLLER__/orderDetail?orderNo={$row->order_no}&status={$status}">
+                                    <a href="__ROOT__/index.php?m=Home&c=Order&a=orderDetail&orderNo={$row->order_no}&status={$status}">
                                         <li class="items_m">
                                             <p>
                                                 <strong class='c4d'>{$row->shop}</strong>
@@ -103,12 +109,12 @@
                             <div class="dn">
                                 <ul class="in_items">
                                     <li class="items_t">
-                                        <span class="oder_date">{$row->date|substr=###,0,9}</span>
+                                        <span class="oder_date">{$row->date|substr=###,0,10}</span>
                                         <span class="oder_time">{$row->date|substr=###,11}</span>
-                                        <span class="oder_status fr">已完成</span>
+                                        <span class="oder_status fr" style="color:#808080;">已完成</span>
                                     </li>
 
-                                    <a href="__CONTROLLER__/orderDetail?orderNo={$row->order_no}&status={$status}">
+                                    <a href="__ROOT__/index.php?m=Home&c=Order&a=orderDetail&orderNo={$row->order_no}&status={$status}">
                                         <li class="items_m"><!--order_details.html-->
                                             <p>
                                                 <strong class='c4d'>{$row->shop}</strong>
@@ -139,29 +145,37 @@
             </div>
         </div>
     </section>
-
+    <!--加载payment2.html页面-->
+    <include file="Taxi/payment2" />
+    <input type="hidden" id="takeTaxi_input_order_no" value="0"/>
 </body>
 </html>
 
-<script>
+<script type="text/javascript">
     $(function () {
         var currentPage=2;
         $('#addNewPage').click(addNP);
         function addNP(){
+            layer.open({
+                type:2,
+                content:'加载中'
+            });
             var status=$(".my_order_list").attr('status');
             $.ajax({
-                url:'__MODULE__/Order/getNewPage',
+                url:'__ROOT__/index.php?m=Home&c=Order&a=getNewPage',
                 type:'post',
                 data:{page:currentPage,status:status},
                 success:function (e){
                     if(e && e!=''){
                         currentPage ++;
+                        layer.closeAll();
                         var div_add_new_page=$('#myOrder_div_add_new_page');
                         $('#myOrder_div_add_new_page').remove();
                         $('.my_order_items.tab3_box').append(e);
                         $('.my_order_items.tab3_box').append(div_add_new_page);
                         $('#addNewPage').on('click',addNP);
                     }else{
+                        layer.closeAll();
                         layer.open({
                             content:'没有更多了',
                             skin:'msg',
@@ -177,7 +191,8 @@
             /*$(this).addClass('current ').siblings().removeClass('current ');
             var index = $('.my_order_list li').index(this);
             $('.tab3_box > div').eq(index).show().siblings().hide();*/
-            window.location.href='__CONTROLLER__/myOrder?status='+$(this).attr('status');
+            createLoadingLayer();
+            window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder&status='+$(this).attr('status');
         })
         $('.my_order_list li').each(function(){
             if($(this).attr('status')==$('.my_order_list').attr('status')){
@@ -192,15 +207,19 @@
                     content: '您确认删除订单吗?',
                     btn: ['确认', '取消'],
                     yes: function(index, layero){
+                        layer.closeAll();
+                        createLoadingLayer();
                         $.ajax({
-                            url:'__CONTROLLER__/orderDelete',
+                            url:'__ROOT__/index.php?m=Home&c=Order&a=orderDelete',
                             type:'post',
                             data:{orderNo:orderNo},
                             success:function (e){
                                 if(e && e!=''){
                                     if(e=='succ'){
+                                        layer.closeAll();
                                         window.location.reload();
                                     }else{
+                                        layer.closeAll();
                                         layer.open({
                                             content: e,
                                             btn: ['确认'],
@@ -215,13 +234,62 @@
         });
 
         $('.myOrder_cancel_page').click(function (){
-            window.location.href='__MODULE__/My/my';
+            window.location.href='__ROOT__/index.php?m=Home&c=My&a=my';
         });
-        <present name="orderError">
-            layer.open({
-            content: '{$orderError}',
-            btn: ['确认']
-            });
-        </present>
     });
+    //点击在线支付
+    function payOnline(orderNo){
+        $('#takeTaxi_input_order_no').val(orderNo);
+        $('#myOrder_content').hide();
+        $('#page_payment2').show();
+    }
+    //点击取消
+    $('#payment2_a_cancel').click(function (){
+        $('#page_payment2').hide();
+        $('#myOrder_content').show();
+        $('#takeTaxi_input_order_no').val(0);
+    });
+    //点击现金支付
+    function payCash(orderNo){
+        layer.open({
+            content:'是否现金支付',
+            btn:['确定','取消'],
+            yes:function(){
+                //呈现加载中动画
+                layer.closeAll();
+                createLoadingLayer();
+                $.ajax({
+                    url:'__ROOT__/index.php?m=Home&c=Taxi&a=payWithCash',
+                    type:'post',
+                    data:{
+                        orderNo:orderNo
+                    },
+                    success:function(e){
+                        if(e && e!=''){
+                            layer.closeAll();
+                            layer.open({
+                                content:'订单完成',
+                                btn:['确定'],
+                                yes:function(){
+                                    window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder&status=2';
+                                }
+                            });
+                        }else{
+                            layer.closeAll();
+                            layer.open({
+                                content:'操作失败，稍后再试',
+                                btn:'确定'
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+    <present name="orderError">
+            layer.open({
+                content: '{$orderError}',
+                btn: ['确认']
+            });
+    </present>
 </script>

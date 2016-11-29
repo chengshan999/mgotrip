@@ -1,5 +1,6 @@
 <?php
 return array(
+    //'CURRENT_SITE'=>'http://m.test.mgocx.com',
     'DEVICE'=>'H5',//请求接口device传值
     'VERSION'=>'1.0',//请求接口version传值
     'PAGESIZE'=>10,//分页每页条数
@@ -23,6 +24,8 @@ return array(
     'ORDER_DELETE'=>API_SITE.'/app/order/delete',//删除订单
     'ORDER_DETAIL'=>API_SITE.'/app/order/info',//订单详情
     'ORDER_CREATE'=>API_SITE.'app/qs_order/create',//生成订单
+    'ORDER_SAVE'=>API_SITE.'/app/order/pay_fare',//保存打车信息
+    'ORDER_COMPLETE'=>API_SITE.'/app/order/complete',//订单完成
 
     'COUPON_ALLLIST'=>API_SITE.'app/coupon/all_list',//（未使用的）优惠券列表
     'COUPON_LIST'=>API_SITE.'app/coupon/list',//（所有类型的）优惠券列表
@@ -33,7 +36,7 @@ return array(
 
     'PAYMENT_REDIRECT'=>API_SITE.'app/pay/jump_pay',//支付跳转
     'ALIPAY_CALLBACK'=>API_SITE.'app/pay/alipay_h5',//支付宝回调地址
-
+    'PAY_STATUS'=>API_SITE.'app/pay/status',//支付状态
 
     'WAIT_TAXI'=>API_SITE.'/app/order/unfinish',//正在派车，倒计时阶段调用
     'QUERY_TAXI'=>API_SITE.'app/qs_order/query',//派车信息查询

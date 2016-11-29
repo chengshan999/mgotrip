@@ -59,7 +59,7 @@ class CouponController extends BaseController{
                     $str='';
                     foreach($rows->coupon_list as $row){
                             $str.='<li class="coupon_style">
-                                <span class=\'coupon_money\'> <strong>'.$row->amount?$row->amount:'0'.'</strong>
+                                <span class=\'coupon_money\'> <strong>'.$row->amount?$row->amount/100:'0'.'</strong>
                                     元
                                 </span>
                                         <p class="coupon_style_qs">'.$row->name?$row->name:''.'</p>

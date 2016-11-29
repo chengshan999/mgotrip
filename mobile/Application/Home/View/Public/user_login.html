@@ -23,7 +23,7 @@
         $(function(){
             $('.user_login').click(function(){
                 <present name="user_data">
-                    window.location.href='__MODULE__/My/my';
+                    window.location.href='__ROOT__/index.php?m=Home&c=My&a=my';
                 <else/>
                     $('.shade3_box').slideDown();
                     $('body').addClass('hidden');
@@ -86,7 +86,7 @@
                         return false;
                     }else{
                         $.ajax({
-                            url:'__MODULE__/Login/login',
+                            url:'__ROOT__/index.php?m=Home&c=Login&a=login',
                             type:'post',
                             data:{mobile:mobile,vcode:codes},
                             success:function (e){
@@ -125,7 +125,7 @@
                     });
                 }else{
                     $.ajax({
-                        url:'__MODULE__/Login/sendValidateCode',
+                        url:'__ROOT__/index.php?m=Home&c=Login&a=sendValidateCode',
                         type:'post',
                         data:{mobile:mobile},
                         success:function (e){

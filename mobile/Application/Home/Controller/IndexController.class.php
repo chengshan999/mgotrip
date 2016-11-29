@@ -97,12 +97,14 @@ class IndexController extends Controller {
                                         unset($code->url);
                                         unset($code->method);
                                         $params=http_build_query($code);
+                                        session('orderNoId',null);
+                                        session('orderNoId',$orderNo);
                                         echo $url.$params;
                                     }
                                 }
                             }
                         }else{
-                            //不需要支付，直接返回等车页面URL，让前端跳转，进入等车页面
+                            //不需要支付，直接输出等车页面URL，让前端跳转，进入等车页面
                             $this->saveStartAndEndPositionToCookie($longitude,$latitude,$desti_longitude,$desti_latitude);
                             $url=U('Taxi/takeTaxi');
                             echo $url;
@@ -201,12 +203,12 @@ class IndexController extends Controller {
                     $str='<dd></dd><dd></dd>';
                     foreach($rows as $k=>$v){
                         if($k==0){
-                            $str.='<dd>
+                            $str.='<dd fare_fee="'.$v->amount.'">
                                     <div class="circle_round">'.$v->amount*0.01.'</div>
                                     <p class="info_text">'.$v->state.'</p>
                                 </dd>';
                         }else{
-                            $str.='<dd>
+                            $str.='<dd fare_fee="'.$v->amount.'">
                                         <div>'.$v->amount*0.01.'</div>
                                         <p class="info_text" style="display:none;">'.$v->state.'</p>
                                     </dd>';

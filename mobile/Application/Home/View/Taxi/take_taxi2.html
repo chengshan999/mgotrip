@@ -20,12 +20,20 @@
 		</div>
 	</div>
 
-	<div class="m_next_step"><!--tel:13671891111-->
-		<a href="javascript:void(0);" class="pay_btn30s" id="takeTaxi2_call_button" ><i class="tel_btn"></i>呼叫</a>
+	<div class="m_next_step" style="overflow:hidden;"><!--tel:13671891111-->
+		<a href="javascript:void(0);" class="pay_btn30s both_float" id="takeTaxi2_hidden_button" style="border:1px solid #4c4c4c;width:40%;margin:0 5% 0;background-color:#4c4c4c;color:#fff;">取消</a>
+		<a href="javascript:void(0);" class="pay_btn30s both_float" id="takeTaxi2_call_button" style="width:40%;margin:0 5% 0;"><i class="tel_btn"></i>呼叫</a>
 	</div>
 	<script type="text/javascript">
 		$(function(){
-
+			$('#takeTaxi2_hidden_button').click(function(){
+				$('#page_takeTaxi2').hide();
+				$('#takeTaxi_show_driver_info').show();
+			});
+			$('#takeTaxi_show_driver_info').click(function(){
+				$('#page_takeTaxi2').show();
+				$('#takeTaxi_show_driver_info').hide();
+			});
 		});
 	</script>
 </div>

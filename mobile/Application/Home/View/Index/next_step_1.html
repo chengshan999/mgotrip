@@ -44,7 +44,7 @@
 				$('.arrow_r.index_jumpout_need_show').attr('back_to','nextStep');
 				$('#order_create_car_type').val($('#nextStep_div_car_type_list a.select').attr('car_type'));
 				$.ajax({
-					url:'__MODULE__/Index/getPassengerList',
+					url:'__ROOT__/index.php?m=Home&c=Index&a=getPassengerList',
 					success:function (e){
 						if(e && e!=''){
 							$('#addPassenger_ul_passengerList').html(e);

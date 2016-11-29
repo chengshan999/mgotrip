@@ -41,6 +41,13 @@ class OrderController extends BaseController{
                 $params['rows']=$rows;
                 $params['currentSize']=count($rows);
 
+                $re=$this->curlQuickPost(C('COUPON_ALLLIST'));
+                $params['totalCoupon']=0;
+                //dump($result->data->list);exit;
+                if($re->status=='succ'){
+                    $params['totalCoupon']=$re->data->total?$re->data->total:0;
+                    $params['coupinList']=empty($re->data->list)?array():$re->data->list;
+                }
             }
         }else{
             $params['orderError']=$result->msg;
@@ -71,7 +78,7 @@ class OrderController extends BaseController{
                                 $str.='<div class="dn">
                                 <ul class="in_items">
                                     <li class="items_t">
-                                        <span class="oder_date">'.substr($row->date,0,9).'</span>
+                                        <span class="oder_date">'.substr($row->date,0,10).'</span>
                                         <span class="oder_time">'.substr($row->date,11).'</span>
                                         <span class="oder_status fr">未完成</span>
                                     </li>
@@ -82,12 +89,13 @@ class OrderController extends BaseController{
                                                 <strong class="c333">订单号：'.$row->order_no.'</strong>
                                             </p>
 
-                                            <i><img class="fr" src="/mgotrip/mobile/Public/mgotrip/images/arrow_r.png" alt=""/></i>
+                                            <i><img class="fr" src="/Public/mgotrip/images/arrow_r.png" alt=""/></i>
                                         </li>
                                     </a>
 
                                     <li class="order_pay_btn" order_no="'.$row->order_no.'">
-                                        <a href="javascript:void(0);">支付</a>
+                                        <a href="javascript:void(0);" onclick="payOnline(\''.$row->order_no.'\');" style="margin:0 20px;background-color:#ffc300;">在线支付</a>
+                                        <a href="javascript:void(0);" onclick="payCash(\''.$row->order_no.'\');" style="background-color:#4c4c4c;">现金支付</a>
                                     </li>
                                 </ul>
                             </div>';
@@ -95,9 +103,9 @@ class OrderController extends BaseController{
                                 $str.='<div class="dn">
                                 <ul class="in_items">
                                     <li class="items_t">
-                                        <span class="oder_date">'.substr($row->date,0,9).'</span>
+                                        <span class="oder_date">'.substr($row->date,0,10).'</span>
                                         <span class="oder_time">'.substr($row->date,11).'</span>
-                                        <span class="oder_status fr">已取消</span>
+                                        <span class="oder_status fr" style="color:#808080;">已取消</span>
                                     </li>
 
                                     <a href="'.U('Order/orderDetail',array('orderNo'=>$row->order_no,'status'=>$status)).'">
@@ -107,13 +115,13 @@ class OrderController extends BaseController{
                                                 <strong class="c333">订单号：'.$row->order_no.'</strong>
                                             </p>
 
-                                            <i><img class="fr" src="/mgotrip/mobile/Public/mgotrip/images/arrow_r.png" alt=""/></i>
+                                            <i><img class="fr" src="/Public/mgotrip/images/arrow_r.png" alt=""/></i>
                                         </li>
                                     </a>
 
                                     <li class="dingdan_icon_delete">
                             <span class="delbtn" order_no="'.$row->order_no.'">
-                                <img src="/mgotrip/mobile/Public/mgotrip/images/dingdan_icon_delete.png" alt=""/>
+                                <img src="/Public/mgotrip/images/dingdan_icon_delete.png" alt=""/>
                             </span>
                                     </li>
                                 </ul>
@@ -122,9 +130,9 @@ class OrderController extends BaseController{
                                 $str.='<div class="dn">
                                 <ul class="in_items">
                                     <li class="items_t">
-                                        <span class="oder_date">'.substr($row->date,0,9).'</span>
+                                        <span class="oder_date">'.substr($row->date,0,10).'</span>
                                         <span class="oder_time">'.substr($row->date,11).'</span>
-                                        <span class="oder_status fr">已完成</span>
+                                        <span class="oder_status fr" style="color:#808080;">已完成</span>
                                     </li>
 
                                     <a href="'.U('Order/orderDetail',array('orderNo'=>$row->order_no,'status'=>$status)).'">
@@ -135,14 +143,14 @@ class OrderController extends BaseController{
                                             </p>
 
                                             <i>
-                                                <img class="fr" src="/mgotrip/mobile/Public/mgotrip/images/arrow_r.png" alt=""/>
+                                                <img class="fr" src="/Public/mgotrip/images/arrow_r.png" alt=""/>
                                             </i>
                                         </li>
                                     </a>
 
                                     <li class="dingdan_icon_delete">
                             <span class="delbtn" order_no="'.$row->order_no.'">
-                                <img src="/mgotrip/mobile/Public/mgotrip/images/dingdan_icon_delete.png" alt=""/>
+                                <img src="/Public/mgotrip/images/dingdan_icon_delete.png" alt=""/>
                             </span>
                                     </li>
                                 </ul>
@@ -206,25 +214,6 @@ class OrderController extends BaseController{
                 $orderDetail=$result->data;
                 if($orderDetail){
                     $params['orderDetail']=$result->data;
-                    /*$desc=$result->data->desc;
-                    $descArr=array();
-                    if($desc && is_string($desc)){
-                        $arr=explode('\r\n',$desc);
-                        foreach($arr as $v){
-                            if(strpos($v,'车牌号：')!==false){
-                                $descArr['car_no']=str_replace('车牌号：','',$v);
-                            }else if(strpos($v,'司机姓名：')!==false){
-                                $descArr['driver_name']=str_replace('司机姓名：','',$v);
-                            }else if(strpos($v,'联系电话：')!==false){
-                                $descArr['phone_num']=str_replace('联系电话：','',$v);
-                            }else if(strpos($v,'出发地：')!==false){
-                                $descArr['origin']=str_replace('出发地：','',$v);
-                            }else if(strpos($v,'目的地：')!==false){
-                                $descArr['destination']=str_replace('目的地：','',$v);
-                            }
-                        }
-                    }
-                    $params['descArr']=$descArr;*/
                 }
             }else{
                 $params['errorMsg']='订单信息获取失败：'.$result->msg;
