@@ -125,8 +125,7 @@
 
 	var sMarker=new BMap.Marker(sPoint,{icon:sIcon});
 	//map.addOverlay(sMarker);
-	var eMarker=new BMap.Marker(ePoint,{icon:eIcon});
-	//map.addOverlay(eMarker);
+	var eMarker=new BMap.Marker(ePoint,{icon:eIcon});	//map.addOverlay(eMarker);
 
 	//var geoc=new BMap.Geocoder();
 	var geolocation=new BMap.Geolocation();
@@ -237,6 +236,7 @@
 							renderOptions: {map: map,autoViewport:true},
 							onSearchComplete: searchComplete,
 							onPolylinesSet: function(){
+								map.clearOverlays();
 								setTimeout(function(){
 									$('#takeTaxi_div_count_down').hide();
 									$('#page_takeTaxi2').show();
@@ -247,7 +247,6 @@
 										content:'您喊的车将在'+outputtime+'内到达,总路程为：'+outputdistance,
 										btn:'确定'
 									});
-									map.clearOverlays();
 									map.addOverlay(meMarker);
 									map.addOverlay(carMarker);
 									map.addOverlay(sMarker);
