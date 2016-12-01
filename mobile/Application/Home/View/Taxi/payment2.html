@@ -15,8 +15,7 @@
 						<div class="ins_now fr"><strong id="payment2_strong_coupon_face"><i>{$totalCoupon}</i>张</strong>
 							&nbsp;&nbsp;<img src="__PUBLIC__/mgotrip/images/arrow_r1.png" width="10"/>
 						</div>
-						<input type="hidden" id="payment2_coupon_amount" value="0"/>
-						<input type="hidden" id="payment2_coupon_id" value="0"/>
+						<input type="hidden" id="payment2_coupon_id" value=""/>
 					</li>
 					<li class="clearfix li_p li_t">
 						<label class="icon_label">实付金额</label>
@@ -57,7 +56,7 @@
 			<a href="javascript:void(0);" id="payment2_a_pay" class="pay_btn30s both_float" style="width:40%;margin:0 5% 0;">支付</a>
 		</div>
 	</div>
-	<!--优惠券-->
+	<!--优惠券
 	<div class="shade4_box yhq_box">
 		<div class="div_wh">
 			<div class="m_d selects">
@@ -72,48 +71,158 @@
 				</ul>
 			</div>
 		</div>
+	</div>-->
+<!--优惠券-->
+<div class="have_s" style="display: none;">
+	<header class="head_bar">
+		<a href="javascript:void(0)" class="arrow_r" id="payment2_span_cancel_coupon"></a>
+		<span class="c_txt">优惠券</span>
+	</header>
+	<!--魔购头部-->
+	<section class="content">
+		<div class="div-box p_div">
+			<ul class="ul-litems" id="payment2_ul_coupon_list">
+				<present name="coupinList">
+					<foreach name="coupinList" item="row">
+						<li>
+							<label>
+								<input type="checkbox" coupon_id="{$row->id}" coupon_amount="{$row->amount}" rel="1" value="1" style="vertical-align: middle;display: none;" name="checkbox" class="chk_1 jdcheckbox1 checkAll" />
+								<i class="on"></i>
+						<span class="prices_x">
+							<strong>{$row->amount/100}</strong>
+							元
+						</span>
+								<div class="fr div_point">
+									<span class="p_bigs">{$row->name}</span>
+									<div class="div_contents">
+										<p class="man">满{$row->min_order_amount?$row->min_order_amount:0}元可用</p>
+										<p class="man">有效期至{$row->use_end_date}</p>
+									</div>
+								</div>
+							</label>
+						</li>
+					</foreach>
+				</present>
+			</ul>
+		</div>
+		<div class="h97"></div>
+	</section>
+	<div class="div_fixeb">
+		<label>
+			<input type="checkbox" onclick="quxuan()" value="1" style="vertical-align: middle;display: none;" name="checkbox" id="selected"  class="chk_1 onselect checkAll" />
+			<i class="quanxuan"></i>
+			全选
+		</label>
+<span class="span_text3">
+	共计：
+	<strong>-￥<span id="payment2_span_totalNum">0</span></strong>
+</span>
+		<a href="javascript:void(0)" class="confirm_btn" id="payment2_a_confirm_coupon">确定</a>
 	</div>
+</div>
 <script type="text/javascript">
 	$(function(){
 		//隐藏优惠券列表
 		$('#payment2_span_cancel_coupon').click(function(){
-			$('.shade4_box').slideUp();
+			$('.have_s').slideUp();
+			$('body,.main_sm').removeClass('hidden');
 		});
-		//获取优惠券列表
 		$('.coupons').click(function(){
-			$('.shade4_box').slideDown();
-			//$('body,.main_sm').addClass('hidden');
-		})
+			$('.have_s').slideDown();
+			$('body,.main_sm').addClass('hidden');
+		});
+		//点击优惠券选择的确定按钮
+		$('#payment2_a_confirm_coupon').click(function(){
+			//获取优惠金额
+			var totalNum=parseInt($('#payment2_span_totalNum').text());
+			//生成付款栏优惠金额信息
+			$('#payment2_strong_coupon_face').text('-'+totalNum);
+			//获取用户输入金额，并转换为整形
+			var userNum=parseInt($('#payment2_input_user_input').val());
+			//用户输入合法金额，且优惠券能减免时，计算实付金额
+			if(userNum!=NaN && userNum!=0 && totalNum!=NaN){
+				if(userNum>=totalNum){
+					$('#payment2_i_need_pay').text(userNum-totalNum);
+				}else{
+					$('#payment2_i_need_pay').text(0);
+				}
+			}
+			$('.have_s').slideUp();
+			$('body,.main_sm').removeClass('hidden');
+		});
+		//优惠券单选
+		$(".jdcheckbox1").click(function(){
+			var id='';
+			var amount=0;
+			if($(this).prop('checked') == false){
+				//去除勾选
+				$(this).next('.on').removeClass('selected');
+				$(this).attr('checked',false);
+				//重新计算共计金额，并重新存储优惠券id
+				$(".jdcheckbox1").each(function(){
+					if($(this).prop('checked')==true){
+						if(id==''){
+							id+=$(this).attr('coupon_id');
+							amount+=parseInt($(this).attr('coupon_amount'));
+						}else{
+							id+=','+$(this).attr('coupon_id');
+							amount+=parseInt($(this).attr('coupon_amount'));
+						}
+					}
+				});
+				//重新生成共计金额
+				$('#payment2_span_totalNum').text(amount*0.01);
+				//重新生成优惠券ID
+				$('#payment2_coupon_id').val(id);
+			}else{
+				//勾选
+				$(this).next('.on').addClass('selected');
+				$(this).attr('checked',true);
+				//重新计算共计金额，并重新存储优惠券id
+				$(".jdcheckbox1").each(function(){
+					if($(this).prop('checked')==true){
+						if(id==''){
+							id+=$(this).attr('coupon_id');
+							amount+=parseInt($(this).attr('coupon_amount'));
+						}else{
+							id+=','+$(this).attr('coupon_id');
+							amount+=parseInt($(this).attr('coupon_amount'));
+						}
+					}
+				});
+				//重新生成共计金额
+				$('#payment2_span_totalNum').text(amount*0.01);
+				//重新生成优惠券ID
+				$('#payment2_coupon_id').val(id);
+			}
+			var parents = $('.ul-litems');
+			var m = 0;
+			parents.find('.jdcheckbox1').each(function(){
+				if($(this).prop('checked') == false){
+					m++;
+				}
+			})
+			if(m++){
+				$('.div_fixeb').find('.quanxuan').removeClass('selected');
+				$('.div_fixeb').find(".checkAll").attr("checked",false);
+			}else{
+				$('.div_fixeb').find('.quanxuan').addClass('selected');
+				$('.div_fixeb').find(".checkAll").attr("checked",true);
+			}
+		});
 		//支付方式
 		$('.u_panel li.pay_method').click(function(){
 			$(this).addClass('on').siblings().removeClass('on');
 			$('#payment2_hidden_pay_type').val($(this).attr('pay_type'));
 		});
-		//选优惠券
-		$('#payment2_ul_coupon_list li').click(function(){
-			var id=$(this).attr('coupon_id');
-			var amount=parseInt($(this).attr('coupon_amount'));
-			$('#payment2_strong_coupon_face').text('-'+amount*0.01);
-			$('#payment2_coupon_amount').val(amount*0.01);
-			$('#payment2_coupon_id').val(id);
-			$('.shade4_box').hide();
-			var userNum=parseInt($('#payment2_input_user_input').val());
-			if(userNum!=NaN && userNum!=0 && amount!=NaN){
-				var couponNum=amount*0.01;
-				if(userNum>=couponNum){
-					$('#payment2_i_need_pay').text(userNum-couponNum);
-				}else{
-					$('#payment2_i_need_pay').text(0);
-				}
-			}
-		});
 		//计算实付金额
 		$('#payment2_input_user_input').keyup(function (){
 			var userNum=parseInt($(this).val());
-			var couponNum=parseInt($('#payment2_coupon_amount').val());
-			if(userNum !=NaN && couponNum!=NaN){
-				if(userNum>=couponNum){
-					$('#payment2_i_need_pay').text(userNum-couponNum);
+			//获取优惠金额
+			var totalNum=parseInt($('#payment2_span_totalNum').text());
+			if(userNum !=NaN && totalNum!=NaN){
+				if(userNum>=totalNum){
+					$('#payment2_i_need_pay').text(userNum-totalNum);
 				}else{
 					$('#payment2_i_need_pay').text(0);
 				}
@@ -192,5 +301,42 @@
 
 		}
 	});
+	//全选
+	function quxuan(){
+		var id='';
+		var amount=0;
+		if($('#selected').is(':checked')){
+			$('.ul-litems').find('.on').addClass('selected');
+			$('.quanxuan').addClass('selected');
+			$('#selected').attr("checked",true);
+			$('.ul-litems').find(".jdcheckbox1").attr("checked",true);
+			//重新计算共计金额，并重新存储优惠券id
+			$(".jdcheckbox1").each(function(){
+				if($(this).prop('checked')==true){
+					if(id==''){
+						id+=$(this).attr('coupon_id');
+						amount+=parseInt($(this).attr('coupon_amount'));
+					}else{
+						id+=','+$(this).attr('coupon_id');
+						amount+=parseInt($(this).attr('coupon_amount'));
+					}
+				}
+			});
+			//重新生成共计金额
+			$('#payment2_span_totalNum').text(amount*0.01);
+			//重新生成优惠券ID
+			$('#payment2_coupon_id').val(id);
+		}else{
+			$('.ul-litems').find('.on').removeClass('selected');
+			$('#selected').attr("checked",false);
+			$('.quanxuan').removeClass('selected');
+			$('.ul-litems').find(".jdcheckbox1").attr("checked",false);
+			//重新计算共计金额，并重新存储优惠券id
+			//重新生成共计金额
+			$('#payment2_span_totalNum').text(0);
+			//重新生成优惠券ID
+			$('#payment2_coupon_id').val('');
+		}
+	}
 </script>
 </div>

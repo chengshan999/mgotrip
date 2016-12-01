@@ -201,7 +201,7 @@ class IndexController extends Controller {
             if($result->status=='succ'){
                 $rows=$result->data;
                 if(!empty($rows) && is_array($rows)){
-                    $str='<dd></dd><dd></dd>';
+                    $str='';
                     foreach($rows as $k=>$v){
                         if($k==0){
                             $str.='<dd fare_fee="'.$v->amount.'">
@@ -215,7 +215,6 @@ class IndexController extends Controller {
                                     </dd>';
                         }
                     }
-                    $str.='<dd></dd><dd></dd>';
                     echo $str;
                 }
             }
