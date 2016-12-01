@@ -24,7 +24,6 @@
 			width: 100%;
 			overflow: auto;
 			padding:8px 15px 0;
-			box-shadow: 0 0 2px 1px #ebebeb;
 			z-index: 3;
 			position: relative;
 			box-sizing: border-box;
@@ -50,10 +49,9 @@
 	<!--<a href="javascript:void(0)" class="user_login"></a>-->
 </header>
 <!--魔购头部-->
-<div class="main_sm" id="takeTaxi_show_driver_info" style="background:none;display:none;">
+<div class="main_sm" id="takeTaxi_show_driver_info" style="background:none;display:none;box-shadow:0;">
 	<a href="javascript:void(0);" class="pay_btn30s" style="color:#fff;">车辆信息</a>
-</div>
-<!--魔购出行 star-->
+</div><!--魔购出行 star-->
 <div class="mgo_map_index" >
 	<div id="takeTaxi_baidumap" style="height:100%;"></div>
 	<div class="shade30s_box" id="takeTaxi_div_count_down" style="display:none;">
@@ -80,6 +78,26 @@
 <include file="Taxi/payment2" />
 <input type="hidden" id="takeTaxi_input_order_no" value="0"/>
 <script type="text/javascript">
+	/*兼容 横竖屏切换操作*/
+	function hengshuping(){
+		$('.mgo_map_index').height(screen.height);
+		$('.mgo_map_index').width(screen.width);
+		setPayDivIcon();
+	}
+	window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+	//切换屏幕时，重定位支付按钮的位置
+	function setPayDivIcon(){
+		var ww=document.getElementById('takeTaxi_baidumap').offsetWidth;
+		var wh=document.getElementById('takeTaxi_baidumap').offsetHeight;
+		var takeTaxi_div_pay_method=document.getElementById('takeTaxi_div_pay_method');
+		takeTaxi_div_pay_method.width=ww;
+		takeTaxi_div_pay_method.height=(wh*0.05 < 54)?wh*0.05:54;
+		var iw=takeTaxi_div_pay_method.width;
+		var ih=takeTaxi_div_pay_method.height;
+		takeTaxi_div_pay_method.style.position='absolute';
+		takeTaxi_div_pay_method.style.bottom=wh*0.2+'px';
+		takeTaxi_div_pay_method.style.left=0;
+	}
 	//优先处理
 	var  btn_countDown='';
 	var  btn_sendTaxi='';
@@ -113,7 +131,7 @@
 	//var geoc=new BMap.Geocoder();
 	var geolocation=new BMap.Geolocation();
 
-	var meIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/me.png',new BMap.Size(32,32),{imageOffset: new BMap.Size(0, 0)});
+	var meIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/me.png',new BMap.Size(20,20),{imageOffset: new BMap.Size(0, 0)});
 	var carIcon=new BMap.Icon('__PUBLIC__/mgotrip/images/car.png',new BMap.Size(13.5,34.5),{imageOffset: new BMap.Size(0, 0)});
 
 	var meMarker='';
@@ -156,6 +174,7 @@
 			url:'__ROOT__/index.php?m=Home&c=Taxi&a=getInfoForWaitTaxi',
 			success:function (e){
 				if(e && e!=''){
+					layer.closeAll();
 					var data=JSON.parse(e);
 					orderNo=data.order_no;
 					isSendTaxi(orderNo);
@@ -170,9 +189,11 @@
 						content:'到车时间获取失败，重新获取',
 						btn:['确定','返回'],
 						yes:function (){
+							createLoadingLayer();
 							getCountDownInfo();
 						},
 						no:function (){
+							createLoadingLayer();
 							window.location.href='__ROOT__/index.php?m=Home&c=Index&a=index';
 						}
 					});

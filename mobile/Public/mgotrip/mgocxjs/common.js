@@ -5,8 +5,6 @@ $(function() {
 	/*$('.arrow_r').click(function(){
 		window.history.back();
 	})*/
-
-
   });
 //生成加载层
   function createLoadingLayer(){
@@ -15,3 +13,5 @@ $(function() {
       content: '加载中'
     });
   }
+
+
