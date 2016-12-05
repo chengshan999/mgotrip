@@ -89,8 +89,10 @@
     function hengshuping(){
         $('.mgo_map_index').height(screen.height);
         $('.mgo_map_index').width(screen.width);
+        $('#index_mid_logo').poshytip('hide');
         setCenterIcon();
         setNowCallCarIcon();
+        $('#index_mid_logo').poshytip('show');
     }
     window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
 
