@@ -19,7 +19,13 @@ class MyController extends BaseController{
         if($result->status=='succ'){
             $params['totalCoupon']=$result->data->total?$result->data->total:0;
         }
-        $params['mobile']=preg_replace('/(\d{3})(\d{4})(\d{4})/','$1'.'****'.'$3',session('user_data.mobile'));
+        $re_getUserInfo=$this->curlQuickPost(C('USER_INFO'));
+
+        //dump($re_getUserInfo);exit;
+        if($re_getUserInfo->status=='succ'){
+            $mobile=$re_getUserInfo->data->mobile?$re_getUserInfo->data->mobile:'';
+        }
+        $params['mobile']=!empty($mobile)?preg_replace('/(\d{3})(\d{4})(\d{4})/','$1'.'****'.'$3',$mobile):'';
         $this->assign($params);
         $this->display();
     }

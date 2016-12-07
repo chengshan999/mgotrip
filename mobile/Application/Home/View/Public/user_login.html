@@ -20,13 +20,32 @@
         </div>
     </div>
     <script type="text/javascript">
+        //如果是微信中打开的就直接微信登录，避免用户都输入了目的地了又重新登录并再次输入
+        /*https://open.weixin.qq.com/connect/oauth2/authorize?
+        appid=wx520c15f417810387&
+        redirect_uri=https%3A%2F%2Fchong.qq.com%2Fphp%2Findex.php%3Fd%3D%26c%3DwxAdapter%26m%3DmobileDeal%26showwxpaytitle%3D1%26vb2ctag%3D4_2030_5_1194_60&
+        response_type=code&
+        scope=snsapi_base&
+        state=123#wechat_redirect*/
+        var uaviua = navigator.userAgent.toLowerCase();
+        //判断是否是在微信中打开
+        <notpresent name='user_data.weixin_id'>
+            if(uaviua.match(/MicroMessenger/i)=="micromessenger") {
+                window.location.href = '{$Think.config.WECHAT_APP_LOGIN}?appid={$Think.config.WECHAT_APPID}&redirect_uri={$Think.config.WECHAT_REDIRECT_URI|urlencode}&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+            }
+        </notpresent>
         $(function(){
             $('.user_login').click(function(){
                 <present name="user_data">
                     window.location.href='__ROOT__/index.php?m=Home&c=My&a=my';
                 <else/>
-                    $('.shade3_box').slideDown();
-                    $('body').addClass('hidden');
+                    if(uaviua.match(/MicroMessenger/i)=="micromessenger") {
+                        //执行微信同步登陆
+                        window.location.href='{$Think.config.WECHAT_APP_LOGIN}?appid={$Think.config.WECHAT_APPID}&redirect_uri={$Think.config.WECHAT_REDIRECT_URI|urlencode}&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+                    }else{
+                        $('.shade3_box').slideDown();
+                        $('body').addClass('hidden');
+                    }
                 </present>
             });
             $('.btn-close-box').click(function(){

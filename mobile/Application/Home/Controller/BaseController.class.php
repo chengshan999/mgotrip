@@ -5,7 +5,7 @@ class BaseController extends Controller{
     public function __construct(){
         parent::__construct();
         $userData=session('user_data')?session('user_data'):array();
-        if(!empty($userData['token']) && !empty($userData['mobile'])){
+        if(!empty($userData['token'])){
             $this->assign('user_data',$userData);
         }else{
             session('user_data',null);
@@ -20,6 +20,7 @@ class BaseController extends Controller{
             'token'=>session('user_data.token'),
             'version'=>C('VERSION')
         ));
+        //dump($data);
         return $curl->postData($url,$data);
     }
 

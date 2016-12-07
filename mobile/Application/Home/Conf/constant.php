@@ -1,6 +1,11 @@
 <?php
 return array(
-    //'CURRENT_SITE'=>'http://m.test.mgocx.com',
+    'WECHAT_APP_LOGIN'=>'https://open.weixin.qq.com/connect/oauth2/authorize',//微信登录链接,获取code,用来换取access_toke和openid
+    'WECHAT_GET_ACCESS_TOKEN'=>'https://api.weixin.qq.com/sns/oauth2/access_token',//用code换取access_token和openid
+    'WECHAT_APPID'=>'wxce65b257773cd56b',//微信公众号的唯一标识appid
+    'WECHAT_APPSECRET'=>'0e272cfc48bb274be5cc310f697d0419',//微信公众号的appsecret
+    'WECHAT_REDIRECT_URI'=>'http://m.test.mgocx.com/index.php?m=Home&c=Wechat&a=syncLogin',//发起微信登录请求后回调地址redirect_uri
+
     'DEVICE'=>'H5',//请求接口device传值
     'VERSION'=>'1.0',//请求接口version传值
     'PAGESIZE'=>10,//分页每页条数
@@ -15,10 +20,10 @@ return array(
     'PAY_TYPE_ZHIFUBAO'=>1,//支付方式 支付宝代号
     'FIRST_CITY'=>'上海',//默认定位的城市
 
-
     'USER_VCODE_SEND'=>API_SITE.'user/vcode/send',//发送短信验证码
     'USER_LOGIN'=>API_SITE.'user/login',//登陆
     'USER_OUTLOGIN'=>API_SITE.'user/logout',//登陆
+    'USER_INFO'=>API_SITE.'/user/info/get',//获取用户信息
 
     'ORDER_LIST'=>API_SITE.'/app/order/list',//订单列表
     'ORDER_DELETE'=>API_SITE.'/app/order/delete',//删除订单

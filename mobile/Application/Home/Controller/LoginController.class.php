@@ -16,10 +16,10 @@ class LoginController extends Controller {
                     $device_no='';
                     openssl_public_encrypt($mobile.'&'.$device_no,$encrypted,$pubKey);
                     $data=array(
-                        'device'=>'H5',
+                        'device'=>C('DEVICE'),
                         'data'=>base64_encode($encrypted),
                         'vcode'=>$vcode,
-                        'version'=>'1.0'
+                        'version'=>C('VERSION')
                     );
                     $result=$curl->postData(C('USER_LOGIN'),$data);
                     /*object(stdClass)#7 (2)
@@ -33,8 +33,7 @@ class LoginController extends Controller {
                         }*/
                     if($result->status && $result->status=='succ'){
                         //登陆成功，保存登陆信息，并返回信息
-                        session('user_data.mobile',$mobile);
-                        session('user_data.level',$result->data->level?$result->data->level:'');
+                        session('user_data.level',isset($result->data->level)?$result->data->level:'');
                         session('user_data.token',$result->data->token?$result->data->token:'');
                         session('user_data.sort',$result->data->sort?$result->data->sort:'');
                         echo 'succ';
