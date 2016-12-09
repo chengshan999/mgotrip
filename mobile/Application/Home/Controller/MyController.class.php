@@ -25,6 +25,12 @@ class MyController extends BaseController{
         if($re_getUserInfo->status=='succ'){
             $mobile=$re_getUserInfo->data->mobile?$re_getUserInfo->data->mobile:'';
         }
+        //呈现酒节活动
+        $re_activity=$this->activity();
+        $params['activity']='';
+        if($re_activity != false){
+            $params['activity']=$re_activity;
+        }
         $params['mobile']=!empty($mobile)?preg_replace('/(\d{3})(\d{4})(\d{4})/','$1'.'****'.'$3',$mobile):'';
         $this->assign($params);
         $this->display();

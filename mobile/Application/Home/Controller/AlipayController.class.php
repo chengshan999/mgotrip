@@ -80,9 +80,15 @@ class AlipayController extends BaseController{
                             //支付成功要销毁本地订单参数
                             cookie('orderNoParams',null);
                             $myOrder=U('Order/myOrder',array('status'=>2));
-                            $this->assign(array(
-                                'url'=>$myOrder
-                            ));
+                            $params['url']=$myOrder;
+                            //呈现酒节活动
+                            $re_activity=$this->activity();
+                            $params['activity']='';
+                            if($re_activity != false){
+                                $params['activity']=$re_activity;
+                            }
+
+                            $this->assign($params);
                             $this->display('returnH5_3');
                         }else if($status_order_pay == 1){
                             //打车费支付中，重载界面
@@ -119,5 +125,17 @@ class AlipayController extends BaseController{
             $ind=U('Index/index');
             header('location:'.$ind);
         }
+    }
+    //测试页面用，上线后要删除
+    public function returnH5_3(){
+        //呈现酒节活动
+        $re_activity=$this->activity();
+        $params['activity']='';
+        if($re_activity != false){
+            $params['activity']=$re_activity;
+            $params['url']='123';
+        }
+        $this->assign($params);
+        $this->display();
     }
 }

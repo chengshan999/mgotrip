@@ -18,6 +18,7 @@
 <header class="head_bar">
     <span class="c_txt">M-GO</span>
 </header>
+{$activity}
 <script type="text/javascript">
     <present name='url'>
         alertMsg('{$url}');
@@ -26,6 +27,7 @@
         layer.open({
             content:'支付成功，订单完成！',
             btn:'确定',
+            shade:false,
             yes:function(){
                 createLoadingLayer();
                 window.location.href=url;

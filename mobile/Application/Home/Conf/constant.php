@@ -47,4 +47,6 @@ return array(
     'WAIT_TAXI'=>API_SITE.'/app/order/unfinish',//正在派车，倒计时阶段调用
     'QUERY_TAXI'=>API_SITE.'app/qs_order/query',//派车信息查询
     'ORDER_CANCEL'=>API_SITE.'/app/qs_order/cancel',//订单取消
+
+    'ACTIVITY_DISPLAY'=>API_SITE.'app/activity/display',//2016酒节活动启用，提示APP端的是否有活动等内容
 );
