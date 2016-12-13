@@ -21,7 +21,6 @@ class MyController extends BaseController{
         }
         $re_getUserInfo=$this->curlQuickPost(C('USER_INFO'));
 
-        //dump($re_getUserInfo);exit;
         if($re_getUserInfo->status=='succ'){
             $mobile=$re_getUserInfo->data->mobile?$re_getUserInfo->data->mobile:'';
         }

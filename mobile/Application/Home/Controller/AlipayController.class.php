@@ -7,7 +7,7 @@ class AlipayController extends BaseController{
         //判断是否有未处理完成的付款操作
         if($orderNoParams){
             //获取支付跳转的传参
-            $orderNoArr=unserialize($orderNoParams)?unserialize($orderNoParams):array();
+            $orderNoArr=$orderNoParams?unserialize($orderNoParams):array();
             $req=I('get.');
             /*array(14) {
               ["is_success"] => string(1) "T"
@@ -28,7 +28,7 @@ class AlipayController extends BaseController{
             $re=$this->curlQuickPost(C('ALIPAY_CALLBACK'),array('result'=>json_encode($req)));
             /*object(stdClass)#7 (3) {
               ["result"] => int(1)//-1：支付失败；0：不确定；1：支付成功
-              ["is_other_fee"] => int(0)
+              ["is_other_fee"] => int(0)//是否是支付服务费0：不是；1：是
               ["order_id"] => int(1129)
             }*/
             if(isset($re->is_other_fee) && $re->order_id){//$re->result==1 &&
@@ -68,6 +68,10 @@ class AlipayController extends BaseController{
                             }
                             $this->display('returnH5_2');
                         }
+                    }else{
+                        //后台接口错误，跳到等车界面看看情况
+                        $takeTaxi=U('Taxi/takeTaxi');
+                        header('location:'.$takeTaxi);
                     }
                 }else{
                     //支付打车费
@@ -114,6 +118,9 @@ class AlipayController extends BaseController{
                             $this->curlQuickPost(C('COUPON_RETURN'),array('order_id'=>$order_id));
                             $this->display('returnH5_4');
                         }
+                    }else{
+                        //后台接口错误
+                        $this->display('returnH5_1');
                     }
                 }
             }else{

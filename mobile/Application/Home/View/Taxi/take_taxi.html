@@ -185,16 +185,17 @@
 					layer.closeAll();
 					$('#takeTaxi_div_count_down').hide();
 					layer.open({
-						content:'到车时间获取失败，重新获取',
-						btn:['确定','返回'],
+						content:'已超时，请前往订单中心',
+						btn:['确定'],
 						yes:function (){
 							createLoadingLayer();
-							getCountDownInfo();
-						},
-						no:function (){
+							//getCountDownInfo();
+							window.location.href='__ROOT__/index.php?m=Home&c=Order&a=myOrder';
+						}
+						/*no:function (){
 							createLoadingLayer();
 							window.location.href='__ROOT__/index.php?m=Home&c=Index&a=index';
-						}
+						}*/
 					});
 				}
 			}

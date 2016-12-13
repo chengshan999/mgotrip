@@ -13,7 +13,7 @@
                     <input type="number" name="" placeholder="请输入验证码" class="form-input smaller codes" />
                     <!-- <i class="close_i"></i>
                 -->
-                    <span class="r_text">获取验证码</span>
+                    <span class="r_text" id="userLogin_get_vcode">获取验证码</span>
                 </div>
                 <a href="javascript:void(0)" class="login_btns" disabled="disabled">登录</a>
             </div>
@@ -128,38 +128,51 @@
                 }
 
             });
-            $('.r_text').click(function(){
+            var userLogin_get_vcode=document.getElementById('userLogin_get_vcode');
+            userLogin_get_vcode.addEventListener('click',isSendVcode);
+            function isSendVcode(){
                 var mobile = $.trim($('.mobile').val());
                 var number = /^(1[3578]\d|14[57])[0-9]{8}$/;
-                if(!mobile){
+                if (!mobile) {
                     layer.open({
                         content: '请填写手机号码',
                         btn: ['确认', '取消']
                     });
                     return false;
-                }else if(!number.test(mobile)){
+                } else if (!number.test(mobile)) {
                     layer.open({
                         content: '请输入正确的手机号',
                         btn: ['确认', '取消']
                     });
-                }else{
+                } else {
                     $.ajax({
-                        url:'__ROOT__/index.php?m=Home&c=Login&a=sendValidateCode',
-                        type:'post',
-                        data:{mobile:mobile},
-                        success:function (e){
-                            if(e && e!=''){
+                        url: '__ROOT__/index.php?m=Home&c=Login&a=sendValidateCode',
+                        type: 'post',
+                        data: {mobile: mobile},
+                        success: function (e) {
+                            if (e && e != '') {
+                                userLogin_get_vcode.removeEventListener('click',isSendVcode);
+                                var secNum = 60;
+                                var secIntNum = setInterval(function () {
+                                    secNum--;
+                                    if (secNum > 0) {
+                                        $('#userLogin_get_vcode').text(secNum);
+                                    } else {
+                                        $('#userLogin_get_vcode').text('获取验证码');
+                                        userLogin_get_vcode.addEventListener('click',isSendVcode);
+                                        clearInterval(secIntNum);
+                                    }
+                                }, 1000);
                                 layer.open({
-                                    content:e,
-                                    skin:'msg',
-                                    time:2
+                                    content: e,
+                                    skin: 'msg',
+                                    time: 2
                                 });
                             }
                         }
                     });
                 }
-            });
-
+            }
         });
     </script>
 </div>
