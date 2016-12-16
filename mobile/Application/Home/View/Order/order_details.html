@@ -58,15 +58,15 @@
                 <div class="order_details_pay">
                     <p class="details_pay01 p18">
                         <span class='fs16'>总计：</span>
-                        <span class='f30 fs16'>{$orderDetail->total_amount}元</span>
+                        <span class='f30 fs16'>{$orderDetail->total_amount*0.01}元</span>
                     </p>
                     <p class="details_pay02 p18">
                         <span class='fs16'>优惠：</span>
-                        <span class='f57 fs16'>-{$orderDetail->privil_amount}元</span>
+                        <span class='f57 fs16'>-{$orderDetail->privil_amount*0.01}元</span>
                     </p>
                     <p class="details_pay03 p18">
                         <span>实付：</span>
-                        <span class='f30'>{$orderDetail->paid_amount}元</span>
+                        <span class='f30'>{$orderDetail->paid_amount*0.01}元</span>
                     </p>
                 </div>
             </div>

@@ -44,7 +44,8 @@ class AlipayController extends BaseController{
                             //服务费已支付，跳转到take_taxi页面
                             //支付成功要销毁本地订单参数
                             cookie('orderNoParams',null);
-                            $this->display('returnH5_0');
+                            $takeTaxi=U('Taxi/takeTaxi');
+                            header('location:'.$takeTaxi);
                         }else if($status_service_pay == 1){
                             //服务费支付中,点击刷新页面
                             $this->display('returnH5_1');
@@ -69,7 +70,8 @@ class AlipayController extends BaseController{
                         }
                     }else{
                         //后台接口错误，跳到等车界面看看情况
-                        $this->redirect('Taxi/takeTaxi');
+                        $takeTaxi=U('Taxi/takeTaxi');
+                        header('location:'.$takeTaxi);
                     }
                 }else{
                     //支付打车费
@@ -81,7 +83,7 @@ class AlipayController extends BaseController{
                             //打车费已支付，订单完成，跳转到我的订单
                             //支付成功要销毁本地订单参数
                             cookie('orderNoParams',null);
-                            $myOrder=U('Order/myOrder',array('status'=>2),'',true);
+                            $myOrder=U('Order/myOrder',array('status'=>2));
                             $params['url']=$myOrder;
                             //呈现酒节活动
                             $re_activity=$this->activity();
@@ -117,8 +119,8 @@ class AlipayController extends BaseController{
                             $this->display('returnH5_4');
                         }
                     }else{
-                        //后台接口错误,跳转到订单中心
-                        $this->redirect('Order/myOrder');
+                        //后台接口错误
+                        $this->display('returnH5_1');
                     }
                 }
             }else{
@@ -127,9 +129,20 @@ class AlipayController extends BaseController{
             }
         }else{
             //没有未处理完的付款操作，进入首页
-            //alert('尼玛,不能存储cookie');
-            //\Think\Log::write(json_encode(I('get.')),'alipay returnH5 has no cookie');
-            $this->display('returnH5');
+            $ind=U('Index/index');
+            header('location:'.$ind);
         }
+    }
+    //测试页面用，上线后要删除
+    public function returnH5_3(){
+        //呈现酒节活动
+        $re_activity=$this->activity();
+        $params['activity']='';
+        if($re_activity != false){
+            $params['activity']=$re_activity;
+            $params['url']='123';
+        }
+        $this->assign($params);
+        $this->display();
     }
 }

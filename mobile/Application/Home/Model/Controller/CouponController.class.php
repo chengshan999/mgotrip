@@ -37,7 +37,7 @@ class CouponController extends BaseController{
         }else{
             $params['couponError']='优惠券信息获取失败';
         }
-        $params['pagesize']=$pagesize;
+        //$params['status']=$status;
         $this->assign($params);
         $this->display();
     }
@@ -58,25 +58,19 @@ class CouponController extends BaseController{
                 if(!empty($rows)){
                     $str='';
                     foreach($rows->coupon_list as $row){
-                        $p_amout=$row->amount?$row->amount/100:'0';
-                        $p_name=$row->name?$row->name:"";
-                        $p_pic=$row->pic?$row->pic:"";
-                        $p_min_amount=$row->min_order_amount?$row->min_order_amount:'0';
-                        $p_end_date=$row->use_end_date?$row->use_end_date:"";
-                        /*<img class="coupon_hot" src="'.$p_pic.'" alt="" />*/
                             $str.='<li class="coupon_style">
-                                <span class=\'coupon_money\'> <strong>'.$p_amout.'</strong>
+                                <span class=\'coupon_money\'> <strong>'.$row->amount?$row->amount/100:'0'.'</strong>
                                     元
                                 </span>
-                                        <p class="coupon_style_qs">'.$p_name.'</p>
-                                        
+                                        <p class="coupon_style_qs">'.$row->name?$row->name:''.'</p>
+                                        <img class="coupon_hot" src="'.$row->pic?$row->pic:''.'" alt="" />
                                     <div class="coupon_limint_time">
                                         <span>
-                                                满'.$p_min_amount.'元可用
+                                                满'.$row->min_order_amount?$row->min_order_amount:'0'.'元可用
                                         </span>
                                         <br />
                                         <span>
-                                                有效期至'.$p_end_date.'
+                                                有效期至'.$row->use_end_date?$row->use_end_date:''.'
                                         </span>
                                     </div>
                                 </li>';

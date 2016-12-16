@@ -149,7 +149,7 @@
                     </present>
                 </ul>
                 <present name="rows0:total">
-                    <if condition="$rows0:total egt 10">
+                    <if condition="$rows0:total egt $pagesize">
                         <div align="center" id="coupon_div_add_new_page"><div id="addNewPage" style="color:#696969;border:1px solid #696969;margin:20px;height:30px;width:30%;border-radius:5px;text-align:center;font:16px/30px Microsoft YaHei;">
                             加载更多</div></div>
                     </if>
@@ -207,10 +207,11 @@
                 $('.coupon_style01').eq(i).css('display', 'block').siblings().css('display', 'none');
                 $(".my_coupon_list").attr('status',$(this).attr('status'));
                 var currentlines=parseInt($(this).children().children('span').text());
-                if(currentlines >=10){
+                if(currentlines >={$pagesize}){
                     var currentPage=2;
                     $('#coupon_div_add_new_page').remove();
                     $('#coupon_div_coupon_list').append('<div align="center" id="coupon_div_add_new_page"><div id="addNewPage" style="color:#696969;border:1px solid #696969;margin:20px;height:30px;width:30%;border-radius:5px;text-align:center;font:16px/30px Microsoft YaHei;">加载更多</div></div>');
+                    $('#addNewPage').on('click',addNP);
                 }
             });
             $('.coupon_cancel_page').click(function (){
